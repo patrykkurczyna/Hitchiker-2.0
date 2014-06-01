@@ -21,6 +21,8 @@ public interface HitchhikerRepository extends PagingAndSortingRepository<Hitchhi
 	
 	public Page<Hitchhiker> findByFirstname(@Param("firstname") String firstname, Pageable pageable);
 	
+	public Page<Hitchhiker> findByDestination(@Param("destination") String destination, Pageable pageable);
+	
 	public Page<Hitchhiker> findByFirstnameAndLastname(@Param("firstname") String firstname, @Param("lastname") String lastname, Pageable pageable);
 	
 	public Page<Hitchhiker> findById(@Param("id") Integer id, Pageable pageable);
