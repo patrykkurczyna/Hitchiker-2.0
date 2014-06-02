@@ -4,7 +4,6 @@ import java.util.Properties;
 
 import javax.annotation.Resource;
 import javax.sql.DataSource;
-import com.jolbox.bonecp.BoneCPDataSource;
 
 import org.hibernate.ejb.HibernatePersistence;
 import org.springframework.context.annotation.Bean;
@@ -20,6 +19,8 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import com.jolbox.bonecp.BoneCPDataSource;
 
 @Configuration
 @EnableJpaRepositories
@@ -45,6 +46,12 @@ public class AppConfiguration {
 
 	@Bean
 	public DataSource dataSource() {
+		
+//        final JndiDataSourceLookup dsLookup = new JndiDataSourceLookup();
+//        dsLookup.setResourceRef(true);
+//        DataSource dataSource = dsLookup.getDataSource("java:comp/env/jdbc/webservice");
+//        return dataSource;
+		
 		BoneCPDataSource dataSource = new BoneCPDataSource();
 
 		dataSource.setDriverClass(environment
@@ -58,6 +65,8 @@ public class AppConfiguration {
 
 		return dataSource;
 	}
+	
+	
 
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean()

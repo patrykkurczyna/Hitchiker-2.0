@@ -16,8 +16,8 @@ public class Hitchhiker {
 	
 	private String firstname, lastname;
 	
-	private String geoLatitude;
-	private String geoLongitude;
+	private Double geoLatitude;
+	private Double geoLongitude;
 	
 	private boolean children;
 	
@@ -90,19 +90,19 @@ public class Hitchhiker {
 		this.children = children;
 	}
 
-	public String getGeoLatitude() {
+	public Double getGeoLatitude() {
 		return geoLatitude;
 	}
 
-	public void setGeoLatitude(String geoLatitude) {
+	public void setGeoLatitude(Double geoLatitude) {
 		this.geoLatitude = geoLatitude;
 	}
 
-	public String getGeoLongitude() {
+	public Double getGeoLongitude() {
 		return geoLongitude;
 	}
 
-	public void setGeoLongitude(String geoLongitude) {
+	public void setGeoLongitude(Double geoLongitude) {
 		this.geoLongitude = geoLongitude;
 	}
 
