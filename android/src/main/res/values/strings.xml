@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Hitchhiker</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_register_location">RegisterLocationActivity</string>
+    <string name="hitchhiker_tab">Autostopowicz</string>
+    <string name="driver_tab">Kierowca</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--DRIVER FORM-->
+    <string name="save_form">Zapisz</string>
+    <string name="form_destinantion">Kierunek</string>
+    <string name="form_free_seats">Wolne miejsca</string>
+
+    <string-array name="baggage_array">
+        <item>mały</item>
+        <item>średni</item>
+        <item>duży</item>
+    </string-array>
+
+    <string-array name="sex_array">
+        <item>tylko kobiety</item>
+        <item>tylko mężczyżni</item>
+        <item>mieszane</item>
+    </string-array>
+
+    <string-array name="_array">
+        <item>tylko kobiety</item>
+        <item>tylko mężczyżni</item>
+        <item>mieszane</item>
+    </string-array>
+
+
+</resources>
