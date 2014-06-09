@@ -60,7 +60,9 @@
         <item>seniorzy</item>
     </string-array>
 
-    <string name="title_activity_saved_location">SavedLocationActivity</string>
+    <!-- HITCHHIKER NOTIFICATION -->
+    <string name="new_hitchhiker_notif_title">Nowy autostopowicz w pobliżu.</string>
+    <string name="title_activity_notification_receiver">NotificationReceiverActivity</string>
     <string name="hello_world">Hello world!</string>
 
 </resources>

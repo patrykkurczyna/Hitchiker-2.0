@@ -2,6 +2,11 @@ package pl.agh.edu.hitchhiker;
 
 
 import android.app.Fragment;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,8 +55,28 @@ public class RegisterDriverFragment extends Fragment {
 
     @OnClick(R.id.saveButton) void save() {
         Toast.makeText(getActivity(), R.string.saved_info, Toast.LENGTH_SHORT).show();
+
+        // for now
+        showNotif();
+
         getActivity().setResult(RegisterLocationActivity.FORM_SAVED_CODE);
         getActivity().finish();
+    }
+
+    private void showNotif() {
+        NotificationManager nm = (NotificationManager)getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+
+        Intent intent = new Intent(getActivity(), NotificationReceiverActivity.class);
+        PendingIntent pIntent = PendingIntent.getActivity(getActivity(), 0, intent, 0);
+
+        Notification notification = new Notification.Builder(getActivity()).
+                setContentTitle(getResources().getString(R.string.new_hitchhiker_notif_title)).
+                setContentText("Za 10km czeka 2 autospowiczów do Zakopanego").setSmallIcon(R.drawable.thumb2)
+                .setAutoCancel(true).getNotification();
+
+        notification.flags |= Notification.FLAG_AUTO_CANCEL;
+        notification.defaults |= Notification.DEFAULT_SOUND;
+        nm.notify(0, notification);
     }
 
     @Override
