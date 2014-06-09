@@ -33,4 +33,10 @@ public class SavedLocationActivity extends Activity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    @Override
+    public void onBackPressed() {
+        setResult(RegisterLocationActivity.FORM_REJECTED_CODE);
+        super.onBackPressed();
+    }
 }

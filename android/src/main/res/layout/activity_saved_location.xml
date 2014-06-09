@@ -10,4 +10,53 @@
 
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="20dp"
+        android:layout_centerVertical="true"
+        android:id="@+id/buttonsLayout">
+
+        <Button
+            android:background="@drawable/blue_button"
+            style="@style/button_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/edit_form"
+            android:id="@+id/editButton"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:layout_weight="1" />
+
+        <Button
+            android:background="@drawable/blue_button"
+            style="@style/button_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="@string/cancel_form"
+            android:id="@+id/cancelButton"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:paddingLeft="40dp"
+            android:paddingRight="40dp"
+            android:layout_weight="1" />
+
+    </LinearLayout>
+
+    <Button
+        android:background="@drawable/blue_button"
+        style="@style/button_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/confirm_form"
+        android:id="@+id/confirmButton"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/buttonsLayout"/>
+
 </RelativeLayout>

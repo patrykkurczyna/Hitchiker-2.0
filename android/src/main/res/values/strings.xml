@@ -10,7 +10,7 @@
     <string name="save_form">Zapisz</string>
     <string name="form_destinantion">Kierunek</string>
     <string name="form_free_seats">Wolne miejsca</string>
-    <string name="saved_info">Zapisano</string>
+    <string name="saved_info">Formularz zapisano pomyślnie!</string>
     <string name="without_children">Bez dzieci</string>
     <string name="age_hint">Wiek pasażerów:</string>
     <string name="baggage_hint">Wielkość bagaży:</string>
@@ -64,5 +64,9 @@
     <string name="new_hitchhiker_notif_title">Nowy autostopowicz w pobliżu.</string>
     <string name="title_activity_notification_receiver">NotificationReceiverActivity</string>
     <string name="hello_world">Hello world!</string>
+
+    <string name="edit_form">Edytuj</string>
+    <string name="cancel_form">Anuluj</string>
+    <string name="confirm_form">Potwierdź</string>
 
 </resources>

@@ -54,7 +54,7 @@ public class RegisterDriverFragment extends Fragment {
     }
 
     @OnClick(R.id.saveButton) void save() {
-        Toast.makeText(getActivity(), R.string.saved_info, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), R.string.saved_info, Toast.LENGTH_LONG).show();
 
         // for now
         showNotif();
@@ -69,10 +69,12 @@ public class RegisterDriverFragment extends Fragment {
         Intent intent = new Intent(getActivity(), NotificationReceiverActivity.class);
         PendingIntent pIntent = PendingIntent.getActivity(getActivity(), 0, intent, 0);
 
+        String content = "Za 10km czeka 2 autospowiczów do Zakopanego";
+
         Notification notification = new Notification.Builder(getActivity()).
-                setContentTitle(getResources().getString(R.string.new_hitchhiker_notif_title)).
-                setContentText("Za 10km czeka 2 autospowiczów do Zakopanego").setSmallIcon(R.drawable.thumb2)
-                .setAutoCancel(true).getNotification();
+                setContentTitle(getResources().getString(R.string.new_hitchhiker_notif_title))
+                .setContentText(content).setSmallIcon(R.drawable.thumb2)
+                .getNotification();
 
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
         notification.defaults |= Notification.DEFAULT_SOUND;

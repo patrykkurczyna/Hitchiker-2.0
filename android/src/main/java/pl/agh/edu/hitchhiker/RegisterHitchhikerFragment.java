@@ -51,7 +51,7 @@ public class RegisterHitchhikerFragment extends Fragment {
     }
 
     @OnClick(R.id.saveButton) void save() {
-        Toast.makeText(getActivity(), R.string.saved_info, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), R.string.saved_info, Toast.LENGTH_LONG).show();
         getActivity().setResult(RegisterLocationActivity.FORM_SAVED_CODE);
         getActivity().finish();
     }
