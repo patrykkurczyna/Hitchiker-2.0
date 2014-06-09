@@ -124,7 +124,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/sexTypeLayout"
-            android:layout_marginBottom="10dp"
+            android:layout_marginBottom="20dp"
             android:orientation="horizontal"
             android:id="@+id/childrenLayout"
             android:layout_marginLeft="10dp">
@@ -133,13 +133,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/without_children"
-                android:id="@+id/notChildrenButton" />
+                android:id="@+id/notChildrenButton"
+                android:layout_weight="1"/>
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/with_children"
-                android:id="@+id/childrenButton" />
+                android:id="@+id/childrenButton"
+                android:layout_weight="1"/>
 
 
         </RadioGroup>
@@ -152,14 +154,16 @@
             android:layout_below="@id/childrenLayout">
 
             <Button
+                android:background="@drawable/blue_button"
+                style="@style/button_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/save_form"
                 android:id="@+id/saveButton"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
-                android:paddingLeft="30dp"
-                android:paddingRight="30dp" />
+                android:paddingLeft="40dp"
+                android:paddingRight="40dp" />
 
             <ProgressBar
                 android:id="@+id/saveButtonProgress"
