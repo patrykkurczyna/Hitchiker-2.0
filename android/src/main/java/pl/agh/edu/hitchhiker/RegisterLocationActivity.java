@@ -10,6 +10,8 @@ import android.view.MenuItem;
 
 
 public class RegisterLocationActivity extends Activity {
+    public static final int FORM_SAVED_CODE = 1100;
+    public static final int FORM_REJECTED_CODE = 1101;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -17,7 +19,7 @@ public class RegisterLocationActivity extends Activity {
 
         ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        actionBar.setDisplayShowTitleEnabled(false);
+//        actionBar.setDisplayShowTitleEnabled(false);
 
         ActionBar.Tab tab = actionBar.newTab()
                 .setText(R.string.hitchhiker_tab)
@@ -93,5 +95,11 @@ public class RegisterLocationActivity extends Activity {
         public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
             // User selected the already selected tab. Usually do nothing.
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(FORM_REJECTED_CODE);
+        super.onBackPressed();
     }
 }
