@@ -1,17 +1,26 @@
-package pl.agh.edu.hitchhiker;
+package pl.agh.edu.hitchhiker.ui;
 
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.location.Location;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesClient;
+import com.google.android.gms.location.LocationClient;
+
+import pl.agh.edu.hitchhiker.R;
 
 
-public class RegisterLocationActivity extends Activity {
+public class RegisterLocationActivity extends Activity implements GooglePlayServicesClient.ConnectionCallbacks,
+        GooglePlayServicesClient.OnConnectionFailedListener {
+
     public static final int FORM_SAVED_CODE = 1100;
     public static final int FORM_REJECTED_CODE = 1101;
+
+    private LocationClient mLocationClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,26 +43,45 @@ public class RegisterLocationActivity extends Activity {
                 .setTabListener(new TabListener<RegisterDriverFragment>(
                         this, "driver", RegisterDriverFragment.class));
         actionBar.addTab(tab);
-    }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.register_location, menu);
-        return true;
+        mLocationClient = new LocationClient(this, this, this);
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
+    public void onStart() {
+        super.onStart();
+        mLocationClient.connect();
+    }
+
+    @Override
+    public void onStop() {
+        mLocationClient.disconnect();
+        super.onStop();
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+
+    }
+
+    @Override
+    public void onDisconnected() {
+
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult connectionResult) {
+
+    }
+
+    public Location getLastLocation() {
+        return mLocationClient.getLastLocation();
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(FORM_REJECTED_CODE);
+        super.onBackPressed();
     }
 
     public static class TabListener<T extends Fragment> implements ActionBar.TabListener {
@@ -97,11 +125,5 @@ public class RegisterLocationActivity extends Activity {
         public void onTabReselected(ActionBar.Tab tab, FragmentTransaction ft) {
             // User selected the already selected tab. Usually do nothing.
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        setResult(FORM_REJECTED_CODE);
-        super.onBackPressed();
     }
 }

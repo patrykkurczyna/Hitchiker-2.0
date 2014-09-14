@@ -1,4 +1,4 @@
-package pl.agh.edu.hitchhiker;
+package pl.agh.edu.hitchhiker.ui;
 
 
 import android.app.Fragment;
@@ -7,6 +7,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,16 +19,17 @@ import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import pl.agh.edu.hitchhiker.R;
+import pl.agh.edu.hitchhiker.utils.SystemServicesHelper;
 
 
 public class RegisterDriverFragment extends Fragment {
-    @InjectView(R.id.age_spinner) Spinner ageSpinner;
-    @InjectView(R.id.baggageSpinner) Spinner baggageSpinner;
-    @InjectView(R.id.sexSpinner) Spinner sexSpinner;
-
-    public RegisterDriverFragment() {
-        // Required empty public constructor
-    }
+    @InjectView(R.id.age_spinner)
+    Spinner ageSpinner;
+    @InjectView(R.id.baggageSpinner)
+    Spinner baggageSpinner;
+    @InjectView(R.id.sexSpinner)
+    Spinner sexSpinner;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,20 +55,36 @@ public class RegisterDriverFragment extends Fragment {
         spinner.setAdapter(adapter);
     }
 
-    @OnClick(R.id.saveButton) void save() {
+    @OnClick(R.id.saveButton)
+    void save() {
+        if (SystemServicesHelper.isInternetConnection() == false) {
+            Toast.makeText(getActivity(), R.string.error_internet, Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (SystemServicesHelper.isGpsEnabled() == false) {
+            Toast.makeText(getActivity(), R.string.turn_on_gps, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Location location = ((RegisterLocationActivity) getActivity()).getLastLocation();
+        if (location == null) {
+            Toast.makeText(getActivity(), R.string.error_location, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Intent intent = new Intent(getActivity(), SavedLocationActivity.class);
+        intent.putExtra(SavedLocationActivity.LATITUDE, location.getLatitude());
+        intent.putExtra(SavedLocationActivity.LONGITUDE, location.getLongitude());
+        intent.putExtra(SavedLocationActivity.IS_DRIVER, true);
+        startActivityForResult(intent, MainActivity.EDIT_FORM_CODE);
+
         Toast.makeText(getActivity(), R.string.saved_info, Toast.LENGTH_LONG).show();
-
-        // for now
-        showNotif();
-
-        getActivity().setResult(RegisterLocationActivity.FORM_SAVED_CODE);
-        getActivity().finish();
     }
 
     private void showNotif() {
-        NotificationManager nm = (NotificationManager)getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+        NotificationManager nm = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Intent intent = new Intent(getActivity(), NotificationReceiverActivity.class);
+        Intent intent = new Intent(getActivity(), SavedLocationActivity.class);
         PendingIntent pIntent = PendingIntent.getActivity(getActivity(), 0, intent, 0);
 
         String content = "Za 10km czeka 2 autospowiczów do Zakopanego";
@@ -74,6 +92,7 @@ public class RegisterDriverFragment extends Fragment {
         Notification notification = new Notification.Builder(getActivity()).
                 setContentTitle(getResources().getString(R.string.new_hitchhiker_notif_title))
                 .setContentText(content).setSmallIcon(R.drawable.thumb2)
+                .setContentIntent(pIntent)
                 .getNotification();
 
         notification.flags |= Notification.FLAG_AUTO_CANCEL;

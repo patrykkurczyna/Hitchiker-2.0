@@ -69,4 +69,9 @@
     <string name="cancel_form">Anuluj</string>
     <string name="confirm_form">Potwierdź</string>
 
+    <string name="my_location">Zapisana pozycja</string>
+    <string name="turn_on_gps">GPS niedostępny</string>
+    <string name="error_location">Nie można pobrać lokalizacji</string>
+    <string name="error_internet">Brak połaczenia z internetem</string>
+
 </resources>

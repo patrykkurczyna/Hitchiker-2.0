@@ -1,10 +1,8 @@
-package pl.agh.edu.hitchhiker;
+package pl.agh.edu.hitchhiker.ui;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
 
 public class MainActivity extends Activity {

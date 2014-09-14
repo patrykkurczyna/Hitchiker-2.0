@@ -1,4 +1,4 @@
-package pl.agh.edu.hitchhiker.models;
+package pl.agh.edu.hitchhiker.data.models;
 
 
 public class Hitchhiker {

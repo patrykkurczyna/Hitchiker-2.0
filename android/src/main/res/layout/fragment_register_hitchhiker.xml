@@ -1,26 +1,27 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:float="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context="pl.agh.edu.hitchhiker.RegisterDriverFragment"
+        tools:context="pl.agh.edu.hitchhiker.ui.RegisterDriverFragment"
         android:padding="20dp"
+        android:layout_marginTop="40dp"
         android:layout_gravity="center_horizontal"
         android:orientation="vertical">
 
-        <EditText
-            android:layout_width="wrap_content"
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:hint="@string/form_destinantion"
-            android:ems="10"
+            float:fletFloatingHint="@string/form_destinantion"
+            float:fletInputType="text"
             android:id="@+id/editDestination"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
-            />
+            android:layout_marginRight="10dp" />
 
 
         <TextView
@@ -30,19 +31,18 @@
             android:id="@+id/additionalInfo"
             android:layout_below="@id/editDestination"
             android:textColor="@android:color/holo_blue_bright"
-            android:textSize="18sp"/>
+            android:textSize="18sp" />
 
-        <EditText
-            android:layout_width="wrap_content"
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:ems="10"
             android:id="@+id/peopleNumber"
-            android:hint="@string/people_number"
+            float:fletFloatingHint="@string/people_number"
+            float:fletInputType="number"
             android:layout_marginBottom="10dp"
             android:layout_below="@id/additionalInfo"
             android:layout_marginLeft="10dp"
-            />
+            android:layout_marginRight="10dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -66,7 +66,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/age_spinner"
                 android:layout_weight="1"
-                android:gravity="center"/>
+                android:gravity="center" />
         </LinearLayout>
 
         <LinearLayout
@@ -90,8 +90,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/baggageSpinner"
-                android:layout_weight="1"
-                />
+                android:layout_weight="1" />
         </LinearLayout>
 
         <LinearLayout
@@ -116,8 +115,7 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/sexSpinner"
                 android:layout_marginBottom="10dp"
-                android:layout_weight="1"
-                />
+                android:layout_weight="1" />
         </LinearLayout>
 
         <RadioGroup
@@ -134,14 +132,14 @@
                 android:layout_height="wrap_content"
                 android:text="@string/without_children"
                 android:id="@+id/notChildrenButton"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <RadioButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/with_children"
                 android:id="@+id/childrenButton"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
 
         </RadioGroup>
