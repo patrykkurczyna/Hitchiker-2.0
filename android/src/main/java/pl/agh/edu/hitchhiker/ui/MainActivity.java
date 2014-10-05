@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +17,8 @@ import javax.inject.Inject;
 
 import pl.agh.edu.hitchhiker.HitchhikerApp;
 import pl.agh.edu.hitchhiker.data.api.HitchhikerService;
+import pl.agh.edu.hitchhiker.data.api.event.AuthorizeUserFailure;
+import pl.agh.edu.hitchhiker.data.api.event.AuthorizeUserSuccess;
 import pl.agh.edu.hitchhiker.data.models.User;
 
 
@@ -25,19 +28,27 @@ public class MainActivity extends Activity {
     public final static int EDIT_FORM_CODE = 1001;
     private static final String SENDER_ID = "441315978791";
     private static final String TAG = MainActivity.class.getSimpleName();
+    @Inject
+    HitchhikerService hitchhikerService;
     private GoogleCloudMessaging gcm;
 
-    @Inject
-    HitchhikerService service;
+    public void onEventMainThread(AuthorizeUserSuccess event) {
+        Log.d(TAG, "authorize success");
+        Intent intent = new Intent(this, RegisterLocationActivity.class);
+        startActivityForResult(intent, SAVE_FORM_CODE);
+    }
 
+    public void onEventMainThread(AuthorizeUserFailure event) {
+        Log.d(TAG, "authorize failure");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ((HitchhikerApp)getApplicationContext()).inject(this);
+        ((HitchhikerApp) getApplicationContext()).inject(this);
 
         String regId = getRegistrationId();
-        if(regId.isEmpty()) {
+        if (regId.isEmpty()) {
             registerInBackground();
         } else {
             saveRegistrationId(regId);
@@ -104,6 +115,6 @@ public class MainActivity extends Activity {
         Log.d(TAG, "Save regId: " + regId);
         User user = new User();
         user.setDeviceId(regId);
-        service.authorizeUser(user);
+        hitchhikerService.authorizeUser(user);
     }
 }
