@@ -19,6 +19,7 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import de.greenrobot.event.EventBus;
 import pl.agh.edu.hitchhiker.HitchhikerApp;
 import pl.agh.edu.hitchhiker.R;
 import pl.agh.edu.hitchhiker.data.api.HitchhikerService;
@@ -112,6 +113,7 @@ public class RegisterHitchhikerFragment extends Fragment {
                              Bundle savedInstanceState) {
         View driverFormView = inflater.inflate(R.layout.fragment_register_hitchhiker, container, false);
         ButterKnife.inject(this, driverFormView);
+        EventBus.getDefault().register(this);
 
         setUpSpinner(ageSpinner, R.array.age_array_hic);
         setUpSpinner(baggageSpinner, R.array.baggage_array_hic);
@@ -137,5 +139,6 @@ public class RegisterHitchhikerFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.reset(this);
+        EventBus.getDefault().unregister(this);
     }
 }

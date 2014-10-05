@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.nfc.Tag;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +14,7 @@ import java.io.IOException;
 
 import javax.inject.Inject;
 
+import de.greenrobot.event.EventBus;
 import pl.agh.edu.hitchhiker.HitchhikerApp;
 import pl.agh.edu.hitchhiker.data.api.HitchhikerService;
 import pl.agh.edu.hitchhiker.data.api.event.AuthorizeUserFailure;
@@ -46,6 +46,7 @@ public class MainActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((HitchhikerApp) getApplicationContext()).inject(this);
+        EventBus.getDefault().register(this);
 
         String regId = getRegistrationId();
         if (regId.isEmpty()) {
@@ -72,6 +73,12 @@ public class MainActivity extends Activity {
                 finish();
                 break;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 
     private void registerInBackground() {
