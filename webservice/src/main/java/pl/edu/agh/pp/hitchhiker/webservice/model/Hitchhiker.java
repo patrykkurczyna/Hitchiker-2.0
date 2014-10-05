@@ -8,6 +8,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Hitchhiker {
@@ -17,6 +18,7 @@ public class Hitchhiker {
     private Integer id;
 	
 	@ManyToOne
+	@NotNull
 	@JoinColumn(name = "user_id")
 	private User user;
 	

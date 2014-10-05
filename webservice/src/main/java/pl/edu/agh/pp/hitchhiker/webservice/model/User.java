@@ -1,10 +1,13 @@
-package main.java.pl.edu.agh.pp.hitchhiker.webservice.model;
+package pl.edu.agh.pp.hitchhiker.webservice.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotNull;
 
 import pl.edu.agh.pp.hitchhiker.webservice.util.BCrypt;
 
@@ -20,6 +23,8 @@ public class User {
 	
 	private String password;
 	
+	@Column(unique = true)
+	@NotNull
 	private String deviceId;
 	
 	public void setDeviceId(String deviceId) {
@@ -33,6 +38,10 @@ public class User {
 	public User(String login, String password) {
 		setLogin(login);
 		setPassword(login, password);
+	}
+	
+	public User() {
+		this("sample", "sample");
 	}
 	
 	public void setPassword(String login, String password) {
