@@ -1,5 +1,4 @@
 package pl.edu.agh.pp.hitchhiker.webservice.util;
-
 //Copyright (c) 2006 Damien Miller <djm@mindrot.org>
 //
 //Permission to use, copy, modify, and distribute this software for any
@@ -750,4 +749,3 @@ public class BCrypt {
 		return (hashed.compareTo(hashpw(plaintext, hashed)) == 0);
 	}
 }
-
