@@ -30,7 +30,7 @@ public class SavedLocationActivity extends Activity {
         GoogleMap map = ((MapFragment) getFragmentManager()
                 .findFragmentById(R.id.map)).getMap();
 
-        map.getUiSettings(). setMyLocationButtonEnabled(false);
+        map.getUiSettings().setMyLocationButtonEnabled(false);
 
         Double longitude, latitude;
         Intent intent = getIntent();
