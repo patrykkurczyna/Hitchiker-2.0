@@ -121,38 +121,12 @@
                 android:layout_weight="1" />
         </LinearLayout>
 
-        <RadioGroup
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/sexTypeLayout"
-            android:layout_marginBottom="20dp"
-            android:orientation="horizontal"
-            android:id="@+id/childrenLayout"
-            android:layout_marginLeft="10dp">
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/without_children"
-                android:id="@+id/notChildrenButton"
-                android:layout_weight="1" />
-
-            <RadioButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/with_children"
-                android:id="@+id/childrenButton"
-                android:layout_weight="1" />
-
-
-        </RadioGroup>
-
         <FrameLayout
             android:id="@+id/saveButtonWrapper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/childrenLayout">
+            android:layout_below="@id/sexTypeLayout">
 
             <Button
                 android:background="@drawable/blue_button"
