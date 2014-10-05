@@ -1,5 +1,4 @@
 apply plugin: 'android'
-apply plugin: 'apt'
 
 android {
     compileSdkVersion 19
@@ -10,6 +9,11 @@ android {
         targetSdkVersion 19
         versionCode 1
         versionName "1.0"
+    }
+
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+        exclude 'LICENSE.txt'
     }
 
     compileOptions {
@@ -31,13 +35,21 @@ ext {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    apt "com.jakewharton:butterknife:${butterknifeVersion}"
-    compile "com.jakewharton:butterknife:${butterknifeVersion}"
     compile 'de.greenrobot:eventbus:2.2.1'
 
     compile 'com.wrapp.floatlabelededittext:library:0.0.3'
 
     compile 'com.google.android.gms:play-services:5.0.89'
+
+    compile 'com.squareup.retrofit:retrofit:1.6.0'
+    compile 'com.squareup.okhttp:okhttp:2.0.0'
+    compile 'com.squareup.okio:okio:1.0.1'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.0.0'
+    compile 'com.squareup.picasso:picasso:2.3.4'
+    compile 'com.squareup.dagger:dagger:1.2.1'
+    compile 'com.squareup.dagger:dagger-compiler:1.2.1'
+    compile 'com.jakewharton:butterknife:5.1.0'
+
 
 
 
