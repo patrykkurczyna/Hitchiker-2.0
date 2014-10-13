@@ -22,7 +22,7 @@ public class HitchhikerEventHandler {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(HitchhikerEventHandler.class);
 	
-	private final static String NOTIFICATION_URL = "http://localhost:1111/gcm/sendAll";
+	private final static String NOTIFICATION_URL = "http://localhost:1111/gcm-demo-server/sendAll";
 	
 	@HandleAfterSave
 	public void handleHitchhikerSave(Hitchhiker hitchhiker) {

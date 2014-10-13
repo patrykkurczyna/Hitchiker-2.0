@@ -15,20 +15,28 @@
  */
 package com.google.android.gcm.demo.server;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import com.google.android.gcm.server.Constants;
 import com.google.android.gcm.server.Message;
+import com.google.android.gcm.server.Message.Builder;
 import com.google.android.gcm.server.MulticastResult;
 import com.google.android.gcm.server.Result;
 import com.google.android.gcm.server.Sender;
@@ -62,12 +70,45 @@ public class SendAllMessagesServlet extends BaseServlet {
 		return new Sender(key);
 	}
 
+	public JSONObject requestParamsToJSON(ServletRequest req) {
+		JSONObject jsonObj = new JSONObject();
+		Map<String, String[]> params = req.getParameterMap();
+		for (Map.Entry<String, String[]> entry : params.entrySet()) {
+			String v[] = entry.getValue();
+			Object o = (v.length == 1) ? v[0] : v;
+			try {
+				jsonObj.put(entry.getKey(), o);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		return jsonObj;
+	}
+
 	/**
 	 * Processes the request to add a new message.
 	 */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
+		StringBuilder sb = new StringBuilder();
+		BufferedReader reader = req.getReader();
+		try {
+			String line;
+			while ((line = reader.readLine()) != null) {
+				sb.append(line).append('\n');
+			}
+		} finally {
+			reader.close();
+		}
+		JSONObject json = null;
+		try {
+			json = new JSONObject(sb.toString());
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		resp.getOutputStream();
 		// List<String> devices = getAllDevices();
 		List<String> devices = getAllDevices();
 		String status;
@@ -85,7 +126,7 @@ public class SendAllMessagesServlet extends BaseServlet {
 				partialDevices.add(device);
 				int partialSize = partialDevices.size();
 				if (partialSize == MULTICAST_SIZE || counter == total) {
-					asyncSend(partialDevices);
+					asyncSend(partialDevices, json);
 					partialDevices.clear();
 					tasks++;
 				}
@@ -97,13 +138,29 @@ public class SendAllMessagesServlet extends BaseServlet {
 		getServletContext().getRequestDispatcher("/home").forward(req, resp);
 	}
 
-	private void asyncSend(List<String> partialDevices) {
+	private void asyncSend(List<String> partialDevices, final JSONObject json) {
 		// make a copy
 		final List<String> devices = new ArrayList<String>(partialDevices);
 		threadPool.execute(new Runnable() {
 
 			public void run() {
-				Message message = new Message.Builder().build();
+				Builder messageBuilder = new Message.Builder();
+
+				Iterator<?> jsonKeys = json.keys();
+
+				String key = null;
+
+				while (jsonKeys.hasNext()) {
+					key = (String) jsonKeys.next();
+					try {
+						messageBuilder.addData(key, json.getString(key));
+					} catch (JSONException e) {
+						e.printStackTrace();
+					}
+				}
+
+				Message message = messageBuilder.build();
+
 				MulticastResult multicastResult;
 				try {
 					multicastResult = sender.send(message, devices, 5);
