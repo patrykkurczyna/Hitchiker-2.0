@@ -35,13 +35,17 @@ public class User {
 		return this.deviceId;
 	}
 	
+	public String getPassword() {
+		return this.password;
+	}
+	
 	public User(String login, String password) {
 		setLogin(login);
 		setPassword(login, password);
 	}
 	
 	public User() {
-		this("sample", "sample");
+		this("", "");
 	}
 	
 	public void setPassword(String login, String password) {

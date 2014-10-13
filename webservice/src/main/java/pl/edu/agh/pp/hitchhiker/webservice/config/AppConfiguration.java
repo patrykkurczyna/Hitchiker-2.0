@@ -12,6 +12,7 @@ import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.data.rest.repository.context.AnnotatedHandlerRepositoryEventListener;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
@@ -19,6 +20,9 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import pl.edu.agh.pp.hitchhiker.webservice.handlers.HitchhikerEventHandler;
+import pl.edu.agh.pp.hitchhiker.webservice.handlers.UserEventHandler;
 
 import com.jolbox.bonecp.BoneCPDataSource;
 
@@ -46,12 +50,13 @@ public class AppConfiguration {
 
 	@Bean
 	public DataSource dataSource() {
-		
-//        final JndiDataSourceLookup dsLookup = new JndiDataSourceLookup();
-//        dsLookup.setResourceRef(true);
-//        DataSource dataSource = dsLookup.getDataSource("java:comp/env/jdbc/webservice");
-//        return dataSource;
-		
+
+		// final JndiDataSourceLookup dsLookup = new JndiDataSourceLookup();
+		// dsLookup.setResourceRef(true);
+		// DataSource dataSource =
+		// dsLookup.getDataSource("java:comp/env/jdbc/webservice");
+		// return dataSource;
+
 		BoneCPDataSource dataSource = new BoneCPDataSource();
 
 		dataSource.setDriverClass(environment
@@ -65,8 +70,6 @@ public class AppConfiguration {
 
 		return dataSource;
 	}
-	
-	
 
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean()
@@ -109,5 +112,21 @@ public class AppConfiguration {
 				.getObject());
 
 		return transactionManager;
+	}
+
+	@Bean
+	HitchhikerEventHandler hitchhikerEventHandler() {
+		return new HitchhikerEventHandler();
+	}
+	
+	@Bean
+	UserEventHandler userEventHandler() {
+		return new UserEventHandler();
+	}
+
+	@Bean
+	AnnotatedHandlerRepositoryEventListener repositoryEventListener() {
+		return new AnnotatedHandlerRepositoryEventListener(
+				"pl.edu.agh.pp.hitchhiker.webservice.handlers");
 	}
 }
