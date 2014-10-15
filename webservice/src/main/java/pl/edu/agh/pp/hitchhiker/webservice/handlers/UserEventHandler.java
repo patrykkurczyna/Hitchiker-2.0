@@ -12,9 +12,12 @@ public class UserEventHandler {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserEventHandler.class);
 	
+	//Used for hashing password 
 	@HandleBeforeSave
 	public void handleUserSave(User user) {
-		user.setPassword(user.getLogin(), user.getPassword());
+		final String login = user.getLogin();
+		user.hashPassword(user.getPassword());
+		LOGGER.debug("Password for user: " + login + " successfully hashed!");
 	}
 	
 }

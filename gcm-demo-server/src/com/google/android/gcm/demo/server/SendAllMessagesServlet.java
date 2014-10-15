@@ -20,14 +20,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.logging.Level;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -44,7 +42,6 @@ import com.google.android.gcm.server.Sender;
 /**
  * Servlet that adds a new message to all registered devices.
  * <p>
- * This servlet is used just by the browser (i.e., not device).
  */
 @SuppressWarnings("serial")
 public class SendAllMessagesServlet extends BaseServlet {
@@ -70,28 +67,13 @@ public class SendAllMessagesServlet extends BaseServlet {
 		return new Sender(key);
 	}
 
-	public JSONObject requestParamsToJSON(ServletRequest req) {
-		JSONObject jsonObj = new JSONObject();
-		Map<String, String[]> params = req.getParameterMap();
-		for (Map.Entry<String, String[]> entry : params.entrySet()) {
-			String v[] = entry.getValue();
-			Object o = (v.length == 1) ? v[0] : v;
-			try {
-				jsonObj.put(entry.getKey(), o);
-			} catch (JSONException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		return jsonObj;
-	}
-
 	/**
 	 * Processes the request to add a new message.
 	 */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
+		//Preparing json got from webservice
 		StringBuilder sb = new StringBuilder();
 		BufferedReader reader = req.getReader();
 		try {
@@ -109,7 +91,7 @@ public class SendAllMessagesServlet extends BaseServlet {
 			e.printStackTrace();
 		}
 		resp.getOutputStream();
-		// List<String> devices = getAllDevices();
+
 		List<String> devices = getAllDevices();
 		String status;
 		if (devices.isEmpty()) {
@@ -149,7 +131,9 @@ public class SendAllMessagesServlet extends BaseServlet {
 				Iterator<?> jsonKeys = json.keys();
 
 				String key = null;
-
+				
+				
+				//Building message from json
 				while (jsonKeys.hasNext()) {
 					key = (String) jsonKeys.next();
 					try {

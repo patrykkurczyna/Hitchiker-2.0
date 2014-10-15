@@ -7,6 +7,7 @@ import javax.sql.DataSource;
 
 import org.hibernate.ejb.HibernatePersistence;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.PropertySource;
@@ -32,6 +33,7 @@ import com.jolbox.bonecp.BoneCPDataSource;
 @EnableWebMvc
 @ImportResource("classpath:applicationContext.xml")
 @PropertySource("classpath:application.properties")
+@ComponentScan(basePackages = "pl.edu.agh.pp.hitchhiker.webservice.controllers")
 public class AppConfiguration {
 
 	private static final String PROPERTY_NAME_DATABASE_DRIVER = "db.driver";

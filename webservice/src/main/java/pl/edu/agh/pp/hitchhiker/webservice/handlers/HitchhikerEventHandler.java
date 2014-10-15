@@ -2,6 +2,7 @@ package pl.edu.agh.pp.hitchhiker.webservice.handlers;
 
 import java.io.UnsupportedEncodingException;
 
+import javax.annotation.Resource;
 import javax.json.Json;
 import javax.json.JsonObject;
 
@@ -12,20 +13,29 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.data.rest.repository.annotation.HandleAfterSave;
 import org.springframework.data.rest.repository.annotation.RepositoryEventHandler;
 
 import pl.edu.agh.pp.hitchhiker.webservice.model.Hitchhiker;
 
+@PropertySource("classpath:application.properties")
 @RepositoryEventHandler(Hitchhiker.class)
 public class HitchhikerEventHandler {
 	
+	@Resource
+	private Environment environment;
+	
 	private static final Logger LOGGER = LoggerFactory.getLogger(HitchhikerEventHandler.class);
 	
-	private final static String NOTIFICATION_URL = "http://localhost:1111/gcm-demo-server/sendAll";
+	private final static String PROPERTY_NAME_NOTIFICATION_URL = "notification.url";
 	
 	@HandleAfterSave
 	public void handleHitchhikerSave(Hitchhiker hitchhiker) {
+		
+		final String NOTIFICATION_URL = environment.getRequiredProperty(PROPERTY_NAME_NOTIFICATION_URL);
+		
 		JsonObject hitchikerJsonObject = Json.createObjectBuilder()
 				.add("firstname", hitchhiker.getFirstname())
 				.add("lastname", hitchhiker.getLastname())
@@ -48,7 +58,6 @@ public class HitchhikerEventHandler {
 
 			HttpPost httpPost = new HttpPost(NOTIFICATION_URL);
 			httpPost.setEntity(se);
-			// Depends on your web service
 			httpPost.setHeader("Content-type", "application/json");
 			httpPost.setHeader("Accept", "application/json");
 			

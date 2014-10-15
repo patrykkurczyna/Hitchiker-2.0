@@ -5,8 +5,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 import javax.validation.constraints.NotNull;
 
 import pl.edu.agh.pp.hitchhiker.webservice.util.BCrypt;
@@ -19,8 +17,11 @@ public class User {
 	@Column(name = "user_id")
     private Integer id;
 	
+	@Column(unique = true)
+	@NotNull
 	private String login;
 	
+	@NotNull
 	private String password;
 	
 	@Column(unique = true)
@@ -41,16 +42,19 @@ public class User {
 	
 	public User(String login, String password) {
 		setLogin(login);
-		setPassword(login, password);
+		setPassword(password);
 	}
 	
 	public User() {
 		this("", "");
 	}
 	
-	public void setPassword(String login, String password) {
-		String logpass = login + password;
-		String hashed = BCrypt.hashpw(logpass, BCrypt.gensalt());
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	public void hashPassword(String password) {
+		String hashed = BCrypt.hashpw(password, BCrypt.gensalt());
 		this.password = hashed;
 	}
 	
@@ -62,8 +66,7 @@ public class User {
 		return this.login;
 	}
 	
-	public boolean matches(String login, String password) {
-		String logpass = login + password;
-		return BCrypt.checkpw(logpass, this.password);
+	public boolean matches(String password) {
+		return BCrypt.checkpw(password, this.password);
 	}
 }

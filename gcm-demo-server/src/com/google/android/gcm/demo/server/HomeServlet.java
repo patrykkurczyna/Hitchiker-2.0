@@ -17,14 +17,13 @@ package com.google.android.gcm.demo.server;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Servlet that adds display number of devices and button to send a message.
+ * Servlet that displays registered devices
  * <p>
  * This servlet is used just by the browser (i.e., not device) and contains the
  * main page of the demo app.
@@ -52,7 +51,6 @@ public class HomeServlet extends BaseServlet {
     if (status != null) {
       out.print(status);
     }
-    //List<String> devices = getAllDevices();
     List<String> devices = getAllDevices();
     String devicesString = "";
     for (String device : devices) {

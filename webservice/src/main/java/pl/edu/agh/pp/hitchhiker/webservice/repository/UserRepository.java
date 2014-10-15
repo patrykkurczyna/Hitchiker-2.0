@@ -22,8 +22,11 @@ public interface UserRepository extends PagingAndSortingRepository<User, Long> {
 //	public Page<Hitchhiker> findByLastname(@Param("lastname") String lastname, Pageable pageable);
 	
 //	public Page<Hitchhiker> findByFirstname(@Param("firstname") String firstname, Pageable pageable);
+		
+	public User findById(@Param("user_id") Integer id);
 	
-	public Page<User> findById(@Param("user_id") Integer id, Pageable pageable);
+	public User findByLogin(@Param("login") String login);
 	
-	public Page<User> findByLogin(@Param("login") String login, Pageable pageable);
+	
+	//public boolean matches(@Param("id") Integer id, @Param("login") String login, @Param("password") String password);
 }

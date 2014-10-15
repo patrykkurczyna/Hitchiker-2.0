@@ -22,14 +22,11 @@ public class Hitchhiker {
 	@JoinColumn(name = "user_id")
 	private User user;
 	
-	private String firstname, lastname;
+	private String firstname, lastname, destination;
 	
-	private Double geoLatitude;
-	private Double geoLongitude;
+	private Double geoLatitude, geoLongitude;
 	
 	private boolean children;
-	
-	private String destination;
 	
 	@Enumerated(EnumType.STRING)
 	private Age ageType;
