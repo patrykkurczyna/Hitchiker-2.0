@@ -137,7 +137,7 @@ public class SendAllMessagesServlet extends BaseServlet {
 				while (jsonKeys.hasNext()) {
 					key = (String) jsonKeys.next();
 					try {
-						messageBuilder.addData(key, json.getString(key));
+						messageBuilder.addData(key, json.get(key).toString());
 					} catch (JSONException e) {
 						e.printStackTrace();
 					}
@@ -159,7 +159,7 @@ public class SendAllMessagesServlet extends BaseServlet {
 					Result result = results.get(i);
 					String messageId = result.getMessageId();
 					if (messageId != null) {
-						logger.fine("Succesfully sent message to device: "
+						logger.info("Succesfully sent message to device: "
 								+ regId + "; messageId = " + messageId);
 						String canonicalRegId = result
 								.getCanonicalRegistrationId();

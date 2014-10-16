@@ -1,3 +1,3 @@
-insert into user (login, password, device_id) values ("chicken", "chicken2", "Galaxy S4");
-insert into user (login, password, device_id) values ("janekl", "chicken2", "iPhone");
+--insert into user (login, password, device_id) values ("chicken", "chicken2", "Galaxy S4");
+--insert into user (login, password, device_id) values ("janekl", "chicken2", "iPhone");
 insert into hitchhiker (user_id, number_of_passengers, baggage, sex_type, age_type, children, destination, firstname, lastname, geo_latitude, geo_longitude) values (1, 3, 'BIG', 'MIXED', 'YOUNG', false, 'Kraków', 'Jan', 'Kowalski', 50.085627, 19.9736359); 
