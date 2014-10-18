@@ -22,6 +22,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
+import pl.edu.agh.pp.hitchhiker.webservice.handlers.DriverEventHandler;
 import pl.edu.agh.pp.hitchhiker.webservice.handlers.HitchhikerEventHandler;
 import pl.edu.agh.pp.hitchhiker.webservice.handlers.UserEventHandler;
 
@@ -124,6 +125,11 @@ public class AppConfiguration {
 	@Bean
 	UserEventHandler userEventHandler() {
 		return new UserEventHandler();
+	}
+	
+	@Bean
+	DriverEventHandler driverEventHandler() {
+		return new DriverEventHandler();
 	}
 
 	@Bean

@@ -44,7 +44,7 @@ import org.json.JSONObject;
 @SuppressWarnings("serial")
 abstract class BaseServlet extends HttpServlet {
 
-	static final String GET_ALL_DEVICES_URL = "http://87.206.242.147:1111/webservice/users/search/findAllDevices";
+	static final String GET_ALL_DEVICES_URL = "http://87.206.242.147:1111/webservice/drivers/search/findAllDevices";
 	// change to true to allow GET calls
 	static final boolean DEBUG = true;
 

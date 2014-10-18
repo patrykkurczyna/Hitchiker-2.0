@@ -16,21 +16,18 @@ public interface HitchhikerRepository extends PagingAndSortingRepository<Hitchhi
 	
 	List<Hitchhiker> findAll();
 	
+	@Query("SELECT count(*) from Hitchhiker h WHERE h.active = true")
+	public Long countActive();
+	
 	@Query("SELECT h FROM Hitchhiker h WHERE acos(sin(radians(:latitude)) * sin(radians(h.geoLatitude)) + " +
 			"cos(radians(:latitude)) * cos(radians(h.geoLatitude)) * cos(radians(h.geoLongitude) - radians(:longitude))) * 6371 <= :radius")	
 	public Page<Hitchhiker> findInRadiusFrom(@Param("radius") Double radius, @Param("latitude") Double latitude, @Param("longitude") Double longitude, Pageable pageable);
 	
 	public Page<Hitchhiker> findByGeoLatitudeAndGeoLongitude(@Param("geoLatitude") String geoLatitude, @Param("geoLongitude") String geoLongitude, Pageable pageable);
 	
-	public Page<Hitchhiker> findByLastname(@Param("lastname") String lastname, Pageable pageable);
-	
-	public Page<Hitchhiker> findByFirstname(@Param("firstname") String firstname, Pageable pageable);
-	
-	public Page<Hitchhiker> findByDestination(@Param("destination") String destination, Pageable pageable);
-	
-	public Page<Hitchhiker> findByFirstnameAndLastname(@Param("firstname") String firstname, @Param("lastname") String lastname, Pageable pageable);
-	
 	public Page<Hitchhiker> findById(@Param("id") Integer id, Pageable pageable);
+	
+	public Page<Hitchhiker> findByFinalDestination(@Param("finalDestination") String finalDestination, Pageable pageable);
 	
 	public Page<Hitchhiker> findByNumberOfPassengers(@Param("numberOfPassengers") Integer numberOfPassengers, Pageable pageable);
 }

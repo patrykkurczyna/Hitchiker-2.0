@@ -15,26 +15,20 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 @Entity
-public class Hitchhiker {
+public class Driver {
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 	
+	@Column(unique = true)
+	@NotNull
+	private String deviceId;
+	
 	@ManyToOne
 	@NotNull
 	@JoinColumn(name = "user_id")
 	private User user;
-	
-	private String finalDestination;
-	
-    @Column
-    @ElementCollection(targetClass=String.class)
-	private List<String> destinations;
-	
-    private boolean active = true;
-	
-	private Double geoLatitude, geoLongitude;
 	
 	private Boolean children;
 	
@@ -47,24 +41,25 @@ public class Hitchhiker {
 	@Enumerated(EnumType.STRING)
 	private Baggage baggage;
 	
-	private int numberOfPassengers;
+	private String carType;
 	
-	public User getUser() {
-		return this.user;
+	private String carColor;
+	
+	private boolean active = true;
+	
+	@NotNull
+    @Column
+    @ElementCollection(targetClass=String.class)
+	private List<String> destinations;
+	
+	public void setDeviceId(String deviceId) {
+		this.deviceId = deviceId;
 	}
 	
-	public void setUser(User user) {
-		this.user = user;
+	public String getDeviceId() {
+		return this.deviceId;
 	}
 	
-	public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
 	public Age getAgeType() {
 		return ageType;
 	}
@@ -97,44 +92,20 @@ public class Hitchhiker {
 		this.children = children;
 	}
 
-	public Double getGeoLatitude() {
-		return geoLatitude;
+	public String getCarType() {
+		return carType;
 	}
 
-	public void setGeoLatitude(Double geoLatitude) {
-		this.geoLatitude = geoLatitude;
+	public void setCarType(String carType) {
+		this.carType = carType;
 	}
 
-	public Double getGeoLongitude() {
-		return geoLongitude;
+	public String getCarColor() {
+		return carColor;
 	}
 
-	public void setGeoLongitude(Double geoLongitude) {
-		this.geoLongitude = geoLongitude;
-	}
-
-	public String getFinalDestination() {
-		return finalDestination;
-	}
-
-	public void setFinalDestination(String destination) {
-		this.finalDestination = destination;
-	}
-
-	public int getNumberOfPassengers() {
-		return numberOfPassengers;
-	}
-
-	public void setNumberOfPassengers(int numberOfPassengers) {
-		this.numberOfPassengers = numberOfPassengers;
-	}
-
-	public List<String> getDestinations() {
-		return this.destinations;
-	}
-
-	public void setDestinations(List<String> destinations) {
-		this.destinations = destinations;
+	public void setCarColor(String carColor) {
+		this.carColor = carColor;
 	}
 
 	public boolean isActive() {
@@ -144,6 +115,5 @@ public class Hitchhiker {
 	public void setActive(boolean active) {
 		this.active = active;
 	}
-
-
+	
 }
