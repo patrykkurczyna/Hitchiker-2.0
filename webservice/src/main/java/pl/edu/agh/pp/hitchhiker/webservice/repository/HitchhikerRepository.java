@@ -16,7 +16,7 @@ public interface HitchhikerRepository extends PagingAndSortingRepository<Hitchhi
 	
 	List<Hitchhiker> findAll();
 	
-	@Query("SELECT count(*) from Hitchhiker h WHERE h.active = true AND h.userId = :userId")
+	@Query("SELECT count(*) from Hitchhiker h WHERE h.active = true AND h.user.id = :userId")
 	public Long countActive(@Param("userId") Integer userId);
 	
 	@Query("SELECT h FROM Hitchhiker h WHERE acos(sin(radians(:latitude)) * sin(radians(h.geoLatitude)) + " +

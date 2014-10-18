@@ -60,6 +60,14 @@ public class Driver {
 		return this.deviceId;
 	}
 	
+	public User getUser() {
+		return this.user;
+	}
+	
+	public void setUser(User user) {
+		this.user = user;
+	}
+	
 	public Age getAgeType() {
 		return ageType;
 	}
