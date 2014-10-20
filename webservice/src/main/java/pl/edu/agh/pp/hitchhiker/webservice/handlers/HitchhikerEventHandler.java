@@ -6,7 +6,7 @@ import javax.annotation.Resource;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
-import javax.json.JsonValue;
+import javax.json.JsonObjectBuilder;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -23,6 +23,7 @@ import org.springframework.data.rest.repository.annotation.HandleBeforeSave;
 import org.springframework.data.rest.repository.annotation.RepositoryEventHandler;
 
 import pl.edu.agh.pp.hitchhiker.webservice.model.Hitchhiker;
+import pl.edu.agh.pp.hitchhiker.webservice.model.User;
 import pl.edu.agh.pp.hitchhiker.webservice.repository.HitchhikerRepository;
 
 @PropertySource("classpath:application.properties")
@@ -59,23 +60,35 @@ public class HitchhikerEventHandler {
 			arrayBuilder.add(destination);
 		}
 		
-		JsonObject hitchikerJsonObject = Json.createObjectBuilder()
+		final User user = hitchhiker.getUser();
+		
+		JsonObjectBuilder builder = Json.createObjectBuilder()
 				.add("id", hitchhiker.getId())
-				.add("login", hitchhiker.getUser().getLogin())
-				.add("firstname", hitchhiker.getUser().getFirstname())
-				.add("lastname", hitchhiker.getUser().getLastname())
-				.add("birthdate", hitchhiker.getUser().getBirthdate().toString())
-				.add("userId", hitchhiker.getUser().getId())
-				.add("baggage", hitchhiker.getBaggage().toString())
-				.add("ageType", hitchhiker.getAgeType().toString())
+				.add("login", user.getLogin())
+				.add("firstname", user.getFirstname())
+				.add("lastname", user.getLastname())
+				.add("userId", user.getId())
 				.add("geoLongitude", hitchhiker.getGeoLongitude())
 				.add("geoLatitude", hitchhiker.getGeoLatitude())
 				.add("numberOfPassengers", hitchhiker.getNumberOfPassengers())
 				.add("children", hitchhiker.isChildren())
-				.add("sexType", hitchhiker.getSexType().toString())
 				.add("finalDestination", hitchhiker.getFinalDestination())
-				.add("destinations", arrayBuilder)
-				.build();
+				.add("destinations", arrayBuilder);
+		
+		if (user.getBirthdate() != null) {
+			builder.add("birthdate", hitchhiker.getUser().getBirthdate().toString());
+		}
+		if (hitchhiker.getBaggage() != null) {
+			builder.add("baggage", hitchhiker.getBaggage().toString());
+		}
+		if (hitchhiker.getAgeType() != null) {
+			builder.add("ageType", hitchhiker.getAgeType().toString());
+		}
+		if (hitchhiker.getSexType() != null) {
+			builder.add("sexType", hitchhiker.getSexType().toString());
+		}
+		
+		JsonObject hitchikerJsonObject = builder.build();
 		
 		
 		HttpClient httpclient = new DefaultHttpClient();

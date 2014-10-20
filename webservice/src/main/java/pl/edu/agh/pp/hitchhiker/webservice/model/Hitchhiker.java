@@ -26,12 +26,15 @@ public class Hitchhiker {
 	@JoinColumn(name = "user_id")
 	private User user;
 	
+	@NotNull
 	private String finalDestination;
 	
     @Column
     @ElementCollection(targetClass=String.class)
 	private List<String> destinations;
 	
+    @NotNull
+    @Column(name = "active")
     private boolean active = true;
 	
 	private Double geoLatitude, geoLongitude;

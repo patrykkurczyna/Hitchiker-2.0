@@ -47,7 +47,6 @@ public class Driver {
 	
 	private boolean active = true;
 	
-	@NotNull
     @Column
     @ElementCollection(targetClass=String.class)
 	private List<String> destinations;
