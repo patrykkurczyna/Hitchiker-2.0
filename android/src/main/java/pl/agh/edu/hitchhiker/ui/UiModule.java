@@ -10,7 +10,11 @@ import dagger.Module;
                 RegisterDriverFragment.class,
                 RegisterHitchhikerFragment.class,
                 RegisterLocationActivity.class,
-                SavedLocationActivity.class
+                SavedLocationActivity.class,
+                LoggedActivity.class,
+                TripsFragment.class,
+                ProfileFragment.class,
+                MapFragment.class
         },
         complete = false
 

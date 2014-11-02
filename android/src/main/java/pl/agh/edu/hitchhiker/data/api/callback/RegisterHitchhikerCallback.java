@@ -1,5 +1,7 @@
 package pl.agh.edu.hitchhiker.data.api.callback;
 
+import android.util.Log;
+
 import de.greenrobot.event.EventBus;
 import pl.agh.edu.hitchhiker.data.api.event.RegisterHitchhikerFailure;
 import pl.agh.edu.hitchhiker.data.api.event.RegisterHitchhikerSuccess;
@@ -16,6 +18,7 @@ public class RegisterHitchhikerCallback implements Callback<Hitchhiker> {
 
     @Override
     public void failure(RetrofitError error) {
+        Log.d("RegisterHitchhikerCallback", "failure");
         EventBus.getDefault().post(new RegisterHitchhikerFailure());
     }
 }

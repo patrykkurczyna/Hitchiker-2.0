@@ -1,25 +1,40 @@
 package pl.agh.edu.hitchhiker.data.models;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.ArrayList;
+
+import pl.agh.edu.hitchhiker.utils.CredentialStorage;
+
 public class Driver {
 
-    private String destination;
+    private ArrayList<String> destinations;
     private Double geoLatitude;
-    private Double geoLangitude;
+    private Double geoLongitude;
     private Integer freeSeats;
-    private Age prefAge;
+    @SerializedName("ageType")
+    private Age prefAge = Age.MIDDLE;
+    @SerializedName("baggage")
     private Baggage prefBaggage;
     private SexType prefSexType;
+    @SerializedName("children")
     private boolean withoutChildren;
+    @SerializedName("user")
+    private Location location;
+    private String deviceId;
+    private boolean active = false;
 
     public Driver() {
+        location = CredentialStorage.INSTANCE.getLocation();
+        deviceId = CredentialStorage.INSTANCE.getDeviceId();
     }
 
-    public String getDestination() {
-        return destination;
+    public ArrayList<String> getDestinations() {
+        return destinations;
     }
 
-    public void setDestination(String destination) {
-        this.destination = destination;
+    public void setDestinations(ArrayList<String> destinations) {
+        this.destinations = destinations;
     }
 
     public Double getGeoLatitude() {
@@ -30,12 +45,12 @@ public class Driver {
         this.geoLatitude = geoLatitude;
     }
 
-    public Double getGeoLangitude() {
-        return geoLangitude;
+    public Double getGeoLongitude() {
+        return geoLongitude;
     }
 
-    public void setGeoLangitude(Double geoLangitude) {
-        this.geoLangitude = geoLangitude;
+    public void setGeoLongitude(Double geoLongitude) {
+        this.geoLongitude = geoLongitude;
     }
 
     public Integer getFreeSeats() {
@@ -68,5 +83,37 @@ public class Driver {
 
     public void setPrefSexType(SexType prefSexType) {
         this.prefSexType = prefSexType;
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public boolean isWithoutChildren() {
+        return withoutChildren;
+    }
+
+    public void setWithoutChildren(boolean withoutChildren) {
+        this.withoutChildren = withoutChildren;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="drawer_array">
+        <item>Mapa</item>
+        <item>Autostopicz</item>
+        <item>Kierowca</item>
+        <item>Moje podróże</item>
+        <item>Profil</item>
+    </string-array>
+</resources>

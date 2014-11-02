@@ -7,11 +7,11 @@ import pl.agh.edu.hitchhiker.data.models.Driver;
 import pl.agh.edu.hitchhiker.data.models.Hitchhiker;
 import pl.agh.edu.hitchhiker.data.models.User;
 
-public class HitchhikerService {
+public class ApiService {
 
     private ApiInterface mInterface;
 
-    public HitchhikerService(ApiInterface mInterface) {
+    public ApiService(ApiInterface mInterface) {
         this.mInterface = mInterface;
     }
 

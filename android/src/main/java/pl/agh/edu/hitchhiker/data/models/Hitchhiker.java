@@ -1,26 +1,40 @@
 package pl.agh.edu.hitchhiker.data.models;
 
 
-public class Hitchhiker {
+import com.google.gson.annotations.SerializedName;
 
-    private String destination;
+import java.util.ArrayList;
+
+import pl.agh.edu.hitchhiker.utils.CredentialStorage;
+
+public class Hitchhiker {
+    private String finalDestination;
+    private ArrayList<String> destinations;
     private Double geoLatitude;
-    private Double geoLangitude;
-    private Integer numberPassengers;
+    private Double geoLongitude;
+    private Integer numberOfPassengers;
+    @SerializedName("ageType")
     private Age passengersAge;
+    @SerializedName("baggage")
     private Baggage passengersBaggage;
+    @SerializedName("sexType")
     private SexType passengersSexType;
+    @SerializedName("children")
     private boolean withChildren;
+    @SerializedName("user")
+    private Location location;
+    private boolean active = false;
 
     public Hitchhiker() {
+        location = CredentialStorage.INSTANCE.getLocation();
     }
 
-    public String getDestination() {
-        return destination;
+    public String getFinalDestination() {
+        return finalDestination;
     }
 
-    public void setDestination(String destination) {
-        this.destination = destination;
+    public void setFinalDestination(String finalDestination) {
+        this.finalDestination = finalDestination;
     }
 
     public Double getGeoLatitude() {
@@ -31,20 +45,20 @@ public class Hitchhiker {
         this.geoLatitude = geoLatitude;
     }
 
-    public Double getGeoLangitude() {
-        return geoLangitude;
+    public Double getGeoLongitude() {
+        return geoLongitude;
     }
 
-    public void setGeoLangitude(Double geoLangitude) {
-        this.geoLangitude = geoLangitude;
+    public void setGeoLongitude(Double geoLongitude) {
+        this.geoLongitude = geoLongitude;
     }
 
-    public Integer getNumberPassengers() {
-        return numberPassengers;
+    public Integer getNumberOfPassengers() {
+        return numberOfPassengers;
     }
 
-    public void setNumberPassengers(Integer numberPassengers) {
-        this.numberPassengers = numberPassengers;
+    public void setNumberOfPassengers(Integer numberOfPassengers) {
+        this.numberOfPassengers = numberOfPassengers;
     }
 
     public Age getPassengersAge() {
@@ -77,5 +91,29 @@ public class Hitchhiker {
 
     public void setWithChildren(boolean withChildren) {
         this.withChildren = withChildren;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public ArrayList<String> getDestinations() {
+        return destinations;
+    }
+
+    public void setDestinations(ArrayList<String> destinations) {
+        this.destinations = destinations;
     }
 }

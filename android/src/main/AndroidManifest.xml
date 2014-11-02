@@ -50,6 +50,10 @@
             android:label="@string/title_activity_notification_receiver"
             android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".ui.LoggedActivity"
+            android:screenOrientation="portrait">
+        </activity>
 
         <meta-data android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -59,14 +63,14 @@
             android:value="AIzaSyDjZZQOnAZzs2DEz0EE3vss8mchvUeCk1o"/>
 
         <receiver
-            android:name=".GcmBroadcastReceiver"
+            android:name=".data.gcm.GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <category android:name="pl.agh.edu.hitchhiker" />
             </intent-filter>
         </receiver>
-        <service android:name=".GcmIntentService" />
+        <service android:name=".data.gcm.GcmIntentService" />
 
     </application>
 

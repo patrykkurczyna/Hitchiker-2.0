@@ -42,19 +42,19 @@
     <string name="with_children">Z dziećmi</string>
 
     <string-array name="baggage_array_hic">
-        <item/>
+        <item />
         <item>mały</item>
         <item>średni</item>
         <item>duży</item>
     </string-array>
     <string-array name="sex_type_array_hic">
-        <item/>
+        <item />
         <item>tylko kobiety</item>
         <item>tylko mężczyżni</item>
         <item>mieszane</item>
     </string-array>
     <string-array name="age_array_hic">
-        <item/>
+        <item />
         <item>młodzież</item>
         <item>dorośli</item>
         <item>seniorzy</item>
@@ -73,6 +73,16 @@
     <string name="turn_on_gps">GPS niedostępny</string>
     <string name="error_location">Nie można pobrać lokalizacji</string>
     <string name="error_internet">Brak połaczenia z internetem</string>
-    <string name="error_register_hitchhiker">Błąd rejestracji, spróbuj ponownie</string>
+    <string name="error_register_form">Błąd rejestracji, spróbuj ponownie</string>
+    <string name="error_destination">Kierunek podróży jest pusty</string>
+    <string name="error_already_registered">Jesteś już zarejestrowany</string>
+    <string name="drawer_open">open</string>
+    <string name="drawer_close">close</string>
+    <string name="no_trips">Jeszcze nigdzie nie podróżowałeś</string>
+    <string name="unregister_trip">Wyrejestruj</string>
+    <string name="cancel">Anuluj</string>
+    <string name="already_registered_hitchhiker">Jesteś już zarejestrowanym autosptopowiczem. Zakończyłeś już podróż lub chcesz się wyrejestrowac?</string>
+    <string name="already_registered_driver">Jesteś już zarejestrowanym kierowcą. Zakończyłeś już podróż lub chcesz się wyrejestrowac?</string>
+    <string name="finish_trip">Zakończ</string>
 
 </resources>

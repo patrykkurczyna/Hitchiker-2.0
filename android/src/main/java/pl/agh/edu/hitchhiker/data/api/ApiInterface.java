@@ -7,16 +7,22 @@ import pl.agh.edu.hitchhiker.data.models.Driver;
 import pl.agh.edu.hitchhiker.data.models.Hitchhiker;
 import pl.agh.edu.hitchhiker.data.models.User;
 import retrofit.http.Body;
+import retrofit.http.GET;
 import retrofit.http.POST;
+import retrofit.http.Path;
 
 public interface ApiInterface {
 
-    @POST("/register/hitchhiker")
+    @POST("/hitchhikers")
     void registerHitchhiker(@Body Hitchhiker hitchhiker, RegisterHitchhikerCallback callback);
 
-    @POST("/register/driver")
+    @POST("/drivers")
     void registerDriver(@Body Driver driver, RegisterDriverCallback callback);
 
-    @POST("/authorize/user")
+    @POST("/users")
     void authorizeUser(@Body User user, AuthorizeUserCallback callback);
+
+    @GET("/users/{userId}")
+    User getAuthorizeUser(@Path("userId") Integer userId);
+
 }
