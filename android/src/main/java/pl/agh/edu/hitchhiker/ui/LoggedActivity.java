@@ -3,6 +3,7 @@ package pl.agh.edu.hitchhiker.ui;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.res.Configuration;
 import android.location.Location;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -77,6 +79,9 @@ public class LoggedActivity extends Activity implements HitchhikerInterface, Goo
             }
 
             public void onDrawerOpened(View drawerView) {
+                InputMethodManager imm = (InputMethodManager)getSystemService(
+                        Context.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
                 getActionBar().setTitle(getString(R.string.app_name));
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
