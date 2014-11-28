@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.google.android.gcm.demo.server;
+package pl.edu.agh.pp.hitchhiker.gcm;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,6 +26,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -44,7 +45,7 @@ import org.json.JSONObject;
 @SuppressWarnings("serial")
 abstract class BaseServlet extends HttpServlet {
 
-	static final String GET_ALL_DEVICES_URL = "http://87.206.242.147:1111/webservice/drivers/search/findAllDevices";
+	static final String GET_ALL_DEVICES_URL = "http://127.0.0.1:1111/webservice/drivers/search/findAllDevices";
 	// change to true to allow GET calls
 	static final boolean DEBUG = true;
 

@@ -22,7 +22,18 @@
 		<slf4j.version>1.6.1</slf4j.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+	<repositories>
+		<repository>
+            <id>gcm-server-repository</id>
+            <url>https://github.com/slorber/gcm-server-repository/raw/master/releases/</url>
+        </repository>
+	</repositories>
 	<dependencies>
+		<dependency>
+		<groupId>com.google.android.gcm</groupId>
+			<artifactId>gcm-server</artifactId>
+			<version>1.0.2</version>
+		</dependency>
 		<!-- BoneCP -->
 		<dependency>
 			<groupId>com.jolbox</groupId>
@@ -39,6 +50,11 @@
 			<artifactId>javaee-api</artifactId>
 			<version>7.0</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20131018</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.json</groupId>
