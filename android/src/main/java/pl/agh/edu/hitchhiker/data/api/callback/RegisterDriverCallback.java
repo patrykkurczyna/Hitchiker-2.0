@@ -16,6 +16,11 @@ public class RegisterDriverCallback implements Callback<Driver> {
 
     @Override
     public void failure(RetrofitError error) {
-        EventBus.getDefault().post(new RegisterDriverFailure());
+        int status = -1;
+        if(error.getResponse() != null) {
+            status = error.getResponse().getStatus();
+        }
+
+        EventBus.getDefault().post(new RegisterDriverFailure(status));
     }
 }

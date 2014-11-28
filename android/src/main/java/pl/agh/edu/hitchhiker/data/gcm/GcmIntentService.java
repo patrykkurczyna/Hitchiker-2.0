@@ -1,12 +1,14 @@
 package pl.agh.edu.hitchhiker.data.gcm;
 
 import android.app.IntentService;
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.util.Log;
 
 import pl.agh.edu.hitchhiker.R;
 import pl.agh.edu.hitchhiker.ui.SavedLocationActivity;
@@ -14,7 +16,11 @@ import pl.agh.edu.hitchhiker.ui.SavedLocationActivity;
 public class GcmIntentService extends IntentService {
     public static final int NOTIFICATION_ID = 1;
 
-    public static final String MSG = "message";
+    public static final String LONGITUDE = "geoLongitude";
+    public static final String LATITUDE = "geoLatitude";
+    public static final String FINAL_DESTINATION = "finalDestination";
+    public static final String LOGIN = "login";
+    public static final String TAG = "GcmIntentService";
 
     public GcmIntentService() {
         super("GcmIntentService");
@@ -22,33 +28,45 @@ public class GcmIntentService extends IntentService {
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        Bundle extras = intent.getExtras();
+        Log.d(TAG, "onHandleIntent");
 
+        Bundle extras = intent.getExtras();
         if(extras != null) {
-            if(extras.containsKey(MSG)) {
-                sendNotification(extras.getString(MSG));
+            for (String key : extras.keySet()) {
+                Log.d(TAG, key + " : " + extras.getString(key));
             }
+            sendNotification(extras);
         }
 
         GcmBroadcastReceiver.completeWakefulIntent(intent);
     }
 
-    private void sendNotification(String msg) {
+    private void sendNotification(Bundle extras) {
         NotificationManager mNotificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
         Intent intent = new Intent(this, SavedLocationActivity.class);
-        PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, 0);
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        intent.putExtra(SavedLocationActivity.IS_DRIVER, true);
+        intent.putExtra(SavedLocationActivity.FROM_NOTI, true);
+        intent.putExtra(SavedLocationActivity.NOTI_LONGITUDE, Double.valueOf(extras.getString(LONGITUDE)));
+        intent.putExtra(SavedLocationActivity.NOTI_LATITUDE, Double.valueOf(extras.getString(LATITUDE)));
+        intent.putExtra(SavedLocationActivity.NOTI_LOGIN, extras.getString(LOGIN));
+        intent.putExtra(SavedLocationActivity.NOTI_DESTINATION, extras.getString(FINAL_DESTINATION));
+        PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
-        String content = "Za 10km czeka 2 autospowiczów do Zakopanego";
+        String content = String.format("Za 10km czeka 1 autospowicz do %s", extras.getString(FINAL_DESTINATION));
 
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this).
         setContentTitle(getResources().getString(R.string.new_hitchhiker_notif_title))
                 .setContentText(content).setSmallIcon(R.drawable.thumb2)
-                .setContentIntent(pIntent);
+                .setContentIntent(pIntent).setAutoCancel(true);
+        Notification noti = mBuilder.build();
+        noti.defaults |= Notification.DEFAULT_VIBRATE;
+        noti.defaults |= Notification.DEFAULT_SOUND;
 
-        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
+        mNotificationManager.notify(NOTIFICATION_ID, noti);
     }
 
 

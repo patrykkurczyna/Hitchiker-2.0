@@ -18,12 +18,12 @@ import retrofit.converter.GsonConverter;
         library = true
 )
 public class ApiModule {
-    private final static String ENDPOINT = "http://localhost/webservice";
+    private final static String ENDPOINT = "http://87.206.242.147:1111/webservice";
 
     @Provides
     GsonConverter provideGsonConverter() {
         final GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES);
+        gsonBuilder.setFieldNamingPolicy(FieldNamingPolicy.IDENTITY);
         return new GsonConverter(gsonBuilder.create());
     }
 
@@ -44,8 +44,8 @@ public class ApiModule {
 
     @Provides
     @Singleton
-    HitchhikerService provideHitchhikerService(RestAdapter restAdapter) {
-        return new HitchhikerService(restAdapter.create(ApiInterface.class));
+    ApiService provideHitchhikerService(RestAdapter restAdapter) {
+        return new ApiService(restAdapter.create(ApiInterface.class));
     }
 
     @Provides

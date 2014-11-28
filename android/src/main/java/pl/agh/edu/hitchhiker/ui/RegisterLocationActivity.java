@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.location.Location;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
@@ -17,6 +18,7 @@ import pl.agh.edu.hitchhiker.R;
 public class RegisterLocationActivity extends Activity implements GooglePlayServicesClient.ConnectionCallbacks,
         GooglePlayServicesClient.OnConnectionFailedListener {
 
+    public static final String TAG = RegisterLocationActivity.class.getSimpleName();
     public static final int FORM_SAVED_CODE = 1100;
     public static final int FORM_REJECTED_CODE = 1101;
 
@@ -61,17 +63,17 @@ public class RegisterLocationActivity extends Activity implements GooglePlayServ
 
     @Override
     public void onConnected(Bundle bundle) {
-
+        Log.d(TAG, "onConnected");
     }
 
     @Override
     public void onDisconnected() {
-
+        Log.d(TAG, "onDisconnected");
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-
+        Log.d(TAG, "connectionFailed: " + connectionResult.toString());
     }
 
     public Location getLastLocation() {
