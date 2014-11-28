@@ -1,4 +1,4 @@
 --insert into user (login, password, device_id) values ("chicken", "chicken2", "Galaxy S4");
 insert into user (login, password, firstname, lastname, birthdate) values ("janekl", "chicken2", "Jan", "Polak", '1989-10-14');
-insert into hitchhiker (user_id, number_of_passengers, baggage, sex_type, age_type, children, final_destination, geo_latitude, geo_longitude, active) values (1, 3, 'BIG', 'MIXED', 'YOUNG', false, 'Kraków', 50.085627, 19.9736359, false);
+--insert into hitchhiker (user_id, number_of_passengers, baggage, sex_type, age_type, children, final_destination, geo_latitude, geo_longitude, active) values (1, 3, 'BIG', 'MIXED', 'YOUNG', false, 'Kraków', 50.085627, 19.9736359, false);
 insert into driver (user_id, baggage, age_type, children, car_type, car_color, device_id, active) values (1, 'BIG', 'YOUNG', false, "Audi A4", "black", "my_device", false);

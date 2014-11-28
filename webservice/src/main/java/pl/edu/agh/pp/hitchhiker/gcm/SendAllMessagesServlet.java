@@ -45,7 +45,7 @@ import com.google.android.gcm.server.Sender;
  * <p>
  */
 @SuppressWarnings("serial")
-@WebServlet("/sendAllMessages")
+@WebServlet("/send")
 public class SendAllMessagesServlet extends BaseServlet {
 
 	private static final int MULTICAST_SIZE = 1000;
@@ -119,7 +119,7 @@ public class SendAllMessagesServlet extends BaseServlet {
 					+ " multicast messages to " + total + " devices";
 		}
 		req.setAttribute(GcmServlet.ATTRIBUTE_STATUS, status.toString());
-		getServletContext().getRequestDispatcher("/home").forward(req, resp);
+		getServletContext().getRequestDispatcher("/gcm").forward(req, resp);
 	}
 
 	private void asyncSend(List<String> partialDevices, final JSONObject json) {
