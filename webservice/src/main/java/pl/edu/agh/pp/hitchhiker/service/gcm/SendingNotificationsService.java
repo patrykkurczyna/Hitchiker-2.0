@@ -63,6 +63,7 @@ public class SendingNotificationsService {
 	private static final String MSG_TYPE_KEY = "msgType";
 	private static final String MSG_TYPE_NEW_HITCHHIKER = "newHitchhiker";
 	private static final String MSG_TYPE_DRIVER_WANTS_TO_TAKE_YOU = "driverWantsToTakeYou";
+	private static final String MSG_TYPE_DRIVER_TOOK_YOU = "driverTookYou";
 	private static final String PROPERTY_NAME_API_KEY = "api.key";
 	private static final String PROPERTY_NAME_NOTIFICATION_SPREAD = "notification.spread.in.km";
 	private static final Logger LOGGER = LoggerFactory.getLogger(SendingNotificationsService.class);
@@ -77,7 +78,12 @@ public class SendingNotificationsService {
 	@Autowired
 	@Qualifier("driverRepository")
 	private DriverRepository driverRepository;
-
+	
+	/**
+	 * Method for sending notification containing new hitchiker, this message is sent to drivers in specific range
+	 * which is set up in properties
+	 * @param hitch {@link Hitchhiker} hitchhiker entity being sent
+	 */
 	public void sendHitchhiker(Hitchhiker hitch) {
 		final String RADIUS = environment.getRequiredProperty(PROPERTY_NAME_NOTIFICATION_SPREAD);
 		List<String> devices = driverRepository.findDevicesInRadiusFrom(Double.parseDouble(RADIUS),				
@@ -86,9 +92,25 @@ public class SendingNotificationsService {
 		sendMessagesToSpecifiedDevices(devices, json);
 	}
 	
+	/**
+	 * Method for sendind notification to hitchhiker when driver want to take him
+	 * @param driver {@link Driver} who wants to take a hitchhiker
+	 * @param hitchhiker {@link Hitchhiker} who is going to be taken
+	 */
 	public void sendDriverWantsToTakeYou(Driver driver, Hitchhiker hitchhiker) {
 		List<String> devices = new ArrayList<String>(Arrays.asList(hitchhiker.getDeviceId()));
 		JsonObject json = convertDriverToJson(driver, prepareJsonBuilderWithMessageType(MSG_TYPE_DRIVER_WANTS_TO_TAKE_YOU));
+		sendMessagesToSpecifiedDevices(devices, json);
+	}
+	
+	/**
+	 * Method for sendind notification to hitchhiker when driver took him
+	 * @param driver {@link Driver} who took hitchhiker
+	 * @param hitchhiker {@link Hitchhiker} who is taken
+	 */
+	public void sendDriverTookYou(Driver driver, Hitchhiker hitchhiker) {
+		List<String> devices = new ArrayList<String>(Arrays.asList(hitchhiker.getDeviceId()));
+		JsonObject json = convertDriverToJson(driver, prepareJsonBuilderWithMessageType(MSG_TYPE_DRIVER_TOOK_YOU));
 		sendMessagesToSpecifiedDevices(devices, json);
 	}
 
