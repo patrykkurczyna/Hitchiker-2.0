@@ -26,7 +26,7 @@ public class DriverEventHandler {
 	@HandleBeforeSave
 	public void checkIfThereAreNoActive(Driver driver) throws TooManyActiveException{
 		Long numberOfActive = driverRepository.countActive(driver.getUser().getId());
-		if (numberOfActive > 0.0) {
+		if (driver.isActive() && numberOfActive > 0.0) {
 			LOGGER.error("There's already an active Driver, cannot create another");
 			throw new TooManyActiveException();
 		}

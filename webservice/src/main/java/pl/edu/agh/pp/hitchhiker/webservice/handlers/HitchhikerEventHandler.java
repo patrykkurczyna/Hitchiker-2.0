@@ -31,8 +31,7 @@ public class HitchhikerEventHandler {
 	@HandleBeforeSave
 	public void checkIfThereAreNoActive(Hitchhiker hitchhiker) throws TooManyActiveException{
 		Long numberOfActive = hitchhikerRepository.countActive(hitchhiker.getUser().getId());
-		//TODO check if hitch is active
-		if (numberOfActive > 0.0) {
+		if (hitchhiker.isActive() && numberOfActive > 0.0) {
 			LOGGER.error("There's already an active Hitchhiker, cannot create another");
 			throw new TooManyActiveException();
 		}
