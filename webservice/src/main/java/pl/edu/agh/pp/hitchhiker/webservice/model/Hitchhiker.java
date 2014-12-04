@@ -21,6 +21,10 @@ public class Hitchhiker {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 	
+	@Column(unique = true)
+	@NotNull
+	private String deviceId;
+	
 	@ManyToOne
 	@NotNull
 	@JoinColumn(name = "user_id")
@@ -142,6 +146,14 @@ public class Hitchhiker {
 
 	public boolean isActive() {
 		return active;
+	}
+	
+	public String getDeviceId() {
+		return deviceId;
+	}
+	
+	public void setDeviceId(String deviceId) {
+		this.deviceId = deviceId;
 	}
 
 	public void setActive(boolean active) {

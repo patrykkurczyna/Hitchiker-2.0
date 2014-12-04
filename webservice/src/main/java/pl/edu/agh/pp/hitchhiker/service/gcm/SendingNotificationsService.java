@@ -2,6 +2,7 @@ package pl.edu.agh.pp.hitchhiker.service.gcm;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
@@ -16,10 +17,12 @@ import javax.json.JsonObjectBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
+import pl.edu.agh.pp.hitchhiker.webservice.model.Driver;
 import pl.edu.agh.pp.hitchhiker.webservice.model.Hitchhiker;
 import pl.edu.agh.pp.hitchhiker.webservice.model.User;
 import pl.edu.agh.pp.hitchhiker.webservice.repository.DriverRepository;
@@ -31,30 +34,68 @@ import com.google.android.gcm.server.MulticastResult;
 import com.google.android.gcm.server.Result;
 import com.google.android.gcm.server.Sender;
 
+/**
+ * Class is a service for sending nnotifications to google GCM server
+ * @author patrykkurczyna
+ *
+ */
 @PropertySource("classpath:application.properties")
 @Service
 public class SendingNotificationsService {
-
+	
+	private static final String SEX_TYPE = "sexType";
+	private static final String AGE_TYPE = "ageType";
+	private static final String BAGGAGE = "baggage";
+	private static final String USER_BIRTHDATE = "userBirthdate";
+	private static final String USER_ID = "userId";
+	private static final String USER_LASTNAME = "userLastname";
+	private static final String USER_FIRSTNAME = "userFirstname";
+	private static final String USER_LOGIN = "userLogin";
+	private static final String DESTINATIONS = "destinations";
+	private static final String FINAL_DESTINATION = "finalDestination";
+	private static final String CHILDREN = "children";
+	private static final String NUMBER_OF_PASSENGERS = "numberOfPassengers";
+	private static final String GEO_LATITUDE = "geoLatitude";
+	private static final String GEO_LONGITUDE = "geoLongitude";
+	private static final String CAR_COLOR = "carColor";
+	private static final String CAR_TYPE = "carType";
+	private static final String ID = "id";
+	private static final String MSG_TYPE_KEY = "msgType";
+	private static final String MSG_TYPE_NEW_HITCHHIKER = "newHitchhiker";
+	private static final String MSG_TYPE_DRIVER_WANTS_TO_TAKE_YOU = "driverWantsToTakeYou";
+	private static final String PROPERTY_NAME_API_KEY = "api.key";
+	private static final String PROPERTY_NAME_NOTIFICATION_SPREAD = "notification.spread.in.km";
+	private static final Logger LOGGER = LoggerFactory.getLogger(SendingNotificationsService.class);
+	private static final int MULTICAST_SIZE = 1000;
+	private static final Executor threadPool = Executors.newFixedThreadPool(100);
+	
 	@Resource
 	private Environment environment;
 
 	private Sender sender;
 
-	private static final Logger LOGGER = LoggerFactory
-			.getLogger(SendingNotificationsService.class);
-	private static final int MULTICAST_SIZE = 1000;
-	private static final Executor threadPool = Executors
-			.newFixedThreadPool(100);
-	private final static String PROPERTY_NAME_API_KEY = "api.key";
-
 	@Autowired
+	@Qualifier("driverRepository")
 	private DriverRepository driverRepository;
 
 	public void sendHitchhiker(Hitchhiker hitch) {
-		final String API_KEY = environment
-				.getRequiredProperty(PROPERTY_NAME_API_KEY);
+		final String RADIUS = environment.getRequiredProperty(PROPERTY_NAME_NOTIFICATION_SPREAD);
+		List<String> devices = driverRepository.findDevicesInRadiusFrom(Double.parseDouble(RADIUS),				
+				hitch.getGeoLatitude(), hitch.getGeoLongitude());
+		JsonObject json = convertHitchhikerToJson(hitch, prepareJsonBuilderWithMessageType(MSG_TYPE_NEW_HITCHHIKER));
+		sendMessagesToSpecifiedDevices(devices, json);
+	}
+	
+	public void sendDriverWantsToTakeYou(Driver driver, Hitchhiker hitchhiker) {
+		List<String> devices = new ArrayList<String>(Arrays.asList(hitchhiker.getDeviceId()));
+		JsonObject json = convertDriverToJson(driver, prepareJsonBuilderWithMessageType(MSG_TYPE_DRIVER_WANTS_TO_TAKE_YOU));
+		sendMessagesToSpecifiedDevices(devices, json);
+	}
+
+	private void sendMessagesToSpecifiedDevices(List<String> devices,
+			JsonObject json) {
+		final String API_KEY = environment.getRequiredProperty(PROPERTY_NAME_API_KEY);
 		sender = new Sender(API_KEY);
-		List<String> devices = driverRepository.findAllDevices();
 		if (devices.isEmpty()) {
 			LOGGER.info("Message ignored as there is no device registered!");
 		} else {
@@ -68,9 +109,8 @@ public class SendingNotificationsService {
 				counter++;
 				partialDevices.add(device);
 				int partialSize = partialDevices.size();
-				JsonObject json = convertHitchhikerToJson(hitch);
 				if (partialSize == MULTICAST_SIZE || counter == total) {
-					asyncHitchhikerSend(partialDevices, json);
+					asyncMessageSend(partialDevices, json);
 					partialDevices.clear();
 					tasks++;
 				}
@@ -79,51 +119,72 @@ public class SendingNotificationsService {
 					+ " multicast messages to " + total + " devices");
 		}
 	}
+	
+	private JsonObjectBuilder prepareJsonBuilderWithMessageType(String msgType) {
+		return Json.createObjectBuilder().add(MSG_TYPE_KEY, msgType);
+	}
+	
+	private JsonObject convertDriverToJson(Driver driver, JsonObjectBuilder builder) {
+		JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
+		final User user = driver.getUser();
+		
+		builder.add(GEO_LONGITUDE, driver.getGeoLongitude())
+				.add(GEO_LATITUDE, driver.getGeoLatitude())
+				.add(CAR_COLOR, driver.getCarColor())
+				.add(CAR_TYPE, driver.getCarType())
+				.add(DESTINATIONS, arrayBuilder);
+		
+		builder = prepareUserJson(builder, user);
+		return builder.build();
+	}
 
-	private JsonObject convertHitchhikerToJson(Hitchhiker hitch) {
+	private JsonObject convertHitchhikerToJson(Hitchhiker hitch, JsonObjectBuilder builder) {
 		JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
 		final User user = hitch.getUser();
 
-		JsonObjectBuilder builder = Json.createObjectBuilder()
-				.add("id", hitch.getId())
-				.add("geoLongitude", hitch.getGeoLongitude())
-				.add("geoLatitude", hitch.getGeoLatitude())
-				.add("numberOfPassengers", hitch.getNumberOfPassengers())
-				.add("children", hitch.isChildren())
-				.add("finalDestination", hitch.getFinalDestination())
-				.add("destinations", arrayBuilder);
+		builder.add(ID, hitch.getId())
+				.add(GEO_LONGITUDE, hitch.getGeoLongitude())
+				.add(GEO_LATITUDE, hitch.getGeoLatitude())
+				.add(NUMBER_OF_PASSENGERS, hitch.getNumberOfPassengers())
+				.add(CHILDREN, hitch.isChildren())
+				.add(FINAL_DESTINATION, hitch.getFinalDestination())
+				.add(DESTINATIONS, arrayBuilder);
 
-		if (user != null) {
-			builder.add("login", user.getLogin())
-					.add("firstname", user.getFirstname())
-					.add("lastname", user.getLastname())
-					.add("userId", user.getId());
-
-			if (user.getBirthdate() != null) {
-				builder.add("birthdate", hitch.getUser().getBirthdate()
-						.toString());
-			}
-		}
+		builder = prepareUserJson(builder, user);
 
 		if (hitch.getBaggage() != null) {
-			builder.add("baggage", hitch.getBaggage().toString());
+			builder.add(BAGGAGE, hitch.getBaggage().toString());
 		}
 		if (hitch.getAgeType() != null) {
-			builder.add("ageType", hitch.getAgeType().toString());
+			builder.add(AGE_TYPE, hitch.getAgeType().toString());
 		}
 		if (hitch.getSexType() != null) {
-			builder.add("sexType", hitch.getSexType().toString());
+			builder.add(SEX_TYPE, hitch.getSexType().toString());
 		}
 		if (hitch.getDestinations() != null) {
 			for (String destination : hitch.getDestinations()) {
 				arrayBuilder.add(destination);
 			}
 		}
-		JsonObject hitchikerJsonObject = builder.build();
-		return hitchikerJsonObject;
+		return builder.build();
 	}
 
-	private void asyncHitchhikerSend(List<String> partialDevices,
+	private JsonObjectBuilder prepareUserJson(JsonObjectBuilder builder, final User user) {
+		if (user != null) {
+			builder.add(USER_LOGIN, user.getLogin())
+					.add(USER_FIRSTNAME, user.getFirstname())
+					.add(USER_LASTNAME, user.getLastname())
+					.add(USER_ID, user.getId());
+
+			if (user.getBirthdate() != null) {
+				builder.add(USER_BIRTHDATE, user.getBirthdate()
+						.toString());
+			}
+		}
+		return builder;
+	}
+
+	private void asyncMessageSend(List<String> partialDevices,
 			final JsonObject json) {
 		// make a copy
 		final List<String> devices = new ArrayList<String>(partialDevices);

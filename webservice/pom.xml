@@ -16,7 +16,7 @@
 		</license>
 	</licenses>
 	<properties>
-		<hibernate.version>4.0.1.Final</hibernate.version>
+		<hibernate.version>3.6.10.Final</hibernate.version>
 		<spring.version>3.2.2.RELEASE</spring.version>
 		<mysql.connector.version>5.1.18</mysql.connector.version>
 		<slf4j.version>1.6.1</slf4j.version>
@@ -24,13 +24,13 @@
 	</properties>
 	<repositories>
 		<repository>
-            <id>gcm-server-repository</id>
-            <url>https://github.com/slorber/gcm-server-repository/raw/master/releases/</url>
-        </repository>
+			<id>gcm-server-repository</id>
+			<url>https://github.com/slorber/gcm-server-repository/raw/master/releases/</url>
+		</repository>
 	</repositories>
 	<dependencies>
 		<dependency>
-		<groupId>com.google.android.gcm</groupId>
+			<groupId>com.google.android.gcm</groupId>
 			<artifactId>gcm-server</artifactId>
 			<version>1.0.2</version>
 		</dependency>
@@ -62,11 +62,28 @@
 			<version>1.0</version>
 			<scope>runtime</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.jayway.jsonpath</groupId>
+			<artifactId>json-path-assert</artifactId>
+			<version>0.8.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.3.168</version>
+			<scope>test</scope>
+		</dependency>
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-context</artifactId>
 			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.ws</groupId>
+			<artifactId>spring-oxm-tiger</artifactId>
+			<version>1.5.4</version>
 		</dependency>
 
 		<dependency>

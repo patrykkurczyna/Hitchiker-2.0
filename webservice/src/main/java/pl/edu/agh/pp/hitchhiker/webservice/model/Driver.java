@@ -43,6 +43,8 @@ public class Driver {
 	
 	private String carType;
 	
+	private Double geoLatitude, geoLongitude;
+	
 	private String carColor;
 	
 	private boolean active = true;
@@ -65,6 +67,22 @@ public class Driver {
 	
 	public void setUser(User user) {
 		this.user = user;
+	}
+	
+	public Double getGeoLatitude() {
+		return geoLatitude;
+	}
+
+	public void setGeoLatitude(Double geoLatitude) {
+		this.geoLatitude = geoLatitude;
+	}
+
+	public Double getGeoLongitude() {
+		return geoLongitude;
+	}
+
+	public void setGeoLongitude(Double geoLongitude) {
+		this.geoLongitude = geoLongitude;
 	}
 	
 	public Age getAgeType() {

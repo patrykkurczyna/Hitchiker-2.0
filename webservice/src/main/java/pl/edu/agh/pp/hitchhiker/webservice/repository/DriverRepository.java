@@ -9,17 +9,18 @@ import org.springframework.data.rest.repository.annotation.RestResource;
 
 import pl.edu.agh.pp.hitchhiker.webservice.model.Driver;
 
+
 @RestResource(path = "drivers", rel = "drivers")
 public interface DriverRepository extends PagingAndSortingRepository<Driver, Long>{
 	
 	@Query("SELECT d.deviceId FROM Driver d")	
 	public List<String> findAllDevices();
 	
+	@Query("SELECT d.deviceId FROM Driver d WHERE acos(sin(radians(:latitude)) * sin(radians(d.geoLatitude)) + " +
+			"cos(radians(:latitude)) * cos(radians(d.geoLatitude)) * cos(radians(d.geoLongitude) - radians(:longitude))) * 6371 <= :radius")	
+	public List<String> findDevicesInRadiusFrom(@Param("radius") Double radius, @Param("latitude") Double latitude, @Param("longitude") Double longitude);
+	
 	@Query("SELECT count(*) from Driver d WHERE d.active = true AND d.user.id = :userId")
 	public Long countActive(@Param("userId") Integer userId);
-	
-//	@Query("SELECT h from Hitchhiker h WHERE" + 
-//			"")
-//	public List<Hitchhiker> getHitchhikers(@Param("id") Integer id);
 	
 }

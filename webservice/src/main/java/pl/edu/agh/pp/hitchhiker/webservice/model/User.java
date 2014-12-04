@@ -12,9 +12,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.stereotype.Component;
+
 import pl.edu.agh.pp.hitchhiker.webservice.util.BCrypt;
 
 @Entity
+@Component
 public class User {
 
 	@Id
@@ -36,6 +39,10 @@ public class User {
 	private String lastname;
 
 	private Date birthdate;
+	
+	private String email;
+	
+	private String phone;
 
 	@OneToMany
 	@JoinColumn(name = "user_id")
@@ -119,5 +126,21 @@ public class User {
 		if (birthdate != null) {
 			this.birthdate = new Date(birthdate.getTime());
 		}
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 }
