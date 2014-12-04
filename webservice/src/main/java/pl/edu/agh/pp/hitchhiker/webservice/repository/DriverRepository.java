@@ -23,4 +23,6 @@ public interface DriverRepository extends PagingAndSortingRepository<Driver, Lon
 	@Query("SELECT count(*) from Driver d WHERE d.active = true AND d.user.id = :userId")
 	public Long countActive(@Param("userId") Integer userId);
 	
+	public Driver findById(@Param("id") Integer id);
+	
 }

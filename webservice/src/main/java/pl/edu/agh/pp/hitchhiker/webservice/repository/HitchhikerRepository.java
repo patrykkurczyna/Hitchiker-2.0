@@ -25,7 +25,7 @@ public interface HitchhikerRepository extends PagingAndSortingRepository<Hitchhi
 	
 	public Page<Hitchhiker> findByGeoLatitudeAndGeoLongitude(@Param("geoLatitude") String geoLatitude, @Param("geoLongitude") String geoLongitude, Pageable pageable);
 	
-	public Page<Hitchhiker> findById(@Param("id") Integer id, Pageable pageable);
+	public Hitchhiker findById(@Param("id") Integer id);
 	
 	public Page<Hitchhiker> findByFinalDestination(@Param("finalDestination") String finalDestination, Pageable pageable);
 	

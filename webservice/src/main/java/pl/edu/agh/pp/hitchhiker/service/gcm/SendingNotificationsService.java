@@ -150,11 +150,16 @@ public class SendingNotificationsService {
 		JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
 		final User user = driver.getUser();
 		
-		builder.add(GEO_LONGITUDE, driver.getGeoLongitude())
-				.add(GEO_LATITUDE, driver.getGeoLatitude())
-				.add(CAR_COLOR, driver.getCarColor())
+		builder.add(CAR_COLOR, driver.getCarColor())
 				.add(CAR_TYPE, driver.getCarType())
 				.add(DESTINATIONS, arrayBuilder);
+		
+		if (driver.getGeoLongitude() != null) {
+			builder.add(GEO_LONGITUDE, driver.getGeoLongitude());
+		}
+		if (driver.getGeoLatitude() != null) {
+			builder.add(GEO_LATITUDE, driver.getGeoLatitude());
+		}
 		
 		builder = prepareUserJson(builder, user);
 		return builder.build();
@@ -165,8 +170,6 @@ public class SendingNotificationsService {
 		final User user = hitch.getUser();
 
 		builder.add(ID, hitch.getId())
-				.add(GEO_LONGITUDE, hitch.getGeoLongitude())
-				.add(GEO_LATITUDE, hitch.getGeoLatitude())
 				.add(NUMBER_OF_PASSENGERS, hitch.getNumberOfPassengers())
 				.add(CHILDREN, hitch.isChildren())
 				.add(FINAL_DESTINATION, hitch.getFinalDestination())
@@ -176,6 +179,12 @@ public class SendingNotificationsService {
 
 		if (hitch.getBaggage() != null) {
 			builder.add(BAGGAGE, hitch.getBaggage().toString());
+		}
+		if (hitch.getGeoLongitude() != null) {
+			builder.add(GEO_LONGITUDE, hitch.getGeoLongitude());
+		}
+		if (hitch.getGeoLatitude() != null) {
+			builder.add(GEO_LATITUDE, hitch.getGeoLatitude());
 		}
 		if (hitch.getAgeType() != null) {
 			builder.add(AGE_TYPE, hitch.getAgeType().toString());
@@ -242,7 +251,7 @@ public class SendingNotificationsService {
 						LOGGER.info("Succesfully sent message to device: "
 								+ regId + "; messageId = " + messageId);
 					} else {
-						String error = result.getErrorCodeName();
+						String error = result.getErrorCodeName();			
 						if (error.equals(Constants.ERROR_NOT_REGISTERED)) {
 							LOGGER.warn("Unregistered device: " + regId);
 						} else {
