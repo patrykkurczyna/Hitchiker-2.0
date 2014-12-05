@@ -14,8 +14,6 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Component;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import pl.edu.agh.pp.hitchhiker.webservice.util.BCrypt;
 
 @Entity

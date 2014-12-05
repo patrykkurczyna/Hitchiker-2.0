@@ -48,4 +48,23 @@ public class HitchhikerSearchController {
 		return new ResponseEntity<Resources<Resource<Hitchhiker>>>(
 				hitchhikerResources, ControllersUtil.createHeaders(), HttpStatus.OK);
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/findMatching2", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	HttpEntity<Resources<Resource<Hitchhiker>>> findMatchingHitchhikers2(HitchhikerSearchCriteria criteria) {
+		Double radius = 10.0;
+		
+		List<Hitchhiker> hitchhikers = hitchhikerRepository.findActiveInRadiusFrom(radius, criteria.getLatitude(), criteria.getLongitude(), criteria.getDestination());
+
+		Collection<Resource<Hitchhiker>> hitchhikerCollection = new ArrayList<Resource<Hitchhiker>>();
+		for (Hitchhiker hitch : hitchhikers) {
+			hitchhikerCollection.add(hitchhikerResourceAssembler.toResource(hitch));
+		}
+
+		Resources<Resource<Hitchhiker>> hitchhikerResources = new Resources<Resource<Hitchhiker>>(
+				hitchhikerCollection);
+
+		return new ResponseEntity<Resources<Resource<Hitchhiker>>>(
+				hitchhikerResources, ControllersUtil.createHeaders(), HttpStatus.OK);
+	}
 }
