@@ -86,7 +86,7 @@ public class SendingNotificationsService {
 	 */
 	public void sendHitchhiker(Hitchhiker hitch) {
 		final String RADIUS = environment.getRequiredProperty(PROPERTY_NAME_NOTIFICATION_SPREAD);
-		List<String> devices = driverRepository.findDevicesInRadiusFrom(Double.parseDouble(RADIUS),				
+		List<String> devices = driverRepository.findActiveDevicesInRadiusFrom(Double.parseDouble(RADIUS),				
 				hitch.getGeoLatitude(), hitch.getGeoLongitude());
 		JsonObject json = convertHitchhikerToJson(hitch, prepareJsonBuilderWithMessageType(MSG_TYPE_NEW_HITCHHIKER));
 		sendMessagesToSpecifiedDevices(devices, json);
