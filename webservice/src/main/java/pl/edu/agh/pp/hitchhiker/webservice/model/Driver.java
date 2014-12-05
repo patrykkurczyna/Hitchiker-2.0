@@ -1,9 +1,6 @@
 package pl.edu.agh.pp.hitchhiker.webservice.model;
 
-import java.util.List;
-
 import javax.persistence.Column;
-import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -49,9 +46,7 @@ public class Driver {
 	
 	private boolean active = true;
 	
-    @Column
-    @ElementCollection(targetClass=String.class)
-	private List<String> destinations;
+	private String destination;
 	
 	public void setDeviceId(String deviceId) {
 		this.deviceId = deviceId;
@@ -139,6 +134,14 @@ public class Driver {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+
+	public String getDestination() {
+		return destination;
+	}
+
+	public void setDestination(String destination) {
+		this.destination = destination;
 	}
 	
 }

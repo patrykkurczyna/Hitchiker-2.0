@@ -12,8 +12,8 @@ public class HitchhikerSearchCriteria {
 	private Boolean children;
 	private Age ageType;
 	private SexType sexType;
-	private Baggage baggageFrom;
-	private int numberOfPassengers;
+	private Baggage baggageTo;
+	private Integer numberOfPassengersTo;
 	
 	public String getDestination() {
 		return destination;
@@ -63,20 +63,20 @@ public class HitchhikerSearchCriteria {
 		this.sexType = sexType;
 	}
 
-	public Baggage getBaggageFrom() {
-		return baggageFrom;
+	public Baggage getBaggageTo() {
+		return baggageTo;
 	}
 
-	public void setBaggageFrom(Baggage baggageFrom) {
-		this.baggageFrom = baggageFrom;
+	public void setBaggageTo(Baggage baggageTo) {
+		this.baggageTo = baggageTo;
 	}
 
-	public int getNumberOfPassengers() {
-		return numberOfPassengers;
+	public Integer getNumberOfPassengersTo() {
+		return numberOfPassengersTo;
 	}
 
-	public void setNumberOfPassengers(int numberOfPassengers) {
-		this.numberOfPassengers = numberOfPassengers;
+	public void setNumberOfPassengersTo(Integer numberOfPassengersTo) {
+		this.numberOfPassengersTo = numberOfPassengersTo;
 	}
 	
 }

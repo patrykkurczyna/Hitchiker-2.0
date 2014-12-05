@@ -23,6 +23,9 @@ import pl.edu.agh.pp.hitchhiker.webservice.repository.HitchhikerRepository;
 public class HitchhikerSearchController {
 	
 	@Autowired
+	HitchikerSearchProvider hitchikerSearchProvider;
+	
+	@Autowired
 	HitchhikerResourceAssembler hitchhikerResourceAssembler;
 	
 	@Autowired
@@ -34,7 +37,8 @@ public class HitchhikerSearchController {
 		Double radius = 10.0;
 		
 		List<Hitchhiker> hitchhikers = hitchhikerRepository.findActiveInRadiusFrom(radius, criteria.getLatitude(), criteria.getLongitude());
-
+		hitchhikers = hitchikerSearchProvider.find(hitchhikers, criteria);
+		
 		Collection<Resource<Hitchhiker>> hitchhikerCollection = new ArrayList<Resource<Hitchhiker>>();
 		for (Hitchhiker hitch : hitchhikers) {
 			hitchhikerCollection.add(hitchhikerResourceAssembler.toResource(hitch));

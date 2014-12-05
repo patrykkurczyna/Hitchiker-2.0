@@ -36,40 +36,52 @@ public class HitchikerSearchProvider {
 		return (matchChildren(hitch.isChildren(), criteria.getChildren()) &&
 				matchAgeType(hitch.getAgeType(), criteria.getAgeType()) &&
 				matchSexType(hitch.getSexType(), criteria.getSexType()) &&
-				matchNumberOfPassengers(hitch.getNumberOfPassengers(), criteria.getNumberOfPassengers()) &&
-				matchBaggageType(hitch.getBaggage(), criteria.getBaggageFrom()) &&
+				matchNumberOfPassengers(hitch.getNumberOfPassengers(), criteria.getNumberOfPassengersTo()) &&
+				matchBaggageType(hitch.getBaggage(), criteria.getBaggageTo()) &&
 				matchDestination(hitch.getDestinations(), hitch.getFinalDestination(), criteria.getDestination()));
 	}
 
-	private boolean matchDestination(List<String> destinations,
-			String finalDestination, String destination) {
-		// TODO Auto-generated method stub
-		return false;
+	private boolean matchDestination(List<String> hitchhikerDestinations,
+			String hitchhikerFinalDestination, String driverDestination) {
+		if (driverDestination != null) {
+			return (driverDestination.equals(hitchhikerFinalDestination) || hitchhikerDestinations.contains(driverDestination));
+		}
+		return true;
 	}
 
-	private boolean matchBaggageType(Baggage baggage, Baggage baggageFrom) {
-		// TODO Auto-generated method stub
-		return false;
+	private boolean matchBaggageType(Baggage baggage, Baggage driverMaxBaggage) {
+		if (driverMaxBaggage != null) {
+			return baggage.ordinal() <= driverMaxBaggage.ordinal();
+		}
+		return true;
 	}
 
-	private boolean matchNumberOfPassengers(int numberOfPassengers,
-			int numberOfPassengers2) {
-		// TODO Auto-generated method stub
-		return false;
+	private boolean matchNumberOfPassengers(Integer numberOfPassengers,
+			Integer driverMaxNumberOfPassengers) {
+		if (driverMaxNumberOfPassengers != null) {
+			return (numberOfPassengers <= driverMaxNumberOfPassengers);
+		}
+		return true;
 	}
 
-	private boolean matchSexType(SexType sexType, SexType sexType2) {
-		// TODO Auto-generated method stub
-		return false;
+	private boolean matchSexType(SexType sexType, SexType driverSexTypePref) {
+		if (driverSexTypePref != null) {
+			return (sexType == driverSexTypePref);
+		}
+		return true;
 	}
 
-	private boolean matchAgeType(Age ageType, Age ageType2) {
-		// TODO Auto-generated method stub
-		return false;
+	private boolean matchAgeType(Age ageType, Age driverAgeTypePref) {
+		if (driverAgeTypePref != null) {
+			return (ageType == driverAgeTypePref);
+		}
+		return true;
 	}
 
-	private boolean matchChildren(boolean children, Boolean children2) {
-		// TODO Auto-generated method stub
-		return false;
+	private boolean matchChildren(boolean children, Boolean driverWantsToTakeChildren) {
+		if (driverWantsToTakeChildren != null) {
+			return (children == driverWantsToTakeChildren);
+		}
+		return true;
 	}
 }
