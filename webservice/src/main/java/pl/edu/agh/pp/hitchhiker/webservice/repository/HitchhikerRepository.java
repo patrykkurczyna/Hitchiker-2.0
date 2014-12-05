@@ -23,6 +23,16 @@ public interface HitchhikerRepository extends PagingAndSortingRepository<Hitchhi
 			"cos(radians(:latitude)) * cos(radians(h.geoLatitude)) * cos(radians(h.geoLongitude) - radians(:longitude))) * 6371 <= :radius")	
 	public Page<Hitchhiker> findInRadiusFrom(@Param("radius") Double radius, @Param("latitude") Double latitude, @Param("longitude") Double longitude, Pageable pageable);
 	
+	@Query("SELECT h FROM Hitchhiker h WHERE acos(sin(radians(:latitude)) * sin(radians(h.geoLatitude)) + " +
+			"cos(radians(:latitude)) * cos(radians(h.geoLatitude)) * cos(radians(h.geoLongitude) - radians(:longitude))) * 6371 <= :radius" +
+			" and h.active = true and h.finalDestination like :destination")	
+	public Page<Hitchhiker> findActiveInRadiusFrom(@Param("radius") Double radius, @Param("latitude") Double latitude, @Param("longitude") Double longitude, @Param("destination") String destination, Pageable pageable);
+	
+	@Query("SELECT h FROM Hitchhiker h WHERE acos(sin(radians(:latitude)) * sin(radians(h.geoLatitude)) + " +
+			"cos(radians(:latitude)) * cos(radians(h.geoLatitude)) * cos(radians(h.geoLongitude) - radians(:longitude))) * 6371 <= :radius" +
+			" and h.active = true and h.finalDestination like :destination")	
+	public List<Hitchhiker> findActiveInRadiusFrom(@Param("radius") Double radius, @Param("latitude") Double latitude, @Param("longitude") Double longitude, @Param("destination") String destination);
+	
 	public Page<Hitchhiker> findByGeoLatitudeAndGeoLongitude(@Param("geoLatitude") String geoLatitude, @Param("geoLongitude") String geoLongitude, Pageable pageable);
 	
 	public Hitchhiker findById(@Param("id") Integer id);

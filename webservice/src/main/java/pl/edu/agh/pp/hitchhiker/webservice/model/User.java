@@ -14,6 +14,8 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import pl.edu.agh.pp.hitchhiker.webservice.util.BCrypt;
 
 @Entity
@@ -43,11 +45,11 @@ public class User {
 	private String email;
 	
 	private String phone;
-
+	
 	@OneToMany
 	@JoinColumn(name = "user_id")
 	private List<Hitchhiker> hitchhikers = null;
-
+	
 	@OneToMany
 	@JoinColumn(name = "user_id")
 	private List<Driver> drivers = null;
