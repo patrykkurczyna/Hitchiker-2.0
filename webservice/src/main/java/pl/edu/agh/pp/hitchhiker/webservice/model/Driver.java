@@ -30,7 +30,7 @@ public class Driver {
 	/**
 	 * android device unique id, used for sending gcm notifications, see {@link SendingNotificationsService}
 	 */
-	@Column(unique = true)
+	@Column
 	@NotNull
 	private String deviceId;
 	
@@ -87,7 +87,7 @@ public class Driver {
      */
     @NotNull
     @Column(name = "active")
-	private boolean active = true;
+	private boolean active;
 	
 	/**
 	 * Indicating a place where driver is heading
@@ -197,5 +197,12 @@ public class Driver {
 	public void setNumberOfPassengers(int numberOfPassengers) {
 		this.numberOfPassengers = numberOfPassengers;
 	}
+
+	public Integer getId() {
+		return this.id;
+	}
 	
+	public void setId(Integer id) {
+		this.id = id;
+	}
 }

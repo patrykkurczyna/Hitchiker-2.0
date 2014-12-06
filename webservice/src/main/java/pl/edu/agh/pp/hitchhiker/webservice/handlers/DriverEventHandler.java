@@ -10,6 +10,7 @@ import org.springframework.data.rest.repository.annotation.HandleBeforeSave;
 import org.springframework.data.rest.repository.annotation.RepositoryEventHandler;
 
 import pl.edu.agh.pp.hitchhiker.webservice.model.Driver;
+import pl.edu.agh.pp.hitchhiker.webservice.model.Hitchhiker;
 import pl.edu.agh.pp.hitchhiker.webservice.repository.DriverRepository;
 
 /**
@@ -35,11 +36,22 @@ public class DriverEventHandler {
 	 */
 	@HandleBeforeSave
 	public void checkIfThereAreNoActive(Driver driver) throws TooManyActiveException{
+		Driver driverInDb = driverRepository.findById(driver.getId());
 		Long numberOfActive = driverRepository.countActive(driver.getUser().getId());
-		if (driver.isActive() && numberOfActive > 0.0) {
-			LOGGER.error("There's already an active Driver, cannot create another");
-			throw new TooManyActiveException();
-		}
+		if (driverInDb != null) {
+			//driver is already in db so it is update
+			if (driver.isActive() && !driverInDb.isActive() && numberOfActive > 0.0) {
+				//if he wants to change from no active to active
+				LOGGER.error("There's already an active Driver, cannot update to active");
+				throw new TooManyActiveException();
+			}
+		} else {
+			//driver is new
+			if (driver.isActive() && numberOfActive > 0.0) {
+				LOGGER.error("There's already an active Driver, cannot create another");
+				throw new TooManyActiveException();
+			}
+		}	
 	}
 	
 }

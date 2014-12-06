@@ -34,7 +34,7 @@ public class Hitchhiker {
 	/**
 	 * android device unique id, used for sending gcm notifications, see {@link SendingNotificationsService}
 	 */
-	@Column(unique = true)
+	@Column
 	@NotNull
 	private String deviceId;
 	
@@ -67,7 +67,7 @@ public class Hitchhiker {
      */
     @NotNull
     @Column(name = "active")
-    private boolean active = true;
+    private boolean active;
 	
     /**
      * Coordinates of hitchhiker

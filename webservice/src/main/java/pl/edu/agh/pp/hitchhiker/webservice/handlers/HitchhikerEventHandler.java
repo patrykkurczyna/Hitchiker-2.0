@@ -41,11 +41,22 @@ public class HitchhikerEventHandler {
 	 */
 	@HandleBeforeSave
 	public void checkIfThereAreNoActive(Hitchhiker hitchhiker) throws TooManyActiveException{
+		Hitchhiker hitchInDb = hitchhikerRepository.findById(hitchhiker.getId());
 		Long numberOfActive = hitchhikerRepository.countActive(hitchhiker.getUser().getId());
-		if (hitchhiker.isActive() && numberOfActive > 0.0) {
-			LOGGER.error("There's already an active Hitchhiker, cannot create another");
-			throw new TooManyActiveException();
-		}
+		if (hitchInDb != null) {
+			//hitchhiker is already in db so it is update
+			if (hitchhiker.isActive() && !hitchInDb.isActive() && numberOfActive > 0.0) {
+				//if he wants to change from no active to active
+				LOGGER.error("There's already an active Hitchhiker, cannot create another");
+				throw new TooManyActiveException();
+			}
+		} else {
+			//hitchhiker is new
+			if (hitchhiker.isActive() && numberOfActive > 0.0) {
+				LOGGER.error("There's already an active Hitchhiker, cannot create another");
+				throw new TooManyActiveException();
+			}
+		}		
 	}
 	
 	/**
