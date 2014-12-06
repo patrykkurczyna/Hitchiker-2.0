@@ -55,7 +55,7 @@
             android:layout_marginLeft="10dp">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/age_hint"
                 android:id="@+id/ageHint"
@@ -63,7 +63,7 @@
                 android:layout_weight="1" />
 
             <Spinner
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/age_spinner"
                 android:layout_weight="1"
@@ -80,7 +80,7 @@
             android:layout_marginLeft="10dp">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/baggage_hint"
                 android:id="@+id/baggageHint"
@@ -88,7 +88,7 @@
                 android:layout_weight="1" />
 
             <Spinner
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/baggageSpinner"
                 android:layout_weight="1" />
@@ -104,7 +104,7 @@
             android:layout_marginLeft="10dp">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/sex_hint"
                 android:id="@+id/sexHint"
@@ -112,7 +112,7 @@
                 android:layout_weight="1" />
 
             <Spinner
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/sexSpinner"
                 android:layout_marginBottom="10dp"
