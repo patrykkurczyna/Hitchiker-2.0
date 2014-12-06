@@ -122,15 +122,9 @@ public class RegisterHitchhikerFragment extends Fragment {
         hitchhiker.setDestinations(destinations);
 
         service.registerHitchhiker(hitchhiker);
-
     }
 
     public void onEventMainThread(RegisterHitchhikerSuccess event) {
-//        Intent intent = new Intent(getActivity(), SavedLocationActivity.class);
-//        intent.putExtra(SavedLocationActivity.LATITUDE, latitude);
-//        intent.putExtra(SavedLocationActivity.LONGITUDE, longitude);
-//        startActivity(intent);
-
         if (getActivity() instanceof HitchhikerInterface) {
             Toast.makeText(getActivity(), R.string.saved_info, Toast.LENGTH_LONG).show();
             ((HitchhikerInterface) getActivity()).hitchhikerRegistered(registeredLocation);

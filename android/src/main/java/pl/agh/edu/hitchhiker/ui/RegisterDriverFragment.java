@@ -12,6 +12,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.wrapp.floatlabelededittext.FloatLabeledEditText;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
@@ -37,6 +42,10 @@ public class RegisterDriverFragment extends Fragment {
     Spinner baggageSpinner;
     @InjectView(R.id.sexSpinner)
     Spinner sexSpinner;
+    @InjectView(R.id.editDestination)
+    FloatLabeledEditText destination;
+    @InjectView(R.id.freeSeats)
+    FloatLabeledEditText freeSeats;
     private Location registeredLocation;
 
     @OnClick(R.id.saveButton)
@@ -65,16 +74,22 @@ public class RegisterDriverFragment extends Fragment {
         Driver driver = new Driver();
         driver.setGeoLatitude(latitude);
         driver.setGeoLongitude(longitude);
+
+        if(!destination.toString().isEmpty()) {
+            List<String> destinations = new ArrayList<>();
+            destinations.add(destination.toString());
+            driver.setDestinations(destinations);
+        }
+
+        if (freeSeats.getEditText().length() > 0) {
+            driver.setFreeSeats(
+                    Integer.valueOf(freeSeats.getTextString()));
+        }
+
         service.registerDriver(driver);
     }
 
     public void onEventMainThread(RegisterDriverSuccess event) {
-//        Intent intent = new Intent(getActivity(), SavedLocationActivity.class);
-//        intent.putExtra(SavedLocationActivity.LATITUDE, latitude);
-//        intent.putExtra(SavedLocationActivity.LONGITUDE, longitude);
-//        intent.putExtra(SavedLocationActivity.IS_DRIVER, true);
-//        startActivity(intent);
-
         if (getActivity() instanceof HitchhikerInterface) {
             Toast.makeText(getActivity(), R.string.saved_info, Toast.LENGTH_LONG).show();
             ((HitchhikerInterface) getActivity()).driverRegistered(registeredLocation);
