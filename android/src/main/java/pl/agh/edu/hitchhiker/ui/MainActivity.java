@@ -37,10 +37,7 @@ public class MainActivity extends Activity {
 
     public void onEventMainThread(AuthorizeUserSuccess event) {
         Log.d(TAG, "authorize success");
-        Intent intent = new Intent(this, LoggedActivity.class);
-        if (notiExtras != null)
-            intent.putExtras(notiExtras);
-        startActivityForResult(intent, SAVE_FORM_CODE);
+        afterAuthorization();
     }
 
     public void onEventMainThread(AuthorizeUserFailure event) {
@@ -126,11 +123,22 @@ public class MainActivity extends Activity {
 
         CredentialStorage.INSTANCE.setDeviceId(regId);
 
-        User user = new User();
-        user.setLogin("test" + new Random().nextInt());
-        user.setPassword("test");
-        user.setFirstname("ala");
-        user.setLastname("bala");
-        apiService.authorizeUser(user);
+        if (!CredentialStorage.INSTANCE.isLogged()) {
+            User user = new User();
+            user.setLogin("test" + new Random().nextInt());
+            user.setPassword("test");
+            user.setFirstname("ala");
+            user.setLastname("bala");
+            apiService.authorizeUser(user);
+        } else {
+            afterAuthorization();
+        }
+    }
+
+    private void afterAuthorization() {
+        Intent intent = new Intent(this, LoggedActivity.class);
+        if (notiExtras != null)
+            intent.putExtras(notiExtras);
+        startActivityForResult(intent, SAVE_FORM_CODE);
     }
 }

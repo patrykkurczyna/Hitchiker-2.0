@@ -6,7 +6,7 @@ public enum CredentialStorage {
     INSTANCE;
 
     private static final String DEVICE_ID = "hitchhiker.device_id";
-    private static final String USER_LOCATION = "hitchhiker.device_id";
+    private static final String USER_LOCATION = "hitchhiker.user_location";
     private static final String DRIVER_REGISTERED = "hitchhiker.driver_id";
     private static final String HITCHHIKER_REGISTERED = "hitchhiker.hitchhiker_id";
 

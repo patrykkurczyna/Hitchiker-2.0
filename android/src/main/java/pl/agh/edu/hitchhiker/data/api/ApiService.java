@@ -1,6 +1,10 @@
 package pl.agh.edu.hitchhiker.data.api;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import pl.agh.edu.hitchhiker.data.api.callback.AuthorizeUserCallback;
+import pl.agh.edu.hitchhiker.data.api.callback.NearestHitchhikersCallback;
 import pl.agh.edu.hitchhiker.data.api.callback.RegisterDriverCallback;
 import pl.agh.edu.hitchhiker.data.api.callback.RegisterHitchhikerCallback;
 import pl.agh.edu.hitchhiker.data.api.callback.UnregisterDriverCallback;
@@ -39,5 +43,11 @@ public class ApiService {
         mInterface.unregisterDriver(driverId, new DriverUnregister(), new UnregisterDriverCallback());
     }
 
+    public void getNearestHitchhikers(int driverId) {
+        Map<String, String> params = new HashMap<>();
+        params.put("driverId", String.valueOf(driverId));
+        params.put("radius", String.valueOf(150));
+        mInterface.getNearestHitchhikers(params, new NearestHitchhikersCallback());
+    }
 
 }

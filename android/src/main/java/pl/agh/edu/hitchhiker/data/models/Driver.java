@@ -13,7 +13,7 @@ public class Driver {
     private Double geoLongitude;
     private Integer freeSeats;
     @SerializedName("ageType")
-    private Age prefAge = Age.MIDDLE;
+    private Age prefAge;
     @SerializedName("baggage")
     private Baggage prefBaggage;
     private SexType prefSexType;

@@ -62,6 +62,15 @@ public class LoggedActivity extends Activity implements HitchhikerInterface, Goo
 
         setContentView(R.layout.activity_logged);
         ButterKnife.inject(this);
+
+        if (CredentialStorage.INSTANCE.getRegisteredDriver() != -1) {
+            personRegistered = PersonRegistered.DRIVER;
+            Log.d(TAG, "started as driver");
+        } else if (CredentialStorage.INSTANCE.getRegisteredHitchhiker() != -1) {
+            personRegistered = PersonRegistered.HITCHHIKER;
+            Log.d(TAG, "started as hitchhiker");
+        }
+
         mLocationClient = new LocationClient(this, this, this);
         mLocationClient.connect();
 
@@ -104,12 +113,6 @@ public class LoggedActivity extends Activity implements HitchhikerInterface, Goo
         };
 
         mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-        if (CredentialStorage.INSTANCE.getRegisteredDriver() != -1) {
-            personRegistered = PersonRegistered.DRIVER;
-        } else if (CredentialStorage.INSTANCE.getRegisteredHitchhiker() != -1) {
-            personRegistered = PersonRegistered.HITCHHIKER;
-        }
 
     }
 
@@ -244,6 +247,7 @@ public class LoggedActivity extends Activity implements HitchhikerInterface, Goo
     }
 
     private void selectItem(int position) {
+        Log.d(TAG, "selectItem: " + position);
         if (currentSelected == position) {
             mDrawerLayout.closeDrawer(mDrawerList);
             return;
@@ -256,6 +260,7 @@ public class LoggedActivity extends Activity implements HitchhikerInterface, Goo
                 if (savedLocation == null) {
                     break;
                 }
+                Log.d(TAG, "show map");
                 Bundle args = new Bundle();
                 args.putDouble(MapFragment.LATITUDE, savedLocation.getLatitude());
                 args.putDouble(MapFragment.LONGITUDE, savedLocation.getLongitude());
@@ -297,9 +302,9 @@ public class LoggedActivity extends Activity implements HitchhikerInterface, Goo
             Intent intent = getIntent();
             if (intent != null && intent.hasExtra(MainActivity.FROM_NOTIFICATION)) {
                 Log.d(TAG, "from notification");
-                savedLocation = getLocation();
                 notiExtras = intent.getExtras();
             }
+            savedLocation = getLocation();
             selectItem(0);
             initial = false;
         }
