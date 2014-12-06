@@ -8,6 +8,7 @@ import pl.agh.edu.hitchhiker.data.api.callback.RegisterDriverCallback;
 import pl.agh.edu.hitchhiker.data.api.callback.RegisterHitchhikerCallback;
 import pl.agh.edu.hitchhiker.data.api.callback.UnregisterDriverCallback;
 import pl.agh.edu.hitchhiker.data.api.callback.UnregisterHitchhikerCallback;
+import pl.agh.edu.hitchhiker.data.api.callback.WantToTakeCallback;
 import pl.agh.edu.hitchhiker.data.models.Driver;
 import pl.agh.edu.hitchhiker.data.models.DriverUnregister;
 import pl.agh.edu.hitchhiker.data.models.Hitchhiker;
@@ -18,6 +19,7 @@ import retrofit.http.GET;
 import retrofit.http.POST;
 import retrofit.http.PUT;
 import retrofit.http.Path;
+import retrofit.http.Query;
 import retrofit.http.QueryMap;
 
 public interface ApiInterface {
@@ -41,4 +43,9 @@ public interface ApiInterface {
 
     @GET("/findHitchhikers")
     void getNearestHitchhikers(@QueryMap Map<String, String> queryParams, NearestHitchhikersCallback callback);
+
+    @GET("/driverWantsToTakeHitch")
+    void wantToTakeHitchhiker(@Query("hitchId") int hitchhikerId, @Query("driverId") int driverId,
+                              WantToTakeCallback callback);
+
 }

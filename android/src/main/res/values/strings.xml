@@ -90,5 +90,8 @@
     <string name="delete_destination">Usuń</string>
     <string name="logout">Wyloguj się</string>
     <string name="car_info">Opis samochodu</string>
+    <string name="want_take">Chcesz zabrac tego autostopowicza?</string>
+    <string name="yes">Tak</string>
+    <string name="no">Nie</string>
 
 </resources>
