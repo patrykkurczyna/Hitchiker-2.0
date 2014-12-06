@@ -3,14 +3,13 @@ package pl.agh.edu.hitchhiker.data.models;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import pl.agh.edu.hitchhiker.utils.CredentialStorage;
 
 public class Hitchhiker {
     private String finalDestination;
-    private List<String> destinations = new ArrayList<String>();
+    private List<String> destinations;
     private Double geoLatitude;
     private Double geoLongitude;
     private Integer numberOfPassengers;

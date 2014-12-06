@@ -29,7 +29,7 @@ import pl.agh.edu.hitchhiker.utils.CredentialStorage;
 
 public class MapFragment extends Fragment {
     public static final String TAG = MapFragment.class.getSimpleName();
-    public static final int REFRESH_TIME = 5 * 60 * 1000; // millis
+    public static final int REFRESH_TIME =  30 * 1000; // millis
     public static final String LONGITUDE = TAG + ".longitude";
     public static final String LATITUDE = TAG + ".latitude";
     public static final String IS_DRIVER = TAG + ".is_driver";

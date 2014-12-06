@@ -14,6 +14,9 @@ import android.widget.Toast;
 
 import com.wrapp.floatlabelededittext.FloatLabeledEditText;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
@@ -111,6 +114,13 @@ public class RegisterHitchhikerFragment extends Fragment {
         if (withChildren.isChecked()) {
             hitchhiker.setWithChildren(true);
         }
+        List<String> destinations = new ArrayList<>();
+        for(int i = 0; i < destinationsContainer.getChildCount(); ++i) {
+            FloatLabeledEditText view = (FloatLabeledEditText)destinationsContainer.getChildAt(i);
+            destinations.add(view.getTextString());
+        }
+        hitchhiker.setDestinations(destinations);
+
         service.registerHitchhiker(hitchhiker);
 
     }
