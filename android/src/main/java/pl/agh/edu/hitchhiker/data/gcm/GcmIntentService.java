@@ -11,6 +11,8 @@ import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import pl.agh.edu.hitchhiker.R;
+import pl.agh.edu.hitchhiker.ui.MainActivity;
+import pl.agh.edu.hitchhiker.ui.MapFragment;
 import pl.agh.edu.hitchhiker.ui.SavedLocationActivity;
 
 public class GcmIntentService extends IntentService {
@@ -45,14 +47,13 @@ public class GcmIntentService extends IntentService {
         NotificationManager mNotificationManager = (NotificationManager)
                 this.getSystemService(Context.NOTIFICATION_SERVICE);
 
-        Intent intent = new Intent(this, SavedLocationActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        intent.putExtra(SavedLocationActivity.IS_DRIVER, true);
-        intent.putExtra(SavedLocationActivity.FROM_NOTI, true);
-        intent.putExtra(SavedLocationActivity.NOTI_LONGITUDE, Double.valueOf(extras.getString(LONGITUDE)));
-        intent.putExtra(SavedLocationActivity.NOTI_LATITUDE, Double.valueOf(extras.getString(LATITUDE)));
-        intent.putExtra(SavedLocationActivity.NOTI_LOGIN, extras.getString(LOGIN));
-        intent.putExtra(SavedLocationActivity.NOTI_DESTINATION, extras.getString(FINAL_DESTINATION));
+        Intent intent = new Intent(this, MainActivity.class);
+        intent.putExtra(MainActivity.FROM_NOTIFICATION, true);
+        intent.putExtra(MapFragment.IS_DRIVER, true);
+        intent.putExtra(MapFragment.NOTI_LONGITUDE, Double.valueOf(extras.getString(LONGITUDE)));
+        intent.putExtra(MapFragment.NOTI_LATITUDE, Double.valueOf(extras.getString(LATITUDE)));
+        intent.putExtra(MapFragment.NOTI_LOGIN, extras.getString(LOGIN));
+        intent.putExtra(MapFragment.NOTI_DESTINATION, extras.getString(FINAL_DESTINATION));
         PendingIntent pIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         String content = String.format("Za 10km czeka 1 autospowicz do %s", extras.getString(FINAL_DESTINATION));

@@ -18,7 +18,7 @@ public class AuthorizeUserCallback implements Callback<User> {
     public void success(User user, Response response) {
         for(Header header : response.getHeaders()) {
             if(LOCATION.equals(header.getName())) {
-                CredentialStorage.INSTANCE.setLocation(new Location(header.getValue()));
+                CredentialStorage.INSTANCE.setUserLocation(new Location(header.getValue()));
                 break;
             }
         }

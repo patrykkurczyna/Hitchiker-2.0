@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.location.Location;
 import android.os.Bundle;
@@ -23,29 +24,42 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient;
 import com.google.android.gms.location.LocationClient;
 
+import javax.inject.Inject;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import pl.agh.edu.hitchhiker.HitchhikerApp;
 import pl.agh.edu.hitchhiker.R;
+import pl.agh.edu.hitchhiker.data.api.ApiService;
+import pl.agh.edu.hitchhiker.utils.CredentialStorage;
 
 public class LoggedActivity extends Activity implements HitchhikerInterface, GooglePlayServicesClient.ConnectionCallbacks,
         GooglePlayServicesClient.OnConnectionFailedListener {
 
     public static final String TAG = "LoggedActivity";
+
+    PersonRegistered personRegistered = PersonRegistered.NONE;
+    @Inject
+    ApiService apiService;
     @InjectView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
     @InjectView(R.id.left_drawer)
     ListView mDrawerList;
-    PersonRegistered personRegistered = PersonRegistered.NONE;
     private ActionBarDrawerToggle mDrawerToggle;
     private String[] mStrings;
     private String title;
     private LocationClient mLocationClient;
     private int currentSelected = -1;
     private Location savedLocation;
+    private Bundle notiExtras;
+    private boolean initial = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ((HitchhikerApp) getApplicationContext()).inject(this);
+//        EventBus.getDefault().register(this);
+
         setContentView(R.layout.activity_logged);
         ButterKnife.inject(this);
         mLocationClient = new LocationClient(this, this, this);
@@ -79,17 +93,22 @@ public class LoggedActivity extends Activity implements HitchhikerInterface, Goo
             }
 
             public void onDrawerOpened(View drawerView) {
-                InputMethodManager imm = (InputMethodManager)getSystemService(
+                // hide keyboard
+                InputMethodManager imm = (InputMethodManager) getSystemService(
                         Context.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                imm.hideSoftInputFromWindow(getWindow().getDecorView().getRootView().getWindowToken(), 0);
+
                 getActionBar().setTitle(getString(R.string.app_name));
                 invalidateOptionsMenu(); // creates call to onPrepareOptionsMenu()
             }
         };
+
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-        if (savedInstanceState == null) {
-            selectItem(0);
+        if (CredentialStorage.INSTANCE.getRegisteredDriver() != -1) {
+            personRegistered = PersonRegistered.DRIVER;
+        } else if (CredentialStorage.INSTANCE.getRegisteredHitchhiker() != -1) {
+            personRegistered = PersonRegistered.HITCHHIKER;
         }
 
     }
@@ -98,6 +117,7 @@ public class LoggedActivity extends Activity implements HitchhikerInterface, Goo
     protected void onDestroy() {
         ButterKnife.reset(this);
         mLocationClient.disconnect();
+//        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 
@@ -162,6 +182,7 @@ public class LoggedActivity extends Activity implements HitchhikerInterface, Goo
     @Override
     public void onConnected(Bundle bundle) {
         Log.d(TAG, "onConnected");
+        afterConnected();
     }
 
     @Override
@@ -205,6 +226,15 @@ public class LoggedActivity extends Activity implements HitchhikerInterface, Goo
     @Override
     public void unregister() {
         savedLocation = null;
+        switch (personRegistered) {
+            case DRIVER:
+                apiService.unregisterDriver(CredentialStorage.INSTANCE.getRegisteredDriver());
+                break;
+            case HITCHHIKER:
+                apiService.unregisterHitchhiker(CredentialStorage.INSTANCE.getRegisteredHitchhiker());
+                break;
+        }
+
         personRegistered = PersonRegistered.NONE;
     }
 
@@ -230,6 +260,10 @@ public class LoggedActivity extends Activity implements HitchhikerInterface, Goo
                 args.putDouble(MapFragment.LATITUDE, savedLocation.getLatitude());
                 args.putDouble(MapFragment.LONGITUDE, savedLocation.getLongitude());
                 args.putBoolean(MapFragment.IS_DRIVER, personRegistered == PersonRegistered.DRIVER);
+                if (notiExtras != null) {
+                    Log.d(TAG, "pass notification extras");
+                    args.putAll(notiExtras);
+                }
                 fragment.setArguments(args);
                 break;
             case 1:
@@ -258,6 +292,18 @@ public class LoggedActivity extends Activity implements HitchhikerInterface, Goo
         mDrawerLayout.closeDrawer(mDrawerList);
     }
 
+    private void afterConnected() {
+        if (initial) {
+            Intent intent = getIntent();
+            if (intent != null && intent.hasExtra(MainActivity.FROM_NOTIFICATION)) {
+                Log.d(TAG, "from notification");
+                savedLocation = getLocation();
+                notiExtras = intent.getExtras();
+            }
+            selectItem(0);
+            initial = false;
+        }
+    }
 
     /* The click listner for ListView in the navigation drawer */
     private class DrawerItemClickListener implements ListView.OnItemClickListener {

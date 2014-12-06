@@ -58,9 +58,9 @@ public class RegisterDriverFragment extends Fragment {
         double latitude = registeredLocation.getLatitude();
         double longitude = registeredLocation.getLongitude();
 
-        ((HitchhikerInterface) getActivity()).driverRegistered(registeredLocation);
-        if (true)
-            return;
+//        ((HitchhikerInterface) getActivity()).driverRegistered(registeredLocation);
+//        if (true)
+//            return;
 
         Driver driver = new Driver();
         driver.setGeoLatitude(latitude);

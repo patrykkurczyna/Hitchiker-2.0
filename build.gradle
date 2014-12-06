@@ -9,7 +9,7 @@ buildscript {
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.12.+'
+        classpath 'com.android.tools.build:gradle:0.14.2'
         classpath 'com.jimdo.gradle:gradle-apt-plugin:0.2-SNAPSHOT'
     }
 }
@@ -19,3 +19,4 @@ allprojects {
         mavenCentral()
     }
 }
+

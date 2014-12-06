@@ -22,10 +22,10 @@ public class Driver {
     @SerializedName("user")
     private Location location;
     private String deviceId;
-    private boolean active = false;
+    private boolean active = true;
 
     public Driver() {
-        location = CredentialStorage.INSTANCE.getLocation();
+        location = CredentialStorage.INSTANCE.getUserLocation();
         deviceId = CredentialStorage.INSTANCE.getDeviceId();
     }
 

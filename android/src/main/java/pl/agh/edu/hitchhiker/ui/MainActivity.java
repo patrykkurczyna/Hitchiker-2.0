@@ -1,9 +1,7 @@
 package pl.agh.edu.hitchhiker.ui;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -25,20 +23,23 @@ import pl.agh.edu.hitchhiker.utils.CredentialStorage;
 
 
 public class MainActivity extends Activity {
-    private static final String TAG = MainActivity.class.getSimpleName();
     public static final String PROPERTY_REG_ID = "registration_id";
+    public static final String FROM_NOTIFICATION = "from notification";
     public final static int SAVE_FORM_CODE = 1000;
     public final static int EDIT_FORM_CODE = 1001;
     public final static int RESULT_CODE_QUIT = 10001;
+    private static final String TAG = MainActivity.class.getSimpleName();
     private static final String SENDER_ID = "441315978791";
-
     @Inject
     ApiService apiService;
+    private Bundle notiExtras;
     private GoogleCloudMessaging gcm;
 
     public void onEventMainThread(AuthorizeUserSuccess event) {
         Log.d(TAG, "authorize success");
-        Intent intent = new Intent(this, RegisterLocationActivity.class);
+        Intent intent = new Intent(this, LoggedActivity.class);
+        if (notiExtras != null)
+            intent.putExtras(notiExtras);
         startActivityForResult(intent, SAVE_FORM_CODE);
     }
 
@@ -49,8 +50,16 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        CredentialStorage.INSTANCE.init();
+
         ((HitchhikerApp) getApplicationContext()).inject(this);
         EventBus.getDefault().register(this);
+
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra(FROM_NOTIFICATION)) {
+            notiExtras = intent.getExtras();
+            Log.d(TAG, "from notification");
+        }
 
         String regId = getRegistrationId();
         if (regId.isEmpty()) {
@@ -59,8 +68,9 @@ public class MainActivity extends Activity {
             saveRegistrationId(regId);
         }
 
-        Intent intent = new Intent(this, LoggedActivity.class);
-        startActivityForResult(intent, SAVE_FORM_CODE);
+
+//        Intent intent = new Intent(this, LoggedActivity.class);
+//        startActivityForResult(intent, SAVE_FORM_CODE);
     }
 
 
@@ -69,9 +79,6 @@ public class MainActivity extends Activity {
         super.onActivityResult(requestCode, resultCode, data);
 
         switch (resultCode) {
-            case RegisterLocationActivity.FORM_REJECTED_CODE:
-                finish();
-                break;
             case RESULT_CODE_QUIT:
                 finish();
                 break;
@@ -111,22 +118,12 @@ public class MainActivity extends Activity {
     }
 
     private String getRegistrationId() {
-        final SharedPreferences prefs = getSharedPreferences(MainActivity.class.getSimpleName(),
-                Context.MODE_PRIVATE);
-        String registrationId = prefs.getString(PROPERTY_REG_ID, "");
-        if (registrationId.isEmpty()) {
-            Log.d(TAG, "Registration id not found.");
-            return "";
-        }
-        return registrationId;
+        return CredentialStorage.INSTANCE.getDeviceId();
     }
 
     private void saveRegistrationId(String regId) {
         Log.d(TAG, "Save regId: " + regId);
 
-        final SharedPreferences prefs = getSharedPreferences(MainActivity.class.getSimpleName(),
-                Context.MODE_APPEND);
-        prefs.edit().putString(PROPERTY_REG_ID, regId).apply();
         CredentialStorage.INSTANCE.setDeviceId(regId);
 
         User user = new User();

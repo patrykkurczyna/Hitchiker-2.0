@@ -67,9 +67,9 @@ public class RegisterHitchhikerFragment extends Fragment {
             Toast.makeText(getActivity(), R.string.error_location, Toast.LENGTH_SHORT).show();
             return;
         }
-        ((HitchhikerInterface) getActivity()).hitchhikerRegistered(registeredLocation);
-        if (true)
-            return;
+//        ((HitchhikerInterface) getActivity()).hitchhikerRegistered(registeredLocation);
+//        if (true)
+//            return;
 
         double latitude = registeredLocation.getLatitude();
         double longitude = registeredLocation.getLongitude();
