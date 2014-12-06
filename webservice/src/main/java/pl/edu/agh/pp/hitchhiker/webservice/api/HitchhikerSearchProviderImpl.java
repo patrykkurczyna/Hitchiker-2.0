@@ -6,12 +6,12 @@ import java.util.List;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.mysql.jdbc.Driver;
-
 import pl.edu.agh.pp.hitchhiker.webservice.model.AgeType;
 import pl.edu.agh.pp.hitchhiker.webservice.model.BaggageType;
 import pl.edu.agh.pp.hitchhiker.webservice.model.Hitchhiker;
 import pl.edu.agh.pp.hitchhiker.webservice.model.SexType;
+
+import com.mysql.jdbc.Driver;
 
 /**
  * See {@link HitchhikerSearchProvider}
@@ -20,7 +20,7 @@ import pl.edu.agh.pp.hitchhiker.webservice.model.SexType;
  */
 @Repository
 @Transactional
-public class HitchikerSearchProviderImpl implements HitchhikerSearchProvider {
+public class HitchhikerSearchProviderImpl implements HitchhikerSearchProvider {
 	
 	public final List<Hitchhiker> find(List<Hitchhiker> hitchhikers, final HitchhikerSearchCriteria criteria) {
 		List<Hitchhiker> resultList = new ArrayList<Hitchhiker>();

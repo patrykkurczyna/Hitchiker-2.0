@@ -5,6 +5,7 @@ import java.util.Properties;
 import javax.annotation.Resource;
 import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
+import javax.transaction.TransactionManager;
 
 import org.hibernate.ejb.HibernatePersistence;
 import org.springframework.context.annotation.Bean;
@@ -26,6 +27,8 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import pl.edu.agh.pp.hitchhiker.service.gcm.SendingNotificationsService;
 import pl.edu.agh.pp.hitchhiker.service.gcm.SendingNotificationsServiceImpl;
 import pl.edu.agh.pp.hitchhiker.webservice.api.HitchhikerResourceAssembler;
+import pl.edu.agh.pp.hitchhiker.webservice.api.HitchhikerSearchProvider;
+import pl.edu.agh.pp.hitchhiker.webservice.api.HitchhikerSearchProviderImpl;
 import pl.edu.agh.pp.hitchhiker.webservice.handlers.DriverEventHandler;
 import pl.edu.agh.pp.hitchhiker.webservice.handlers.HitchhikerEventHandler;
 import pl.edu.agh.pp.hitchhiker.webservice.handlers.UserEventHandler;
@@ -134,6 +137,15 @@ public class AppConfiguration {
 	@Bean
 	public HitchhikerResourceAssembler hitchhikerResourceAssembler() {
 		return new HitchhikerResourceAssembler();
+	}
+	
+	/**
+	 * Hitchhiker search provider bean initialization
+	 * @return {@link HitchhikerSearchProvider}
+	 */
+	@Bean
+	public HitchhikerSearchProvider hitchhikerSearchProvider() {
+		return new HitchhikerSearchProviderImpl();
 	}
 	
 	/**

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import pl.edu.agh.pp.hitchhiker.webservice.api.ApiUtil;
 import pl.edu.agh.pp.hitchhiker.webservice.api.HitchhikerResourceAssembler;
 import pl.edu.agh.pp.hitchhiker.webservice.api.HitchhikerSearchCriteria;
+import pl.edu.agh.pp.hitchhiker.webservice.api.HitchhikerSearchCriteriaImpl;
 import pl.edu.agh.pp.hitchhiker.webservice.api.HitchhikerSearchProvider;
 import pl.edu.agh.pp.hitchhiker.webservice.model.Hitchhiker;
 import pl.edu.agh.pp.hitchhiker.webservice.repository.HitchhikerRepository;
@@ -49,7 +50,7 @@ public class HitchhikerSearchController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/findHitchhikers", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	HttpEntity<Resources<Resource<Hitchhiker>>> findMatchingHitchhikers(HitchhikerSearchCriteria criteria) {
+	HttpEntity<Resources<Resource<Hitchhiker>>> findMatchingHitchhikers(HitchhikerSearchCriteriaImpl criteria) {
 		List<Hitchhiker> hitchhikers = hitchhikerRepository.findActiveInRadiusFrom(criteria.getRadius(), criteria.getLatitude(), criteria.getLongitude());
 		hitchhikers = hitchikerSearchProvider.find(hitchhikers, criteria);
 		
