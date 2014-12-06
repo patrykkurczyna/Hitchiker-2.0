@@ -2,6 +2,7 @@ package pl.edu.agh.pp.hitchhiker.webservice.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -37,13 +38,13 @@ public class DriverToHitchhikerActionsController {
 	 * @param driverId id of {@link Driver} who sends notification
 	 */
 	@RequestMapping(value = "/driverWantsToTakeHitch", method = RequestMethod.GET)
-	HttpStatus driverWantsToTakeHitch(@RequestParam("hitchId") final Integer hitchId, @RequestParam("driverId") final Integer driverId) {
+	ResponseEntity<String> driverWantsToTakeHitch(@RequestParam("hitchId") final Integer hitchId, @RequestParam("driverId") final Integer driverId) {
 		Hitchhiker hitch = hitchhikerRepository.findById(hitchId);
 		if (hitch != null && hitch.isActive())  {
 			service.sendDriverWantsToTakeYou(driverRepository.findById(driverId), hitch);
-			return HttpStatus.ACCEPTED;
+			return new ResponseEntity<String>(HttpStatus.ACCEPTED);
 		}
-		return HttpStatus.EXPECTATION_FAILED;
+		return new ResponseEntity<String>(HttpStatus.EXPECTATION_FAILED);
 	}
 	
 	/**
@@ -53,12 +54,12 @@ public class DriverToHitchhikerActionsController {
 	 * @param driverId id of {@link Driver} who sends notification
 	 */
 	@RequestMapping(value = "/driverTookHitch", method = RequestMethod.GET)
-	HttpStatus driverTookHitch(@RequestParam("hitchId") final Integer hitchId, @RequestParam("driverId") final Integer driverId) {
+	ResponseEntity<String> driverTookHitch(@RequestParam("hitchId") final Integer hitchId, @RequestParam("driverId") final Integer driverId) {
 		Hitchhiker hitch = hitchhikerRepository.findById(hitchId);
 		if (hitch != null && hitch.isActive())  {
 			service.sendDriverTookYou(driverRepository.findById(driverId), hitch);
-			return HttpStatus.ACCEPTED;
+			return new ResponseEntity<String>(HttpStatus.ACCEPTED);
 		}
-		return HttpStatus.EXPECTATION_FAILED;
+		return new ResponseEntity<String>(HttpStatus.EXPECTATION_FAILED);
 	}
 }
