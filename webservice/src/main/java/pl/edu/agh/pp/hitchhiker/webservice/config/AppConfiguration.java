@@ -44,7 +44,7 @@ import com.jolbox.bonecp.BoneCPDataSource;
 @EnableWebMvc
 @ImportResource("classpath:applicationContext.xml")
 @PropertySource("classpath:application.properties")
-@ComponentScan(basePackages = "pl.edu.agh.pp.hitchhiker.webservice.controllers")
+@ComponentScan(basePackages = "pl.edu.agh.pp.hitchhiker.webservice.api.controller")
 public class AppConfiguration {
 
 	private static final String PROPERTY_NAME_DATABASE_DRIVER = "db.driver";
