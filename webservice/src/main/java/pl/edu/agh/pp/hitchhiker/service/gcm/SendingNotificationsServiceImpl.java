@@ -51,6 +51,7 @@ public class SendingNotificationsServiceImpl implements SendingNotificationsServ
 	private static final String USER_LASTNAME = "userLastname";
 	private static final String USER_FIRSTNAME = "userFirstname";
 	private static final String USER_LOGIN = "userLogin";
+	private static final String DESTINATION = "destination";
 	private static final String DESTINATIONS = "destinations";
 	private static final String FINAL_DESTINATION = "finalDestination";
 	private static final String CHILDREN = "children";
@@ -154,13 +155,17 @@ public class SendingNotificationsServiceImpl implements SendingNotificationsServ
 	 * @return {@link JsonObject}
 	 */
 	private JsonObject convertDriverToJson(Driver driver, JsonObjectBuilder builder) {
-		JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
 		final User user = driver.getUser();
 		
-		builder.add(CAR_COLOR, driver.getCarColor())
-				.add(CAR_TYPE, driver.getCarType())
-				.add(DESTINATIONS, arrayBuilder);
-		
+		if (driver.getCarType() != null) {
+			builder.add(CAR_TYPE, driver.getCarType());
+		}
+		if (driver.getCarColor() != null) {
+			builder.add(CAR_COLOR, driver.getCarColor());
+		}
+		if (driver.getDestination() != null) {
+			builder.add(DESTINATION, driver.getDestination());
+		}
 		if (driver.getGeoLongitude() != null) {
 			builder.add(GEO_LONGITUDE, driver.getGeoLongitude());
 		}
@@ -182,14 +187,20 @@ public class SendingNotificationsServiceImpl implements SendingNotificationsServ
 		JsonArrayBuilder arrayBuilder = Json.createArrayBuilder();
 		final User user = hitch.getUser();
 
-		builder.add(ID, hitch.getId())
-				.add(NUMBER_OF_PASSENGERS, hitch.getNumberOfPassengers())
-				.add(CHILDREN, hitch.isChildren())
-				.add(FINAL_DESTINATION, hitch.getFinalDestination())
-				.add(DESTINATIONS, arrayBuilder);
-
 		builder = prepareUserJson(builder, user);
-
+		
+		if (hitch.getId() != null) {
+			builder.add(ID, hitch.getId());
+		}
+		if (hitch.getNumberOfPassengers() != null) {
+			builder.add(NUMBER_OF_PASSENGERS, hitch.getNumberOfPassengers());
+		}
+		if (hitch.isChildren() != null) {
+			builder.add(CHILDREN, hitch.isChildren());
+		}
+		if (hitch.getFinalDestination() != null) {
+			builder.add(FINAL_DESTINATION, hitch.getFinalDestination());
+		}
 		if (hitch.getBaggage() != null) {
 			builder.add(BAGGAGE, hitch.getBaggage().toString());
 		}
@@ -210,6 +221,7 @@ public class SendingNotificationsServiceImpl implements SendingNotificationsServ
 				arrayBuilder.add(destination);
 			}
 		}
+		builder.add(DESTINATIONS, arrayBuilder);
 		return builder.build();
 	}
 	
@@ -223,9 +235,11 @@ public class SendingNotificationsServiceImpl implements SendingNotificationsServ
 		if (user != null) {
 			builder.add(USER_LOGIN, user.getLogin())
 					.add(USER_FIRSTNAME, user.getFirstname())
-					.add(USER_LASTNAME, user.getLastname())
-					.add(USER_ID, user.getId());
-
+					.add(USER_LASTNAME, user.getLastname());
+			
+			if (user.getId() != null) {
+				builder.add(USER_ID, user.getId());
+			}
 			if (user.getBirthdate() != null) {
 				builder.add(USER_BIRTHDATE, user.getBirthdate()
 						.toString());
