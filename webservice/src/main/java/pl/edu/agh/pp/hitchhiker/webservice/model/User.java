@@ -14,6 +14,8 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.stereotype.Component;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import pl.edu.agh.pp.hitchhiker.webservice.util.BCrypt;
 
 /**
@@ -33,7 +35,8 @@ public class User {
 	@Column(unique = true)
 	@NotNull
 	private String login;
-
+	
+	@JsonIgnore
 	@NotNull
 	private String password;
 

@@ -10,7 +10,7 @@ import org.springframework.data.rest.repository.annotation.HandleBeforeSave;
 import org.springframework.data.rest.repository.annotation.RepositoryEventHandler;
 
 import pl.edu.agh.pp.hitchhiker.webservice.model.Driver;
-import pl.edu.agh.pp.hitchhiker.webservice.model.Hitchhiker;
+import pl.edu.agh.pp.hitchhiker.webservice.model.User;
 import pl.edu.agh.pp.hitchhiker.webservice.repository.DriverRepository;
 
 /**
