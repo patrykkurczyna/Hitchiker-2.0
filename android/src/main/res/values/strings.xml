@@ -84,5 +84,9 @@
     <string name="already_registered_hitchhiker">Jesteś już zarejestrowanym autosptopowiczem. Zakończyłeś już podróż lub chcesz się wyrejestrowac?</string>
     <string name="already_registered_driver">Jesteś już zarejestrowanym kierowcą. Zakończyłeś już podróż lub chcesz się wyrejestrowac?</string>
     <string name="finish_trip">Zakończ</string>
+    <string name="additional_destinations">Pośrednie kierunki:</string>
+    <string name="add_destination">Dodaj</string>
+    <string name="form_destinantion_additional">Pośredni kierunek</string>
+    <string name="delete_destination">Usuń</string>
 
 </resources>

@@ -231,9 +231,11 @@ public class LoggedActivity extends Activity implements HitchhikerInterface, Goo
         savedLocation = null;
         switch (personRegistered) {
             case DRIVER:
+                CredentialStorage.INSTANCE.setRegisteredDriver(-1);
                 apiService.unregisterDriver(CredentialStorage.INSTANCE.getRegisteredDriver());
                 break;
             case HITCHHIKER:
+                CredentialStorage.INSTANCE.setRegisteredHitchhiker(-1);
                 apiService.unregisterHitchhiker(CredentialStorage.INSTANCE.getRegisteredHitchhiker());
                 break;
         }

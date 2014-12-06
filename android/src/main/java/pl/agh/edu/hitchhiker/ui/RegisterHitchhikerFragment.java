@@ -31,6 +31,9 @@ import pl.agh.edu.hitchhiker.utils.SystemServicesHelper;
 
 public class RegisterHitchhikerFragment extends Fragment {
     public static final String LOG = RegisterHitchhikerFragment.class.getSimpleName();
+
+    private Location registeredLocation;
+
     @Inject
     ApiService service;
     @InjectView(R.id.editDestination)
@@ -45,7 +48,15 @@ public class RegisterHitchhikerFragment extends Fragment {
     Spinner sexSpinner;
     @InjectView(R.id.childrenButton)
     RadioButton withChildren;
-    private Location registeredLocation;
+    @InjectView(R.id.destinationsContainer)
+    ViewGroup destinationsContainer;
+
+
+    @OnClick(R.id.addDestination)
+    void addDestination() {
+        View view = getActivity().getLayoutInflater().inflate(R.layout.additional_destination, null);
+        destinationsContainer.addView(view);
+    }
 
     @OnClick(R.id.saveButton)
     void save() {
