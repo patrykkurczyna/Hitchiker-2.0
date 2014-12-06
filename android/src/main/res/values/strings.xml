@@ -88,5 +88,7 @@
     <string name="add_destination">Dodaj</string>
     <string name="form_destinantion_additional">Pośredni kierunek</string>
     <string name="delete_destination">Usuń</string>
+    <string name="logout">Wyloguj się</string>
+    <string name="car_info">Opis samochodu</string>
 
 </resources>

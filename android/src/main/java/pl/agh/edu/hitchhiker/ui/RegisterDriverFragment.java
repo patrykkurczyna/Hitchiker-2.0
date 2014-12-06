@@ -14,9 +14,6 @@ import android.widget.Toast;
 
 import com.wrapp.floatlabelededittext.FloatLabeledEditText;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
@@ -44,6 +41,8 @@ public class RegisterDriverFragment extends Fragment {
     Spinner sexSpinner;
     @InjectView(R.id.editDestination)
     FloatLabeledEditText destination;
+    @InjectView(R.id.carInfo)
+    FloatLabeledEditText carInfo;
     @InjectView(R.id.freeSeats)
     FloatLabeledEditText freeSeats;
     private Location registeredLocation;
@@ -75,10 +74,12 @@ public class RegisterDriverFragment extends Fragment {
         driver.setGeoLatitude(latitude);
         driver.setGeoLongitude(longitude);
 
-        if(!destination.toString().isEmpty()) {
-            List<String> destinations = new ArrayList<>();
-            destinations.add(destination.toString());
-            driver.setDestinations(destinations);
+        if(!destination.getTextString().isEmpty()) {
+            driver.setDestination(destination.getTextString());
+        }
+
+        if(!carInfo.getTextString().isEmpty()) {
+            driver.setCarType(carInfo.getTextString());
         }
 
         if (freeSeats.getEditText().length() > 0) {

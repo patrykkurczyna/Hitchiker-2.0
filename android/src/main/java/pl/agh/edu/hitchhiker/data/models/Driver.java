@@ -2,14 +2,11 @@ package pl.agh.edu.hitchhiker.data.models;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import pl.agh.edu.hitchhiker.utils.CredentialStorage;
 
 public class Driver {
 
-    private List<String> destinations;
+    private String destination;
     private Double geoLatitude;
     private Double geoLongitude;
     private Integer freeSeats;
@@ -23,19 +20,12 @@ public class Driver {
     @SerializedName("user")
     private Location location;
     private String deviceId;
+    private String carType;
     private boolean active = true;
 
     public Driver() {
         location = CredentialStorage.INSTANCE.getUserLocation();
         deviceId = CredentialStorage.INSTANCE.getDeviceId();
-    }
-
-    public List<String> getDestinations() {
-        return destinations;
-    }
-
-    public void setDestinations(List<String> destinations) {
-        this.destinations = destinations;
     }
 
     public Double getGeoLatitude() {
@@ -116,5 +106,21 @@ public class Driver {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public String getDestination() {
+        return destination;
+    }
+
+    public void setDestination(String destination) {
+        this.destination = destination;
+    }
+
+    public String getCarType() {
+        return carType;
+    }
+
+    public void setCarType(String carType) {
+        this.carType = carType;
     }
 }

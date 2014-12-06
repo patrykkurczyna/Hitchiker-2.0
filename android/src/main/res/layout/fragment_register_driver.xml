@@ -4,14 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context="pl.agh.edu.hitchhiker.ui.RegisterDriverFragment"
         android:padding="20dp"
         android:layout_gravity="center_horizontal"
         android:orientation="vertical">
-
 
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
             android:id="@+id/editDestination"
@@ -28,9 +27,18 @@
             android:layout_height="wrap_content"
             android:text="@string/preferences"
             android:id="@+id/additional_info"
-            android:layout_below="@id/editDestination"
             android:textColor="@android:color/holo_blue_bright"
             android:textSize="18sp" />
+
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:id="@+id/carInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            float:fletFloatingHint="@string/car_info"
+            float:fletInputType="text"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
 
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
             android:layout_width="match_parent"
@@ -42,13 +50,11 @@
             float:fletInputType="number"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_below="@id/additional_info" />
+            android:layout_marginRight="10dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/freeSeats"
             android:layout_marginBottom="10dp"
             android:orientation="horizontal"
             android:id="@+id/ageLayout"
@@ -73,7 +79,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ageLayout"
             android:layout_marginBottom="10dp"
             android:orientation="horizontal"
             android:id="@+id/baggageLayout"
@@ -97,7 +102,6 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/baggageLayout"
             android:layout_marginBottom="10dp"
             android:orientation="horizontal"
             android:id="@+id/sexTypeLayout"
@@ -123,8 +127,7 @@
             android:id="@+id/saveButtonWrapper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/sexTypeLayout">
+            android:layout_gravity="center_horizontal">
 
             <Button
                 android:background="@drawable/blue_button"
@@ -146,7 +149,7 @@
                 android:layout_gravity="center"
                 android:visibility="invisible" />
         </FrameLayout>
-    </RelativeLayout>
+    </LinearLayout>
 </ScrollView>
 
 

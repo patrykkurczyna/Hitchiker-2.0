@@ -1,5 +1,7 @@
 package pl.agh.edu.hitchhiker.data.api.callback;
 
+import android.util.Log;
+
 import de.greenrobot.event.EventBus;
 import pl.agh.edu.hitchhiker.data.api.event.RegisterDriverFailure;
 import pl.agh.edu.hitchhiker.data.api.event.RegisterDriverSuccess;
@@ -20,6 +22,8 @@ public class RegisterDriverCallback implements Callback<Driver> {
                 String value = header.getValue();
                 CredentialStorage.INSTANCE.setRegisteredDriver(
                         Integer.valueOf(value.substring(value.lastIndexOf("/") + 1)));
+                Log.d("RegisterDriverCallback ", "driver id: " + CredentialStorage.INSTANCE.getRegisteredDriver());
+                Log.d("RegisterDriverCallback ", "driver: " + value);
                 break;
             }
         }
