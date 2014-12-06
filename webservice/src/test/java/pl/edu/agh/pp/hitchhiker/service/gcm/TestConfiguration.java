@@ -26,7 +26,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import pl.edu.agh.pp.hitchhiker.service.gcm.SendingNotificationsService;
+import pl.edu.agh.pp.hitchhiker.service.gcm.SendingNotificationsServiceImpl;
 import pl.edu.agh.pp.hitchhiker.webservice.handlers.DriverEventHandler;
 import pl.edu.agh.pp.hitchhiker.webservice.handlers.HitchhikerEventHandler;
 import pl.edu.agh.pp.hitchhiker.webservice.handlers.UserEventHandler;
@@ -118,7 +118,7 @@ public class TestConfiguration {
 
 	@Bean
 	public SendingNotificationsService sendingNotificationsService(){
-		return new SendingNotificationsService();
+		return new SendingNotificationsServiceImpl();
 	}
 
 	@Bean

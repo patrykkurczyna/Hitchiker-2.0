@@ -2,6 +2,11 @@ package pl.edu.agh.pp.hitchhiker.webservice.config;
 
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
+/**
+ * Simple web app initializer
+ * @author patrykkurczyna
+ *
+ */
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override

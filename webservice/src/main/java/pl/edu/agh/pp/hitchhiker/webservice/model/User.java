@@ -16,6 +16,11 @@ import org.springframework.stereotype.Component;
 
 import pl.edu.agh.pp.hitchhiker.webservice.util.BCrypt;
 
+/**
+ * User entity which stores application user information, such as password, login, birthdate etc.
+ * @author patrykkurczyna
+ *
+ */
 @Entity
 @Component
 public class User {
@@ -24,7 +29,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id")
 	private Integer id;
-
+	
 	@Column(unique = true)
 	@NotNull
 	private String login;

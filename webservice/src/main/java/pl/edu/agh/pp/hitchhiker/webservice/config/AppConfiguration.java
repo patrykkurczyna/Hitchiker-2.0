@@ -3,6 +3,7 @@ package pl.edu.agh.pp.hitchhiker.webservice.config;
 import java.util.Properties;
 
 import javax.annotation.Resource;
+import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import org.hibernate.ejb.HibernatePersistence;
@@ -23,13 +24,20 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import pl.edu.agh.pp.hitchhiker.service.gcm.SendingNotificationsService;
-import pl.edu.agh.pp.hitchhiker.webservice.controllers.HitchhikerResourceAssembler;
+import pl.edu.agh.pp.hitchhiker.service.gcm.SendingNotificationsServiceImpl;
+import pl.edu.agh.pp.hitchhiker.webservice.api.HitchhikerResourceAssembler;
 import pl.edu.agh.pp.hitchhiker.webservice.handlers.DriverEventHandler;
 import pl.edu.agh.pp.hitchhiker.webservice.handlers.HitchhikerEventHandler;
 import pl.edu.agh.pp.hitchhiker.webservice.handlers.UserEventHandler;
 
 import com.jolbox.bonecp.BoneCPDataSource;
 
+/**
+ * Main application configuration class, it involves configuring database, data source, entity manager factory,
+ * transaction manager and configuring all Spring beans
+ * @author patrykkurczyna
+ *
+ */
 @Configuration
 @EnableJpaRepositories
 @EnableTransactionManagement
@@ -52,7 +60,11 @@ public class AppConfiguration {
 
 	@Resource
 	private Environment environment;
-
+	
+	/**
+	 * Data source configuration
+	 * @return {@link DataSource}
+	 */
 	@Bean
 	public DataSource dataSource() {
 		BoneCPDataSource dataSource = new BoneCPDataSource();
@@ -68,7 +80,12 @@ public class AppConfiguration {
 
 		return dataSource;
 	}
-
+	
+	/**
+	 * Entity manager factory configuration
+	 * @return {@link EntityManagerFactory}
+	 * @throws ClassNotFoundException
+	 */
 	@Bean
 	public LocalContainerEntityManagerFactoryBean entityManagerFactoryBean()
 			throws ClassNotFoundException {
@@ -101,16 +118,29 @@ public class AppConfiguration {
 		return entityManagerFactoryBean;
 	}
 	
+	/**
+	 * Notification service config
+	 * @return {@link SendingNotificationsService}
+	 */
 	@Bean
 	public SendingNotificationsService sendingNotificationsService() {
-		return new SendingNotificationsService();
+		return new SendingNotificationsServiceImpl();
 	}
 
+	/**
+	 * Hitchhiker resource assembler bean initialization
+	 * @return {@link HitchhikerResourceAssembler}
+	 */
 	@Bean
 	public HitchhikerResourceAssembler hitchhikerResourceAssembler() {
 		return new HitchhikerResourceAssembler();
 	}
 	
+	/**
+	 * Transaction manager configuration
+	 * @return {@link TransactionManager}
+	 * @throws ClassNotFoundException
+	 */
 	@Bean
 	public PlatformTransactionManager transactionManager()
 			throws ClassNotFoundException {
@@ -121,22 +151,38 @@ public class AppConfiguration {
 
 		return transactionManager;
 	}
-
+	
+	/**
+	 * Hitchhiker event handler init
+	 * @return {@link HitchhikerEventHandler}
+	 */
 	@Bean
 	HitchhikerEventHandler hitchhikerEventHandler() {
 		return new HitchhikerEventHandler();
 	}
 	
+	/**
+	 * User event handler init
+	 * @return {@link UserEventHandler}
+	 */
 	@Bean
 	UserEventHandler userEventHandler() {
 		return new UserEventHandler();
 	}
 	
+	/**
+	 * Driver event handler init
+	 * @return {@link DriverEventHandler}
+	 */
 	@Bean
 	DriverEventHandler driverEventHandler() {
 		return new DriverEventHandler();
 	}
-
+	
+	/**
+	 * Configuration for listening handlers
+	 * @return {@link AnnotatedHandlerRepositoryEventListener}
+	 */
 	@Bean
 	AnnotatedHandlerRepositoryEventListener repositoryEventListener() {
 		return new AnnotatedHandlerRepositoryEventListener(

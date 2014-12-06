@@ -1,4 +1,4 @@
-package pl.edu.agh.pp.hitchhiker.webservice.controllers;
+package pl.edu.agh.pp.hitchhiker.webservice.api.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -12,6 +12,11 @@ import pl.edu.agh.pp.hitchhiker.service.gcm.SendingNotificationsService;
 import pl.edu.agh.pp.hitchhiker.webservice.repository.DriverRepository;
 import pl.edu.agh.pp.hitchhiker.webservice.repository.HitchhikerRepository;
 
+/**
+ * Controller for handling notifications from {@link Driver} to {@link Hitchhiker}
+ * @author patrykkurczyna
+ *
+ */
 @Controller
 public class DriverToHitchhikerActionsController {
 		
@@ -24,12 +29,24 @@ public class DriverToHitchhikerActionsController {
 	@Autowired
 	private SendingNotificationsService service;
 	
+	/**
+	 * Request handler in situation where {@link Driver} wants to take {@link Hitchhiker}
+	 * The notification is then being send to this specific hitchhiker containing this message
+	 * @param hitchId id of {@link Hitchhiker} who should be notified
+	 * @param driverId id of {@link Driver} who sends notification
+	 */
 	@RequestMapping(value = "/driverWantsToTakeHitch", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	void driverWantsToTakeHitch(@RequestParam("hitchId") final Integer hitchId, @RequestParam("driverId") final Integer driverId) {
 		service.sendDriverWantsToTakeYou(driverRepository.findById(driverId), hitchhikerRepository.findById(hitchId));
 	}
 	
+	/**
+	 * Request handler in situation where {@link Driver} took {@link Hitchhiker}
+	 * The notification is then being send to this specific hitchhiker containing this message
+	 * @param hitchId id of {@link Hitchhiker} who should be notified
+	 * @param driverId id of {@link Driver} who sends notification
+	 */
 	@RequestMapping(value = "/driverTookHitch", method = RequestMethod.GET)
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	void driverTookHitch(@RequestParam("hitchId") final Integer hitchId, @RequestParam("driverId") final Integer driverId) {

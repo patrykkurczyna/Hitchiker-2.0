@@ -11,6 +11,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import pl.edu.agh.pp.hitchhiker.service.gcm.SendingNotificationsService;
+
+/**
+ * driver entity which represents driver preferences and information for a single trip
+ * @author patrykkurczyna
+ *
+ */
 @Entity
 public class Driver {
 	
@@ -18,34 +27,67 @@ public class Driver {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 	
+	/**
+	 * android device unique id, used for sending gcm notifications, see {@link SendingNotificationsService}
+	 */
 	@Column(unique = true)
 	@NotNull
 	private String deviceId;
 	
+	@JsonIgnore
 	@ManyToOne
 	@NotNull
 	@JoinColumn(name = "user_id")
 	private User user;
 	
+	/**
+	 * Indicates whether or not there are children in a group of hitchhikers
+	 */
 	private Boolean children;
 	
+	/**
+	 * See {@link AgeType}
+	 */
 	@Enumerated(EnumType.STRING)
-	private Age ageType;
+	private AgeType ageType;
 	
+	/**
+	 * See {@link SexType}
+	 */
 	@Enumerated(EnumType.STRING)
 	private SexType sexType;
 	
+	/**
+	 * See {@link BaggageType}
+	 */
 	@Enumerated(EnumType.STRING)
-	private Baggage baggage;
+	private BaggageType baggage;
 	
 	private String carType;
 	
+	/**
+	 * Max number of passengers that driver can take
+	 */
+	private int numberOfPassengers;
+	
+	/**
+	 * Driver coordinates
+	 */
 	private Double geoLatitude, geoLongitude;
 	
 	private String carColor;
 	
+    /**
+     * Indicates whether or not driver is active
+     * If it is false, it means that driver is historical
+     */
+    @NotNull
+    @Column(name = "active")
 	private boolean active = true;
 	
+	/**
+	 * Indicating a place where driver is heading
+	 */
 	private String destination;
 	
 	public void setDeviceId(String deviceId) {
@@ -80,11 +122,11 @@ public class Driver {
 		this.geoLongitude = geoLongitude;
 	}
 	
-	public Age getAgeType() {
+	public AgeType getAgeType() {
 		return ageType;
 	}
 
-	public void setAgeType(Age ageType) {
+	public void setAgeType(AgeType ageType) {
 		this.ageType = ageType;
 	}
 
@@ -96,11 +138,11 @@ public class Driver {
 		this.sexType = sexType;
 	}
 
-	public Baggage getBaggage() {
+	public BaggageType getBaggage() {
 		return baggage;
 	}
 
-	public void setBaggage(Baggage baggage) {
+	public void setBaggage(BaggageType baggage) {
 		this.baggage = baggage;
 	}
 
@@ -142,6 +184,14 @@ public class Driver {
 
 	public void setDestination(String destination) {
 		this.destination = destination;
+	}
+
+	public int getNumberOfPassengers() {
+		return numberOfPassengers;
+	}
+
+	public void setNumberOfPassengers(int numberOfPassengers) {
+		this.numberOfPassengers = numberOfPassengers;
 	}
 	
 }

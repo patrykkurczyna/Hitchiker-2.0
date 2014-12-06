@@ -1,19 +1,24 @@
-package pl.edu.agh.pp.hitchhiker.webservice.controllers;
+package pl.edu.agh.pp.hitchhiker.webservice.api;
 
-import pl.edu.agh.pp.hitchhiker.webservice.model.Age;
-import pl.edu.agh.pp.hitchhiker.webservice.model.Baggage;
+import pl.edu.agh.pp.hitchhiker.webservice.model.AgeType;
+import pl.edu.agh.pp.hitchhiker.webservice.model.BaggageType;
 import pl.edu.agh.pp.hitchhiker.webservice.model.SexType;
 
-
-public class HitchhikerSearchCriteria {
+/**
+ * See {@link HitchhikerSearchCriteria}
+ * @author patrykkurczyna
+ *
+ */
+public class HitchhikerSearchCriteriaImpl implements HitchhikerSearchCriteria {
 	private String destination;
 	private Double latitude;
 	private Double longitude;	
 	private Boolean children;
-	private Age ageType;
+	private AgeType ageType;
 	private SexType sexType;
-	private Baggage baggageTo;
+	private BaggageType baggageTo;
 	private Integer numberOfPassengersTo;
+	private Double radius;
 	
 	public String getDestination() {
 		return destination;
@@ -47,11 +52,11 @@ public class HitchhikerSearchCriteria {
 		this.children = children;
 	}
 
-	public Age getAgeType() {
+	public AgeType getAgeType() {
 		return ageType;
 	}
 
-	public void setAgeType(Age ageType) {
+	public void setAgeType(AgeType ageType) {
 		this.ageType = ageType;
 	}
 
@@ -63,11 +68,11 @@ public class HitchhikerSearchCriteria {
 		this.sexType = sexType;
 	}
 
-	public Baggage getBaggageTo() {
+	public BaggageType getBaggageTo() {
 		return baggageTo;
 	}
 
-	public void setBaggageTo(Baggage baggageTo) {
+	public void setBaggageTo(BaggageType baggageTo) {
 		this.baggageTo = baggageTo;
 	}
 
@@ -77,6 +82,14 @@ public class HitchhikerSearchCriteria {
 
 	public void setNumberOfPassengersTo(Integer numberOfPassengersTo) {
 		this.numberOfPassengersTo = numberOfPassengersTo;
+	}
+
+	public Double getRadius() {
+		return radius;
+	}
+
+	public void setRadius(Double radius) {
+		this.radius = radius;
 	}
 	
 }

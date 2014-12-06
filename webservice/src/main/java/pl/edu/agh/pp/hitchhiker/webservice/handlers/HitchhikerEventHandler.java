@@ -12,8 +12,14 @@ import org.springframework.data.rest.repository.annotation.RepositoryEventHandle
 
 import pl.edu.agh.pp.hitchhiker.service.gcm.SendingNotificationsService;
 import pl.edu.agh.pp.hitchhiker.webservice.model.Hitchhiker;
+import pl.edu.agh.pp.hitchhiker.webservice.model.User;
 import pl.edu.agh.pp.hitchhiker.webservice.repository.HitchhikerRepository;
 
+/**
+ * Handler for {@link Hitchhiker} entity
+ * @author patrykkurczyna
+ *
+ */
 @RepositoryEventHandler(Hitchhiker.class)
 public class HitchhikerEventHandler {
 	
@@ -28,6 +34,11 @@ public class HitchhikerEventHandler {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(HitchhikerEventHandler.class);
 	
+	/**
+	 * Method that prevent from adding a {@link Hitchhiker} for a {@link User} that already has active driver
+	 * @param hitchhiker {@link Hitchhiker} to be added
+	 * @throws TooManyActiveException
+	 */
 	@HandleBeforeSave
 	public void checkIfThereAreNoActive(Hitchhiker hitchhiker) throws TooManyActiveException{
 		Long numberOfActive = hitchhikerRepository.countActive(hitchhiker.getUser().getId());
@@ -37,6 +48,10 @@ public class HitchhikerEventHandler {
 		}
 	}
 	
+	/**
+	 * Method that triggers notifications send to specific hitchhiker, after save 
+	 * @param hitchhiker {@link Hitchhiker} being saved to database, and ot which notification send is triggered
+	 */
 	@HandleAfterSave
 	public void handleHitchhikerSave(Hitchhiker hitchhiker) {
 		sendNotificationsService.sendHitchhiker(hitchhiker);		

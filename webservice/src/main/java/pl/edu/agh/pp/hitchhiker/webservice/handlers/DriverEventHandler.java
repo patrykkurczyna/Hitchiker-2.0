@@ -12,6 +12,11 @@ import org.springframework.data.rest.repository.annotation.RepositoryEventHandle
 import pl.edu.agh.pp.hitchhiker.webservice.model.Driver;
 import pl.edu.agh.pp.hitchhiker.webservice.repository.DriverRepository;
 
+/**
+ * Handler for {@link Driver} entity
+ * @author patrykkurczyna
+ *
+ */
 @RepositoryEventHandler(Driver.class)
 public class DriverEventHandler {
 	
@@ -22,7 +27,12 @@ public class DriverEventHandler {
 	private DriverRepository driverRepository;
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(DriverEventHandler.class);
-		
+	
+	/**
+	 * Method that prevent from adding a {@link Driver} for a {@link User} that already has active driver
+	 * @param driver {@link Driver} to be added
+	 * @throws TooManyActiveException
+	 */
 	@HandleBeforeSave
 	public void checkIfThereAreNoActive(Driver driver) throws TooManyActiveException{
 		Long numberOfActive = driverRepository.countActive(driver.getUser().getId());

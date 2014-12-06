@@ -7,12 +7,20 @@ import org.springframework.data.rest.repository.annotation.RepositoryEventHandle
 
 import pl.edu.agh.pp.hitchhiker.webservice.model.User;
 
+/**
+ * Handler for {@link User} entity
+ * @author patrykkurczyna
+ *
+ */
 @RepositoryEventHandler(User.class)
 public class UserEventHandler {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(UserEventHandler.class);
 	
-	//Used for hashing password 
+	/**
+	 * Method used for hashing user password before he is saved to database
+	 * @param user {@link User} which is going to be save
+	 */
 	@HandleBeforeSave
 	public void handleUserSave(User user) {
 		final String login = user.getLogin();
