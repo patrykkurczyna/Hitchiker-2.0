@@ -100,7 +100,7 @@ public class Hitchhiker {
 	/**
 	 * Number of passengers that are involved in this trip
 	 */
-	private int numberOfPassengers;
+	private Integer numberOfPassengers;
 	
 	public User getUser() {
 		return this.user;
@@ -142,7 +142,7 @@ public class Hitchhiker {
 		this.baggage = baggage;
 	}
 
-	public boolean isChildren() {
+	public Boolean isChildren() {
 		return children;
 	}
 
@@ -174,7 +174,7 @@ public class Hitchhiker {
 		this.finalDestination = destination;
 	}
 
-	public int getNumberOfPassengers() {
+	public Integer getNumberOfPassengers() {
 		return numberOfPassengers;
 	}
 

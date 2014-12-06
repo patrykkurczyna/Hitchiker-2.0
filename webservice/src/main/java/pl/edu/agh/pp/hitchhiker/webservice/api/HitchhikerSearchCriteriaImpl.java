@@ -20,6 +20,26 @@ public class HitchhikerSearchCriteriaImpl implements HitchhikerSearchCriteria {
 	private Integer numberOfPassengersTo;
 	private Double radius;
 	
+	private final Double RADIUS = 10.0;
+	
+	public HitchhikerSearchCriteriaImpl(String destination, Double latitude, Double longitude,
+			Boolean children, AgeType ageType, SexType sexType, BaggageType baggageTo,
+			Integer numberOfPassengersTo, Double radius) {
+		this.destination = destination;
+		this.latitude = latitude;
+		this.longitude = longitude;
+		this.children = children;
+		this.ageType = ageType;
+		this.sexType = sexType;
+		this.baggageTo = baggageTo;
+		this.numberOfPassengersTo = numberOfPassengersTo;
+		if (radius == null) {
+			this.radius = this.RADIUS;
+		} else {
+			this.radius = radius;
+		}
+	}
+	
 	public String getDestination() {
 		return destination;
 	}

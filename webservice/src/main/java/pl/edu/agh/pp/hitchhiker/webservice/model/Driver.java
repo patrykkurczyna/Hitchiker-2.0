@@ -68,12 +68,16 @@ public class Driver {
 	/**
 	 * Max number of passengers that driver can take
 	 */
-	private int numberOfPassengers;
+	private Integer numberOfPassengers;
 	
 	/**
 	 * Driver coordinates
 	 */
-	private Double geoLatitude, geoLongitude;
+	@NotNull
+	private Double geoLatitude;
+	
+	@NotNull
+	private Double geoLongitude;
 	
 	private String carColor;
 	
@@ -146,7 +150,7 @@ public class Driver {
 		this.baggage = baggage;
 	}
 
-	public boolean isChildren() {
+	public Boolean isChildren() {
 		return children;
 	}
 
@@ -186,7 +190,7 @@ public class Driver {
 		this.destination = destination;
 	}
 
-	public int getNumberOfPassengers() {
+	public Integer getNumberOfPassengers() {
 		return numberOfPassengers;
 	}
 

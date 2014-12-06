@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpEntity;
@@ -21,7 +22,9 @@ import pl.edu.agh.pp.hitchhiker.webservice.api.HitchhikerResourceAssembler;
 import pl.edu.agh.pp.hitchhiker.webservice.api.HitchhikerSearchCriteria;
 import pl.edu.agh.pp.hitchhiker.webservice.api.HitchhikerSearchCriteriaImpl;
 import pl.edu.agh.pp.hitchhiker.webservice.api.HitchhikerSearchProvider;
+import pl.edu.agh.pp.hitchhiker.webservice.model.Driver;
 import pl.edu.agh.pp.hitchhiker.webservice.model.Hitchhiker;
+import pl.edu.agh.pp.hitchhiker.webservice.repository.DriverRepository;
 import pl.edu.agh.pp.hitchhiker.webservice.repository.HitchhikerRepository;
 
 /**
@@ -41,16 +44,25 @@ public class HitchhikerSearchController {
 	@Autowired
 	private HitchhikerRepository hitchhikerRepository;
 	
+	@Autowired
+	private DriverRepository driverRepository;
+	
 	/**
 	 * Method used for find and return hitchhikers that match criteria, given as URL parameters
 	 * Firstly it takes all active hitchhikers from database using {@link HitchhikerRepository} findActiveInRadiusFrom method
-	 * and then it filters them using {@link HitchhikerSearchCriteria}
-	 * @param criteria criteria to filter hitchhikers
+	 * and then it filters them using {@link HitchhikerSearchCriteria} retrieved from {@link Driver} of giveb id
+	 * @param driverId id of driver for whom we are matching
+	 * @param radius spread of search
 	 * @return Json containing all hitchhikers that match criteria given in URL
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/findHitchhikers", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	HttpEntity<Resources<Resource<Hitchhiker>>> findMatchingHitchhikers(HitchhikerSearchCriteriaImpl criteria) {
+	HttpEntity<Resources<Resource<Hitchhiker>>> findMatchingHitchhikers(@Param("driverId") Integer driverId, @Param("radius") Double radius) {
+		Driver driver = driverRepository.findById(driverId);
+		HitchhikerSearchCriteria criteria = new HitchhikerSearchCriteriaImpl(driver.getDestination(), driver.getGeoLatitude(),
+				driver.getGeoLongitude(), driver.isChildren(), driver.getAgeType(), driver.getSexType(), driver.getBaggage(),
+				driver.getNumberOfPassengers(), radius);
+		
 		List<Hitchhiker> hitchhikers = hitchhikerRepository.findActiveInRadiusFrom(criteria.getRadius(), criteria.getLatitude(), criteria.getLongitude());
 		hitchhikers = hitchikerSearchProvider.find(hitchhikers, criteria);
 		

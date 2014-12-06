@@ -10,7 +10,7 @@ insert into hitchhiker (user_id, number_of_passengers, baggage, sex_type, age_ty
 insert into hitchhiker (user_id, number_of_passengers, baggage, sex_type, age_type, children, final_destination, geo_latitude, geo_longitude, active, device_id) values (4, 3, 'BIG', 'MIXED', 'YOUNG', false, 'AK', 50.080674, 19.936102, true, 'dev4');
 insert into hitchhiker (user_id, number_of_passengers, baggage, sex_type, age_type, children, final_destination, geo_latitude, geo_longitude, active, device_id) values (4, 3, 'BIG', 'MIXED', 'YOUNG', false, 'AK_NOT_ACTIVE', 50.080674, 19.936102, false, 'dev5');
 insert into hitchhiker (user_id, number_of_passengers, baggage, sex_type, age_type, children, final_destination, geo_latitude, geo_longitude, active, device_id) values (5, 3, 'BIG', 'MIXED', 'YOUNG', false, 'Wawa', 52.225896, 20.917161, true, 'dev6');
-insert into driver (user_id, baggage, age_type, children, car_type, car_color, device_id, active, number_of_passengers) values (1, 'BIG', 'YOUNG', false, "Audi A4", "black", "my_device", false, 4);
+insert into driver (user_id, car_type, car_color, device_id, active, number_of_passengers, geo_latitude, geo_longitude) values (1, "Audi A4", "black", "my_device", false, 4, '50.062440', '19.936102');
 
 
 -- Krk center
