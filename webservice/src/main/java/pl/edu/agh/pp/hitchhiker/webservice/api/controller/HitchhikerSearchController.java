@@ -1,12 +1,9 @@
 package pl.edu.agh.pp.hitchhiker.webservice.api.controller;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
-import org.springframework.hateoas.Resource;
 import org.springframework.hateoas.Resources;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -57,7 +54,7 @@ public class HitchhikerSearchController {
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/findHitchhikers", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	HttpEntity<Resources<Resource<Hitchhiker>>> findMatchingHitchhikers(@Param("driverId") Integer driverId, @Param("radius") Double radius) {
+	HttpEntity<Resources<Hitchhiker>> findMatchingHitchhikers(@Param("driverId") Integer driverId, @Param("radius") Double radius) {
 		Driver driver = driverRepository.findById(driverId);
 		HitchhikerSearchCriteria criteria = new HitchhikerSearchCriteriaImpl(driver.getDestination(), driver.getGeoLatitude(),
 				driver.getGeoLongitude(), driver.isChildren(), driver.getAgeType(), driver.getSexType(), driver.getBaggage(),
@@ -66,15 +63,9 @@ public class HitchhikerSearchController {
 		List<Hitchhiker> hitchhikers = hitchhikerRepository.findActiveInRadiusFrom(criteria.getRadius(), criteria.getLatitude(), criteria.getLongitude());
 		hitchhikers = hitchikerSearchProvider.find(hitchhikers, criteria);
 		
-		Collection<Resource<Hitchhiker>> hitchhikerCollection = new ArrayList<Resource<Hitchhiker>>();
-		for (Hitchhiker hitch : hitchhikers) {
-			hitchhikerCollection.add(hitchhikerResourceAssembler.toResource(hitch));
-		}
+		Resources<Hitchhiker> hitchhikerResources = new Resources<Hitchhiker>(hitchhikers);
 
-		Resources<Resource<Hitchhiker>> hitchhikerResources = new Resources<Resource<Hitchhiker>>(
-				hitchhikerCollection);
-
-		return new ResponseEntity<Resources<Resource<Hitchhiker>>>(
+		return new ResponseEntity<Resources<Hitchhiker>>(
 				hitchhikerResources, ApiUtil.createHeaders(), HttpStatus.OK);
 	}
 }

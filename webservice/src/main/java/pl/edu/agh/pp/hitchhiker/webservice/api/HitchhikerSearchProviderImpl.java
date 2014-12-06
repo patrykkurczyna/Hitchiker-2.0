@@ -71,7 +71,7 @@ public class HitchhikerSearchProviderImpl implements HitchhikerSearchProvider {
 	 * @return true if baggage types match, false otherwise
 	 */
 	private boolean matchBaggageType(BaggageType baggage, BaggageType driverMaxBaggage) {
-		if (driverMaxBaggage != null) {
+		if (driverMaxBaggage != null && baggage != null) {
 			return baggage.ordinal() <= driverMaxBaggage.ordinal();
 		}
 		return true;
@@ -85,7 +85,7 @@ public class HitchhikerSearchProviderImpl implements HitchhikerSearchProvider {
 	 */
 	private boolean matchNumberOfPassengers(Integer numberOfPassengers,
 			Integer driverMaxNumberOfPassengers) {
-		if (driverMaxNumberOfPassengers != null) {
+		if (driverMaxNumberOfPassengers != null && numberOfPassengers != null) {
 			return (numberOfPassengers <= driverMaxNumberOfPassengers);
 		}
 		return true;
@@ -98,7 +98,7 @@ public class HitchhikerSearchProviderImpl implements HitchhikerSearchProvider {
 	 * @return true if sex type matches, false otherwise
 	 */
 	private boolean matchSexType(SexType sexType, SexType driverSexTypePref) {
-		if (driverSexTypePref != null) {
+		if (driverSexTypePref != null && sexType != null) {
 			return (sexType == driverSexTypePref);
 		}
 		return true;
@@ -111,7 +111,7 @@ public class HitchhikerSearchProviderImpl implements HitchhikerSearchProvider {
 	 * @return true if age type matches, false otherwise
 	 */
 	private boolean matchAgeType(AgeType ageType, AgeType driverAgeTypePref) {
-		if (driverAgeTypePref != null) {
+		if (driverAgeTypePref != null && ageType != null) {
 			return (ageType == driverAgeTypePref);
 		}
 		return true;
@@ -123,8 +123,8 @@ public class HitchhikerSearchProviderImpl implements HitchhikerSearchProvider {
 	 * @param driverWantsToTakeChildren true if driver wants to take children
 	 * @return true if children preferences match, false otherwise
 	 */
-	private boolean matchChildren(boolean children, Boolean driverWantsToTakeChildren) {
-		if (driverWantsToTakeChildren != null) {
+	private boolean matchChildren(Boolean children, Boolean driverWantsToTakeChildren) {
+		if (driverWantsToTakeChildren != null && children != null) {
 			return (children == driverWantsToTakeChildren);
 		}
 		return true;
