@@ -1,0 +1,352 @@
+{
+  "apiVersion": "1.0.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://87.206.242.147:1111/webservice",
+  "resourcePath": "/users",
+  "produces": [
+    "application/json"
+  ],
+  "apis": [
+    {
+      "path": "/users",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Add a new user",
+          "notes": "",
+          "type": "void",
+          "nickname": "addUser",
+          "authorizations": {},
+          "consumes": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "body",
+              "description": "User object that is to be added",
+              "required": true,
+              "type": "User",
+              "paramType": "body",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 201,
+              "message": "User created"
+            },
+            {
+              "code": 400,
+              "message": "Something went wrong"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/users",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Gets all users",
+          "notes": "",
+          "type": "array",
+          "items": {
+            "$ref": "User"
+          },
+          "nickname": "getUsers",
+          "authorizations": {},
+          "responseMessages": [
+            {
+              "code": 400,
+              "message": "Invalid status value"
+            },
+            {
+              "code": 200,
+              "message": "OK"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/users/findByLogin",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Finds a user by a login",
+          "notes": "The method is used to find a user by a login",
+          "type": "User",
+          "nickname": "findUserByLogin",
+          "authorizations": {},
+          "parameters": [
+            {
+              "name": "login",
+              "description": "Login of user",
+              "required": true,
+              "type": "string",
+              "paramType": "query",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 400,
+              "message": "Invalid params value"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/users/findByFirstnameAndLastname",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Finds a user by firstname and lastname",
+          "notes": "The method is used to find all users by lastname and firstname (both should match)",
+          "type": "array",
+          "items": {
+            "$ref": "User"
+          },
+          "nickname": "findUserByLastnameAndFirstname",
+          "authorizations": {},
+          "parameters": [
+            {
+              "name": "lastname",
+              "description": "Lastname of user",
+              "required": true,
+              "type": "string",
+              "paramType": "query",
+              "allowMultiple": false
+            },
+            {
+              "name": "firstname",
+              "description": "Firstname of user",
+              "required": true,
+              "type": "string",
+              "paramType": "query",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 400,
+              "message": "Invalid params value"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/users/{userId}",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Find user by ID",
+          "notes": "Returns a user based on ID",
+          "type": "HitchUserhiker",
+          "nickname": "getUserById",
+          "authorizations": {},
+          "parameters": [
+            {
+              "name": "userId",
+              "description": "ID of user that needs to be fetched",
+              "required": true,
+              "type": "integer",
+              "format": "int64",
+              "paramType": "path",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 400,
+              "message": "Invalid ID supplied"
+            },
+            {
+              "code": 404,
+              "message": "User not found"
+            },
+            {
+              "code": 200,
+              "message": "OK"
+            }
+          ]
+        },
+        {
+          "method": "DELETE",
+          "summary": "Deletes a user",
+          "notes": "",
+          "type": "void",
+          "nickname": "deleteUser",
+          "authorizations": {},
+          "parameters": [
+            {
+              "name": "userId",
+              "description": "User id to delete",
+              "required": true,
+              "type": "string",
+              "paramType": "path",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 400,
+              "message": "Invalid user value"
+            }
+          ]
+        },
+        {
+          "method": "PUT",
+          "summary": "partial updates to a user",
+          "notes": "",
+          "type": "array",
+          "items": {
+            "$ref": "User"
+          },
+          "nickname": "partialUpdateUser",
+          "produces": [
+            "application/json"
+          ],
+          "consumes": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "userId",
+              "description": "ID of user that needs to be fetched",
+              "required": true,
+              "type": "string",
+              "paramType": "path",
+              "allowMultiple": false
+            },
+            {
+              "name": "body",
+              "description": "User object that needs to be added ",
+              "required": true,
+              "type": "User",
+              "paramType": "body",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 201,
+              "message": "User created"
+            },
+            {
+              "code": 400,
+              "message": "Something went wrong"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "User": {
+      "id": "User",
+      "required": [
+        "login",
+        "password",
+        "firstname",
+        "lastname"
+      ],
+      "properties": {
+        "login": {
+          "type": "string",
+          "description": "unique user login"
+        },
+        "password": {
+          "type": "string"
+        },
+        "lastname": {
+          "type": "string"
+        },
+        "firstname": {
+          "type": "string"
+        },
+        "birthdate": {
+          "type": "date"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        }
+      }
+    },
+    "Hitchhiker": {
+      "id": "Hitchhiker",
+      "required": [
+        "finalDestination",
+        "deviceId",
+        "user",
+        "active"
+      ],
+      "properties": {
+        "user": {
+          "$ref": "User"
+        },
+        "finalDestination": {
+          "type": "string"
+        },
+        "deviceId": {
+          "type": "string"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "geoLatitude": {
+          "type": "string"
+        },
+        "geoLongitude": {
+          "type": "string"
+        },
+        "children": {
+          "type": "boolean"
+        },
+        "destinations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "numberOfPassengers": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "ageType": {
+          "type": "string",
+          "description": "age type for hitchhiker",
+          "enum": [
+            "young",
+            "middle",
+            "senior"
+          ]
+        },
+        "sexType": {
+          "type": "string",
+          "description": "sex type for hitchhiker",
+          "enum": [
+            "male_only",
+            "female_only",
+            "mixed"
+          ]
+        },
+        "baggageType": {
+          "type": "string",
+          "description": "baggage type for hitchhiker",
+          "enum": [
+            "small",
+            "medium",
+            "big"
+          ]
+        }
+      }
+    }
+  }
+}

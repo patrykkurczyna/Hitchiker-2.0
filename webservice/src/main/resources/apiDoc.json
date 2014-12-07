@@ -1,0 +1,28 @@
+{
+  "apiVersion": "1.0.0",
+  "swaggerVersion": "1.2",
+  "apis": [
+    {
+      "path": "/hitchhikers",
+      "description": "Operations about hitchhikers"
+    },
+    {
+      "path": "/users",
+      "description": "Operations about users"
+    },
+    {
+      "path": "/drivers",
+      "description": "Operations about drivers"
+    },
+    {
+      "path": "/other",
+      "description": "All other endpoints"
+    }
+  ],
+  "info": {
+    "title": "Hitchhiker 2.0 API",
+    "description": "API documentation for project: Hitchhiker 2.0",
+    "termsOfServiceUrl": "http://helloreverb.com/terms/",
+    "contact": "patryk.kurczyna@gmail.com"
+  }
+}

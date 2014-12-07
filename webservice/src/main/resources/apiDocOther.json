@@ -1,0 +1,359 @@
+{
+  "apiVersion": "1.0.0",
+  "swaggerVersion": "1.2",
+  "basePath": "http://87.206.242.147:1111/webservice",
+  "resourcePath": "/other",
+  "produces": [
+    "application/json"
+  ],
+  "apis": [
+    {
+      "path": "/authenticateUser",
+      "operations": [
+        {
+          "method": "POST",
+          "summary": "Authenticates a user ",
+          "notes": "",
+          "type": "void",
+          "nickname": "authenticateUser",
+          "authorizations": {},
+          "consumes": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "body",
+              "description": "Credentials for a user",
+              "required": true,
+              "type": "AuthenticationCredentials",
+              "paramType": "body",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 204,
+              "message": "User authenticated succesfully"
+            },
+            {
+              "code": 417,
+              "message": "User not authenticated"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/findHitchhikers",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Finds all hitchhikers matching a specified driver's preferences",
+          "notes": "The method is used to find all active hitchhikers that match drivers preferences",
+          "type": "array",
+          "items": {
+            "$ref": "Hitchhiker"
+          },
+          "nickname": "findHitchhikers",
+          "authorizations": {},
+          "parameters": [
+            {
+              "name": "radius",
+              "description": "Radius to search",
+              "required": false,
+              "type": "integer",
+              "format": "integer64",
+              "paramType": "query",
+              "allowMultiple": false
+            },
+            {
+              "name": "driverId",
+              "description": "Driver id to get preferences from",
+              "required": true,
+              "type": "double",
+              "paramType": "query",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 400,
+              "message": "Invalid params value"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "path": "/driverWantsToTakeHitch",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Sends notification to specified hitchhiker that specified driver wants to take him",
+          "notes": "",
+          "type": "void",
+          "nickname": "driverWantsToTakeHitch",
+          "authorizations": {},
+          "parameters": [
+            {
+              "name": "hitchId",
+              "description": "Id of hitchhiker who is going to be notified",
+              "required": true,
+              "type": "integer",
+              "format": "integer64",
+              "paramType": "query",
+              "allowMultiple": false
+            },
+            {
+              "name": "driverId",
+              "description": "Driver id who wants to take hitch",
+              "required": true,
+              "type": "double",
+              "paramType": "query",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 400,
+              "message": "Invalid params value"
+            },
+             {
+              "code": 417,
+              "message": "Hitchhiker or driver of given id does not exist"
+            }
+          ]
+        }
+      ]
+    },
+        {
+      "path": "/driverTookHitch",
+      "operations": [
+        {
+          "method": "GET",
+          "summary": "Sends notification to specified hitchhiker that specified driver took him",
+          "notes": "",
+          "type": "void",
+          "nickname": "driverTookHitch",
+          "authorizations": {},
+          "parameters": [
+            {
+              "name": "hitchId",
+              "description": "Id of hitchhiker who is going to be notified",
+              "required": true,
+              "type": "integer",
+              "format": "integer64",
+              "paramType": "query",
+              "allowMultiple": false
+            },
+            {
+              "name": "driverId",
+              "description": "Driver id who took hitch",
+              "required": true,
+              "type": "double",
+              "paramType": "query",
+              "allowMultiple": false
+            }
+          ],
+          "responseMessages": [
+            {
+              "code": 400,
+              "message": "Invalid params value"
+            },
+             {
+              "code": 417,
+              "message": "Hitchhiker or driver of given id does not exist"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "models": {
+    "AuthenticationCredentials": {
+      "id": "AuthenticationCredentials",
+      "required": [
+        "login",
+        "password"
+      ],
+      "properties": {
+        "login": {
+          "type": "string",
+          "description": "unique user login"
+        },
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "User": {
+      "id": "User",
+      "required": [
+        "login",
+        "password",
+        "firstname",
+        "lastname"
+      ],
+      "properties": {
+        "login": {
+          "type": "string",
+          "description": "unique user login"
+        },
+        "password": {
+          "type": "string"
+        },
+        "lastname": {
+          "type": "string"
+        },
+        "firstname": {
+          "type": "string"
+        },
+        "birthdate": {
+          "type": "date"
+        },
+        "email": {
+          "type": "string"
+        },
+        "phone": {
+          "type": "string"
+        }
+      }
+    },
+    "Hitchhiker": {
+      "id": "Hitchhiker",
+      "required": [
+        "finalDestination",
+        "deviceId",
+        "user",
+        "active"
+      ],
+      "properties": {
+        "user": {
+          "$ref": "User"
+        },
+        "finalDestination": {
+          "type": "string"
+        },
+        "deviceId": {
+          "type": "string"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "geoLatitude": {
+          "type": "string"
+        },
+        "geoLongitude": {
+          "type": "string"
+        },
+        "children": {
+          "type": "boolean"
+        },
+        "destinations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "numberOfPassengers": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "ageType": {
+          "type": "string",
+          "description": "age type for hitchhiker",
+          "enum": [
+            "young",
+            "middle",
+            "senior"
+          ]
+        },
+        "sexType": {
+          "type": "string",
+          "description": "sex type for hitchhiker",
+          "enum": [
+            "male_only",
+            "female_only",
+            "mixed"
+          ]
+        },
+        "baggageType": {
+          "type": "string",
+          "description": "baggage type for hitchhiker",
+          "enum": [
+            "small",
+            "medium",
+            "big"
+          ]
+        }
+      }
+    },
+    "Driver": {
+      "id": "Driver",
+      "required": [
+        "deviceId",
+        "user",
+        "active",
+        "geoLongitude",
+        "geoLatitude"
+      ],
+      "properties": {
+        "user": {
+          "$ref": "User"
+        },
+        "destination": {
+          "type": "string"
+        },
+        "carInfo": {
+          "type": "string"
+        },
+        "deviceId": {
+          "type": "string"
+        },
+        "active": {
+          "type": "boolean"
+        },
+        "geoLatitude": {
+          "type": "string"
+        },
+        "geoLongitude": {
+          "type": "string"
+        },
+        "children": {
+          "type": "boolean"
+        },
+        "numberOfPassengers": {
+          "type": "integer",
+          "format": "int64"
+        },
+        "ageType": {
+          "type": "string",
+          "description": "age type preferred by driver",
+          "enum": [
+            "young",
+            "middle",
+            "senior"
+          ]
+        },
+        "sexType": {
+          "type": "string",
+          "description": "sex type preferred by driver",
+          "enum": [
+            "male_only",
+            "female_only",
+            "mixed"
+          ]
+        },
+        "baggageType": {
+          "type": "string",
+          "description": "baggage type preferred by driver",
+          "enum": [
+            "small",
+            "medium",
+            "big"
+          ]
+        }
+      }
+    }
+  }
+}
