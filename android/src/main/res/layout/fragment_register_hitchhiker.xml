@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context="pl.agh.edu.hitchhiker.ui.RegisterDriverFragment"
@@ -22,13 +22,65 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp" />
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/additional_destinations"
+            android:textColor="@android:color/holo_blue_bright"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/destinationsContainer"
+            android:orientation="vertical" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
+
+            <Button
+                android:background="@drawable/blue_button"
+                style="@style/button_text"
+                android:minHeight="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add_destination"
+                android:id="@+id/addDestination"
+                android:textSize="15dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp" />
+
+            <Button
+                android:background="@drawable/blue_button"
+                style="@style/button_text"
+                android:minHeight="0dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/delete_destination"
+                android:id="@+id/deleteDestination"
+                android:textSize="15dp"
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:layout_marginLeft="30dp"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/additional_info"
             android:id="@+id/additionalInfo"
-            android:layout_below="@id/editDestination"
             android:textColor="@android:color/holo_blue_bright"
             android:textSize="18sp" />
 
@@ -39,21 +91,19 @@
             float:fletFloatingHint="@string/people_number"
             float:fletInputType="number"
             android:layout_marginBottom="10dp"
-            android:layout_below="@id/additionalInfo"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/peopleNumber"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:orientation="horizontal"
             android:id="@+id/ageLayout">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/age_hint"
                 android:id="@+id/ageHint"
@@ -61,7 +111,7 @@
                 android:layout_weight="1" />
 
             <Spinner
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/age_spinner"
                 android:layout_weight="1"
@@ -71,14 +121,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ageLayout"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:orientation="horizontal"
             android:id="@+id/baggageLayout">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/baggage_hint"
                 android:id="@+id/baggageHint"
@@ -86,7 +135,7 @@
                 android:layout_weight="1" />
 
             <Spinner
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/baggageSpinner"
                 android:layout_weight="1" />
@@ -95,14 +144,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/baggageLayout"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:orientation="horizontal"
             android:id="@+id/sexTypeLayout">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/sex_hint"
                 android:id="@+id/sexHint"
@@ -110,7 +158,7 @@
                 android:layout_weight="1" />
 
             <Spinner
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/sexSpinner"
                 android:layout_marginBottom="10dp"
@@ -120,14 +168,13 @@
         <RadioGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/sexTypeLayout"
             android:layout_marginBottom="20dp"
             android:orientation="horizontal"
             android:id="@+id/childrenLayout"
             android:layout_marginLeft="10dp">
 
             <RadioButton
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/without_children"
                 android:id="@+id/notChildrenButton"
@@ -135,7 +182,7 @@
                 android:checked="true" />
 
             <RadioButton
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:text="@string/with_children"
                 android:id="@+id/childrenButton"
@@ -148,8 +195,7 @@
             android:id="@+id/saveButtonWrapper"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_below="@id/childrenLayout">
+            android:layout_gravity="center_horizontal">
 
             <Button
                 android:background="@drawable/blue_button"
@@ -171,7 +217,7 @@
                 android:layout_gravity="center"
                 android:visibility="invisible" />
         </FrameLayout>
-    </RelativeLayout>
+    </LinearLayout>
 </ScrollView>
 
 

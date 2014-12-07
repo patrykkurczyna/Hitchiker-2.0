@@ -14,6 +14,9 @@ import android.widget.Toast;
 
 import com.wrapp.floatlabelededittext.FloatLabeledEditText;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.inject.Inject;
 
 import butterknife.ButterKnife;
@@ -45,7 +48,30 @@ public class RegisterHitchhikerFragment extends Fragment {
     Spinner sexSpinner;
     @InjectView(R.id.childrenButton)
     RadioButton withChildren;
+    @InjectView(R.id.destinationsContainer)
+    ViewGroup destinationsContainer;
+    @InjectView(R.id.deleteDestination)
+    View deleteDestination;
     private Location registeredLocation;
+
+    @OnClick(R.id.addDestination)
+    void addDestination() {
+        View view = getActivity().getLayoutInflater().inflate(R.layout.additional_destination, null);
+        destinationsContainer.addView(view);
+        if (deleteDestination.getVisibility() == View.GONE) {
+            deleteDestination.setVisibility(View.VISIBLE);
+        }
+
+    }
+
+    @OnClick(R.id.deleteDestination)
+    void deleteDestination() {
+        int size = destinationsContainer.getChildCount() - 1;
+        destinationsContainer.removeViewAt(size);
+        if (size == 0) {
+            deleteDestination.setVisibility(View.GONE);
+        }
+    }
 
     @OnClick(R.id.saveButton)
     void save() {
@@ -67,9 +93,9 @@ public class RegisterHitchhikerFragment extends Fragment {
             Toast.makeText(getActivity(), R.string.error_location, Toast.LENGTH_SHORT).show();
             return;
         }
-        ((HitchhikerInterface) getActivity()).hitchhikerRegistered(registeredLocation);
-        if (true)
-            return;
+//        ((HitchhikerInterface) getActivity()).hitchhikerRegistered(registeredLocation);
+//        if (true)
+//            return;
 
         double latitude = registeredLocation.getLatitude();
         double longitude = registeredLocation.getLongitude();
@@ -88,16 +114,17 @@ public class RegisterHitchhikerFragment extends Fragment {
         if (withChildren.isChecked()) {
             hitchhiker.setWithChildren(true);
         }
-        service.registerHitchhiker(hitchhiker);
+        List<String> destinations = new ArrayList<>();
+        for(int i = 0; i < destinationsContainer.getChildCount(); ++i) {
+            FloatLabeledEditText view = (FloatLabeledEditText)destinationsContainer.getChildAt(i);
+            destinations.add(view.getTextString());
+        }
+        hitchhiker.setDestinations(destinations);
 
+        service.registerHitchhiker(hitchhiker);
     }
 
     public void onEventMainThread(RegisterHitchhikerSuccess event) {
-//        Intent intent = new Intent(getActivity(), SavedLocationActivity.class);
-//        intent.putExtra(SavedLocationActivity.LATITUDE, latitude);
-//        intent.putExtra(SavedLocationActivity.LONGITUDE, longitude);
-//        startActivity(intent);
-
         if (getActivity() instanceof HitchhikerInterface) {
             Toast.makeText(getActivity(), R.string.saved_info, Toast.LENGTH_LONG).show();
             ((HitchhikerInterface) getActivity()).hitchhikerRegistered(registeredLocation);

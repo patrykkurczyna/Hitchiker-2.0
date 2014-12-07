@@ -3,13 +3,13 @@ package pl.agh.edu.hitchhiker.data.models;
 
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import pl.agh.edu.hitchhiker.utils.CredentialStorage;
 
 public class Hitchhiker {
     private String finalDestination;
-    private ArrayList<String> destinations;
+    private List<String> destinations;
     private Double geoLatitude;
     private Double geoLongitude;
     private Integer numberOfPassengers;
@@ -23,10 +23,12 @@ public class Hitchhiker {
     private boolean withChildren;
     @SerializedName("user")
     private Location location;
-    private boolean active = false;
+    private String deviceId;
+    private boolean active = true;
 
     public Hitchhiker() {
-        location = CredentialStorage.INSTANCE.getLocation();
+        location = CredentialStorage.INSTANCE.getUserLocation();
+        deviceId = CredentialStorage.INSTANCE.getDeviceId();
     }
 
     public String getFinalDestination() {
@@ -109,11 +111,19 @@ public class Hitchhiker {
         this.active = active;
     }
 
-    public ArrayList<String> getDestinations() {
+    public List<String> getDestinations() {
         return destinations;
     }
 
-    public void setDestinations(ArrayList<String> destinations) {
+    public void setDestinations(List<String> destinations) {
         this.destinations = destinations;
+    }
+
+    public String getDeviceId() {
+        return deviceId;
+    }
+
+    public void setDeviceId(String deviceId) {
+        this.deviceId = deviceId;
     }
 }
