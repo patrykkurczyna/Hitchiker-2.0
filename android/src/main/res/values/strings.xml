@@ -93,5 +93,16 @@
     <string name="want_take">Chcesz zabrac tego autostopowicza?</string>
     <string name="yes">Tak</string>
     <string name="no">Nie</string>
+    <string name="nick">Nick</string>
+    <string name="password">Hasło</string>
+    <string name="login">Zaloguj</string>
+    <string name="register">Zarejestruj</string>
+    <string name="firstname">Imię</string>
+    <string name="lastname">Nazwisko</string>
+    <string name="mail">E-mail</string>
+    <string name="register_error">Błąd rejestracji</string>
+    <string name="login_error">Błędne dane</string>
+    <string name="have_account">Masz już konto? <b>Zaloguj się</b></string>
+    <string name="incorrect_fields">Uzupełnij wszystkie pola</string>
 
 </resources>

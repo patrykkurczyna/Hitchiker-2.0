@@ -9,16 +9,11 @@ import android.util.Log;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 
 import java.io.IOException;
-import java.util.Random;
 
 import javax.inject.Inject;
 
-import de.greenrobot.event.EventBus;
 import pl.agh.edu.hitchhiker.HitchhikerApp;
 import pl.agh.edu.hitchhiker.data.api.ApiService;
-import pl.agh.edu.hitchhiker.data.api.event.AuthorizeUserFailure;
-import pl.agh.edu.hitchhiker.data.api.event.AuthorizeUserSuccess;
-import pl.agh.edu.hitchhiker.data.models.User;
 import pl.agh.edu.hitchhiker.utils.CredentialStorage;
 
 
@@ -26,23 +21,17 @@ public class MainActivity extends Activity {
     public static final String PROPERTY_REG_ID = "registration_id";
     public static final String FROM_NOTIFICATION = "from notification";
     public final static int SAVE_FORM_CODE = 1000;
-    public final static int EDIT_FORM_CODE = 1001;
+    public final static int AUTHORIZE_FORM_CODE = 1001;
     public final static int RESULT_CODE_QUIT = 10001;
+    public final static int RESULT_CODE_LOGIN_SUCCESS = 10002;
     private static final String TAG = MainActivity.class.getSimpleName();
     private static final String SENDER_ID = "441315978791";
+
     @Inject
     ApiService apiService;
+
     private Bundle notiExtras;
     private GoogleCloudMessaging gcm;
-
-    public void onEventMainThread(AuthorizeUserSuccess event) {
-        Log.d(TAG, "authorize success");
-        afterAuthorization();
-    }
-
-    public void onEventMainThread(AuthorizeUserFailure event) {
-        Log.d(TAG, "authorize failure");
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +39,6 @@ public class MainActivity extends Activity {
         CredentialStorage.INSTANCE.init();
 
         ((HitchhikerApp) getApplicationContext()).inject(this);
-        EventBus.getDefault().register(this);
 
         Intent intent = getIntent();
         if (intent != null && intent.hasExtra(FROM_NOTIFICATION)) {
@@ -65,9 +53,12 @@ public class MainActivity extends Activity {
             saveRegistrationId(regId);
         }
 
-
-//        Intent intent = new Intent(this, LoggedActivity.class);
-//        startActivityForResult(intent, SAVE_FORM_CODE);
+        if (CredentialStorage.INSTANCE.isLogged()) {
+            afterAuthorization();
+        } else {
+            Intent intentAuth = new Intent(this, NotLoggedActivity.class);
+            startActivityForResult(intentAuth, AUTHORIZE_FORM_CODE);
+        }
     }
 
 
@@ -79,12 +70,14 @@ public class MainActivity extends Activity {
             case RESULT_CODE_QUIT:
                 finish();
                 break;
+            case RESULT_CODE_LOGIN_SUCCESS:
+                afterAuthorization();
+                break;
         }
     }
 
     @Override
     protected void onDestroy() {
-        EventBus.getDefault().unregister(this);
         super.onDestroy();
     }
 
@@ -120,19 +113,7 @@ public class MainActivity extends Activity {
 
     private void saveRegistrationId(String regId) {
         Log.d(TAG, "Save regId: " + regId);
-
         CredentialStorage.INSTANCE.setDeviceId(regId);
-
-        if (!CredentialStorage.INSTANCE.isLogged()) {
-            User user = new User();
-            user.setLogin("test" + new Random().nextInt());
-            user.setPassword("test");
-            user.setFirstname("ala");
-            user.setLastname("bala");
-            apiService.authorizeUser(user);
-        } else {
-            afterAuthorization();
-        }
     }
 
     private void afterAuthorization() {

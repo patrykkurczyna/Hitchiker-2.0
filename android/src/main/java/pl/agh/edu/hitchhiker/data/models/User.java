@@ -6,6 +6,7 @@ public class User {
     private String firstname;
     private String lastname;
     private String birthdate = "1989-10-93";
+    private String mail;
 
     public String getLogin() {
         return login;
@@ -45,5 +46,13 @@ public class User {
 
     public void setBirthdate(String birthdate) {
         this.birthdate = birthdate;
+    }
+
+    public String getMail() {
+        return mail;
+    }
+
+    public void setMail(String mail) {
+        this.mail = mail;
     }
 }

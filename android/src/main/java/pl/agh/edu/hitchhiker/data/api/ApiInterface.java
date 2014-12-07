@@ -3,6 +3,7 @@ package pl.agh.edu.hitchhiker.data.api;
 import java.util.Map;
 
 import pl.agh.edu.hitchhiker.data.api.callback.AuthorizeUserCallback;
+import pl.agh.edu.hitchhiker.data.api.callback.LoginCallback;
 import pl.agh.edu.hitchhiker.data.api.callback.NearestHitchhikersCallback;
 import pl.agh.edu.hitchhiker.data.api.callback.RegisterDriverCallback;
 import pl.agh.edu.hitchhiker.data.api.callback.RegisterHitchhikerCallback;
@@ -13,6 +14,7 @@ import pl.agh.edu.hitchhiker.data.models.Driver;
 import pl.agh.edu.hitchhiker.data.models.DriverUnregister;
 import pl.agh.edu.hitchhiker.data.models.Hitchhiker;
 import pl.agh.edu.hitchhiker.data.models.HitchhikerUnregister;
+import pl.agh.edu.hitchhiker.data.models.Login;
 import pl.agh.edu.hitchhiker.data.models.User;
 import retrofit.http.Body;
 import retrofit.http.GET;
@@ -26,6 +28,9 @@ public interface ApiInterface {
 
     @POST("/users")
     void authorizeUser(@Body User user, AuthorizeUserCallback callback);
+
+    @POST("/authenticateUser")
+    void login(@Body Login login, LoginCallback callback);
 
     @POST("/hitchhikers")
     void registerHitchhiker(@Body Hitchhiker hitchhiker, RegisterHitchhikerCallback callback);
@@ -47,5 +52,7 @@ public interface ApiInterface {
     @GET("/driverWantsToTakeHitch")
     void wantToTakeHitchhiker(@Query("hitchId") int hitchhikerId, @Query("driverId") int driverId,
                               WantToTakeCallback callback);
+
+
 
 }
