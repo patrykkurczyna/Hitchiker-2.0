@@ -22,6 +22,9 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
+import pl.edu.agh.pp.hitchhiker.webservice.api.HitchhikerSearchCriteria;
+import pl.edu.agh.pp.hitchhiker.webservice.api.HitchhikerSearchCriteriaImpl;
+import pl.edu.agh.pp.hitchhiker.webservice.api.HitchhikerSearchProvider;
 import pl.edu.agh.pp.hitchhiker.webservice.model.Driver;
 import pl.edu.agh.pp.hitchhiker.webservice.model.Hitchhiker;
 import pl.edu.agh.pp.hitchhiker.webservice.model.User;
@@ -72,6 +75,9 @@ public class SendingNotificationsServiceImpl implements SendingNotificationsServ
 	private Environment environment;
 
 	private Sender sender;
+	
+	@Autowired
+	private HitchhikerSearchProvider hitchhikerSearchProvider;
 
 	@Autowired
 	@Qualifier("driverRepository")
@@ -82,12 +88,59 @@ public class SendingNotificationsServiceImpl implements SendingNotificationsServ
 	 */
 	public void sendHitchhiker(Hitchhiker hitch) {
 		final String RADIUS = environment.getRequiredProperty(PROPERTY_NAME_NOTIFICATION_SPREAD);
-		List<String> devices = driverRepository.findActiveDevicesInRadiusFrom(Double.parseDouble(RADIUS),				
+		
+		List<Driver> drivers = driverRepository.findActiveDriversInRadiusFrom(Double.parseDouble(RADIUS),				
 				hitch.getGeoLatitude(), hitch.getGeoLongitude());
+		
+		drivers = filterDrivers(hitch, RADIUS, drivers);
+		
+		List<String> devices = extractDevices(drivers);		
+
 		JsonObject json = convertHitchhikerToJson(hitch, prepareJsonBuilderWithMessageType(MsgType.NEW_HITCHHIKER));
 		sendMessagesToSpecifiedDevices(devices, json);
 	}
 	
+	/**
+	 * Filter drivers in order to get only these whose preferences match to hitchhiker
+	 * @param hitch hitchhiker whose info shoukd be matched with drivers preferences
+	 * @param RADIUS radius for which we search
+	 * @param drivers list of drivers to be filtered
+	 * @return filtered list of drivers
+	 */
+	private List<Driver> filterDrivers(Hitchhiker hitch, final String RADIUS,
+			List<Driver> drivers) {
+		HitchhikerSearchCriteria criteria; 
+			
+		List<Hitchhiker> hitchhikers = new ArrayList<Hitchhiker>();
+		hitchhikers.add(hitch);
+		
+		List<Hitchhiker> resultHitchhikers = new ArrayList<Hitchhiker>();
+		List<Driver> newDrivers = new ArrayList<Driver>();
+		for (Driver driver : drivers) {
+			criteria = new HitchhikerSearchCriteriaImpl(driver.getDestination(), driver.getGeoLatitude(),
+					driver.getGeoLongitude(), driver.isChildren(), driver.getAgeType(), driver.getSexType(), driver.getBaggage(),
+					driver.getNumberOfPassengers(), Double.parseDouble(RADIUS));
+			resultHitchhikers = hitchhikerSearchProvider.find(hitchhikers, criteria);
+			if (!resultHitchhikers.isEmpty()) {
+				newDrivers.add(driver);
+			}
+		}
+		return newDrivers;
+	}
+	
+	/**
+	 * Extract device ids from driver list 
+	 * @param drivers list of drivers
+	 * @return list of driver's device ids
+	 */
+	private List<String> extractDevices(List<Driver> drivers) {
+		List<String> devices = new ArrayList<String>();
+		for (Driver driver : drivers) {
+			devices.add(driver.getDeviceId());
+		}
+		return devices;
+	}
+
 	/* (non-Javadoc)
 	 * @see pl.edu.agh.pp.hitchhiker.service.gcm.SendingNotificationsService#sendDriverWantsToTakeYou(pl.edu.agh.pp.hitchhiker.webservice.model.Driver, pl.edu.agh.pp.hitchhiker.webservice.model.Hitchhiker)
 	 */

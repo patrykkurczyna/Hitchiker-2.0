@@ -20,7 +20,7 @@ public interface DriverRepository extends PagingAndSortingRepository<Driver, Lon
 	
 	/**
 	 * Finds device ids of all drivers
-	 * @return
+	 * @return list of all device ids of drivers
 	 */
 	@Query("SELECT d.deviceId FROM Driver d")	
 	public List<String> findAllDevices();
@@ -30,12 +30,24 @@ public interface DriverRepository extends PagingAndSortingRepository<Driver, Lon
 	 * @param radius spread of looking
 	 * @param latitude y coordinate
 	 * @param longitude x coordinate
-	 * @return
+	 * @return list of driver's device ids
 	 */
 	@Query("SELECT d.deviceId FROM Driver d WHERE acos(sin(radians(:latitude)) * sin(radians(d.geoLatitude)) + " +
 			"cos(radians(:latitude)) * cos(radians(d.geoLatitude)) * cos(radians(d.geoLongitude) - radians(:longitude))) * 6371 <= :radius" +
 			" and d.active = true")	
 	public List<String> findActiveDevicesInRadiusFrom(@Param("radius") Double radius, @Param("latitude") Double latitude, @Param("longitude") Double longitude);
+	
+	/**
+	 * Finds all drivers which are active in specified radius from given coordinates
+	 * @param radius spread of search
+	 * @param latitude y coordinate
+	 * @param longitude x coordinate
+	 * @return list od drivers
+	 */
+	@Query("SELECT d FROM Driver d WHERE acos(sin(radians(:latitude)) * sin(radians(d.geoLatitude)) + " +
+			"cos(radians(:latitude)) * cos(radians(d.geoLatitude)) * cos(radians(d.geoLongitude) - radians(:longitude))) * 6371 <= :radius" +
+			" and d.active = true")	
+	public List<Driver> findActiveDriversInRadiusFrom(@Param("radius") Double radius, @Param("latitude") Double latitude, @Param("longitude") Double longitude);
 	
 	/**
 	 * Count number of active {@link Driver} drivers for specific {@link User}
