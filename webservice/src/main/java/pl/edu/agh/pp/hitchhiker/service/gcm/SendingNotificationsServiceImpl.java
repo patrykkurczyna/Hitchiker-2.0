@@ -61,8 +61,7 @@ public class SendingNotificationsServiceImpl implements SendingNotificationsServ
 	private static final String NUMBER_OF_PASSENGERS = "numberOfPassengers";
 	private static final String GEO_LATITUDE = "geoLatitude";
 	private static final String GEO_LONGITUDE = "geoLongitude";
-	private static final String CAR_COLOR = "carColor";
-	private static final String CAR_TYPE = "carType";
+	private static final String CAR_INFO = "carInfo";
 	private static final String ID = "id";
 	private static final String MSG_TYPE_KEY = "msgType";
 	private static final String PROPERTY_NAME_API_KEY = "api.key";
@@ -210,11 +209,8 @@ public class SendingNotificationsServiceImpl implements SendingNotificationsServ
 	private JsonObject convertDriverToJson(Driver driver, JsonObjectBuilder builder) {
 		final User user = driver.getUser();
 		
-		if (driver.getCarType() != null) {
-			builder.add(CAR_TYPE, driver.getCarType());
-		}
-		if (driver.getCarColor() != null) {
-			builder.add(CAR_COLOR, driver.getCarColor());
+		if (driver.getCarInfo() != null) {
+			builder.add(CAR_INFO, driver.getCarInfo());
 		}
 		if (driver.getDestination() != null) {
 			builder.add(DESTINATION, driver.getDestination());

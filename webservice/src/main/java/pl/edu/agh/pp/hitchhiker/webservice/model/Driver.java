@@ -63,7 +63,7 @@ public class Driver {
 	@Enumerated(EnumType.STRING)
 	private BaggageType baggage;
 	
-	private String carType;
+	private String carInfo;
 	
 	/**
 	 * Max number of passengers that driver can take
@@ -78,8 +78,6 @@ public class Driver {
 	
 	@NotNull
 	private Double geoLongitude;
-	
-	private String carColor;
 	
     /**
      * Indicates whether or not driver is active
@@ -158,20 +156,12 @@ public class Driver {
 		this.children = children;
 	}
 
-	public String getCarType() {
-		return carType;
+	public String getCarInfo() {
+		return carInfo;
 	}
 
-	public void setCarType(String carType) {
-		this.carType = carType;
-	}
-
-	public String getCarColor() {
-		return carColor;
-	}
-
-	public void setCarColor(String carColor) {
-		this.carColor = carColor;
+	public void setCarInfo(String carInfo) {
+		this.carInfo = carInfo;
 	}
 
 	public boolean isActive() {
