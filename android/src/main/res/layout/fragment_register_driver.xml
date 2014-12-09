@@ -22,14 +22,6 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/preferences"
-            android:id="@+id/additional_info"
-            android:textColor="@android:color/holo_blue_bright"
-            android:textSize="18sp" />
-
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
             android:id="@+id/carInfo"
             android:layout_width="match_parent"
@@ -39,6 +31,14 @@
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/preferences"
+            android:id="@+id/additional_info"
+            android:textColor="@android:color/holo_blue_bright"
+            android:textSize="18sp" />
 
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
             android:layout_width="match_parent"

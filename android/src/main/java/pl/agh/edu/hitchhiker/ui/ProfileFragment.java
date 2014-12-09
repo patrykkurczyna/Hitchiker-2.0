@@ -15,8 +15,7 @@ public class ProfileFragment extends Fragment {
 
     @OnClick(R.id.logout)
     void onLogoutClicked() {
-        CredentialStorage.INSTANCE.setRegisteredDriver(-1);
-        CredentialStorage.INSTANCE.setRegisteredHitchhiker(-1);
+        ((HitchhikerInterface)getActivity()).unregister();
         CredentialStorage.INSTANCE.setUserLocation(null);
         getActivity().onBackPressed();
     }

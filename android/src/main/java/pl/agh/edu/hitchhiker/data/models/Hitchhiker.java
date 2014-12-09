@@ -8,6 +8,7 @@ import java.util.List;
 import pl.agh.edu.hitchhiker.utils.CredentialStorage;
 
 public class Hitchhiker {
+    private Integer id;
     private String finalDestination;
     private List<String> destinations;
     private Double geoLatitude;
@@ -29,6 +30,14 @@ public class Hitchhiker {
     public Hitchhiker() {
         location = CredentialStorage.INSTANCE.getUserLocation();
         deviceId = CredentialStorage.INSTANCE.getDeviceId();
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getFinalDestination() {

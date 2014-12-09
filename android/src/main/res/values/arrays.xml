@@ -2,7 +2,7 @@
 <resources>
     <string-array name="drawer_array">
         <item>Mapa</item>
-        <item>Autostopicz</item>
+        <item>Autostopowicz</item>
         <item>Kierowca</item>
         <item>Moje podróże</item>
         <item>Profil</item>

@@ -12,9 +12,12 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -29,10 +32,10 @@ import pl.agh.edu.hitchhiker.utils.CredentialStorage;
 
 public class MapFragment extends Fragment {
     public static final String TAG = MapFragment.class.getSimpleName();
-    public static final int REFRESH_TIME =  30 * 1000; // millis
     public static final String LONGITUDE = TAG + ".longitude";
     public static final String LATITUDE = TAG + ".latitude";
     public static final String IS_DRIVER = TAG + ".is_driver";
+    public static final int REFRESH_TIME = 30 * 1000; // millis
     public static final String NOTI_LATITUDE = "SavedLocationActivity.noti_latitude";
     public static final String NOTI_LONGITUDE = "SavedLocationActivity.noti_longitude";
     public static final String NOTI_LOGIN = "SavedLocationActivity.noti_login";
@@ -44,6 +47,7 @@ public class MapFragment extends Fragment {
     private boolean isDriver;
     private Bundle args;
     private List<Hitchhiker> hitchhikers;
+    private Map<Marker, Integer> markers;
     private Handler handler;
     private Runnable getHitchhikers;
 
@@ -60,6 +64,7 @@ public class MapFragment extends Fragment {
                 refreshHitchhikers();
             }
         };
+        markers = new HashMap<>();
 
         args = getArguments();
         if (args != null) {
@@ -82,7 +87,7 @@ public class MapFragment extends Fragment {
         map.setMyLocationEnabled(true);
         if (savedLocation != null) {
             map.moveCamera(CameraUpdateFactory.newLatLngZoom(savedLocation, 13));
-            if (((HitchhikerInterface)getActivity()).whoRegistered() == HitchhikerInterface.PersonRegistered.HITCHHIKER) {
+            if (((HitchhikerInterface) getActivity()).whoRegistered() == HitchhikerInterface.PersonRegistered.HITCHHIKER) {
                 map.addMarker(new MarkerOptions().title(getString(R.string.my_location))
                         .position(savedLocation)
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
@@ -100,6 +105,30 @@ public class MapFragment extends Fragment {
 //                addNewHitchiker(args);
 //            }
 //        }
+        if (isDriver) {
+            map.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                @Override
+                public void onInfoWindowClick(Marker marker) {
+                    final int hitchhikerId = markers.get(marker);
+
+                    final WantTakeDialog dialog = new WantTakeDialog();
+                    dialog.setListener(new WantTakeDialog.WantTakeListener() {
+                        @Override
+                        public void onTake() {
+                            service.wantTake(hitchhikerId, CredentialStorage.INSTANCE.getRegisteredDriver());
+                            dialog.dismiss();
+                        }
+
+                        @Override
+                        public void onCancel() {
+                            dialog.dismiss();
+                        }
+                    });
+                    dialog.show(getFragmentManager(), "want_take");
+
+                }
+            });
+        }
 
         return view;
     }
@@ -148,12 +177,13 @@ public class MapFragment extends Fragment {
         service.getNearestHitchhikers(CredentialStorage.INSTANCE.getRegisteredDriver());
     }
 
-
     public void onEventMainThread(GetNearestHitchhikersSuccess event) {
         Log.d(TAG, "GetNearestHitchhikersSuccess");
         hitchhikers = event.getNearestHitchhikersResponse().getHitchhikers();
         Log.d(TAG, "GetNearestHitchhikersSuccess size: " + hitchhikers.size());
         map.clear();
+        markers.clear();
+
         for (Hitchhiker hitchhiker : hitchhikers) {
             StringBuilder info = new StringBuilder();
             if (hitchhiker.getNumberOfPassengers() != null) {
@@ -163,10 +193,13 @@ public class MapFragment extends Fragment {
                 info.append("Bagaż: " + hitchhiker.getPassengersBaggage().toString().toLowerCase());
             }
 
-            map.addMarker(new MarkerOptions().title("Hitchhiker, Kierunek: " + hitchhiker.getFinalDestination())
-                    .snippet(info.toString())
-                    .position(new LatLng(hitchhiker.getGeoLatitude(), hitchhiker.getGeoLongitude()))
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+            Marker marker = map.addMarker(
+                    new MarkerOptions().title("Hitchhiker, Kierunek: " + hitchhiker.getFinalDestination())
+                            .snippet(info.toString())
+                            .position(new LatLng(hitchhiker.getGeoLatitude(), hitchhiker.getGeoLongitude()))
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+            markers.put(marker, hitchhiker.getId());
+
         }
 
         handler.removeCallbacks(getHitchhikers);

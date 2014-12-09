@@ -14,7 +14,10 @@ import dagger.Module;
                 LoggedActivity.class,
                 TripsFragment.class,
                 ProfileFragment.class,
-                MapFragment.class
+                MapFragment.class,
+                NotLoggedActivity.class,
+                LoginFragment.class,
+                RegisterFragment.class
         },
         complete = false
 
